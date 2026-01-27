@@ -1,0 +1,84 @@
+teleop:
+  walk:
+    type: topic
+    message_type: geometry_msgs/Twist
+    topic_name: cmd_vel
+    deadman_buttons: [ 6 ]
+    axis_mappings:
+      - axis: 3
+        target: angular.z
+        scale: 1.0 #1.2
+      - axis: 1
+        target: linear.x
+        scale: 0.5
+      - axis: 0
+        target: linear.y
+        scale: 0.2 #0.9
+ 
+
+  load_controller:
+    type: topic
+    message_type: std_msgs/Float32
+    topic_name: load_controller
+    deadman_buttons: [ 11 ]
+    axis_mappings:
+      - button: 11
+        target: data
+        scale: 2
+        offset: 0
+  
+  emergency_stop:
+    type: topic
+    message_type: std_msgs/Float32
+    topic_name: emergency_stop
+    deadman_buttons: [ 3 ]
+    axis_mappings:
+      - button: 3
+        target: data
+        scale: 2
+        offset: 0
+
+  set_walk:
+    type: topic
+    message_type: std_msgs/Float32
+    topic_name: set_walk
+    deadman_buttons: [ 7 ]
+    axis_mappings:
+      - button: 7
+        target: data
+        scale: 2
+        offset: 0
+  
+  stance_switch:
+    type: topic
+    message_type: std_msgs/Float32
+    topic_name: stance_switch
+    deadman_buttons: [ 7, 0 ]
+    axis_mappings:
+      - button: 0
+        target: data
+        scale: 2
+        offset: 1
+
+
+  Walk2stance:
+    type: topic
+    message_type: std_msgs/Float32
+    topic_name: set_walk2stance
+    deadman_buttons: [ 4 ]
+    axis_mappings:
+      - button: 4
+        target: data
+        scale: 2
+        offset: 0
+
+  # DanceMode:
+  #   type: topic
+  #   message_type: std_msgs/Float32
+  #   topic_name: set_dance
+  #   deadman_buttons: [ 0 ] # A
+  #   axis_mappings:
+  #     - button: 0
+  #       target: data
+  #       scale: 2
+  #       offset: 0

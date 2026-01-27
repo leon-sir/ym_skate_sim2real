@@ -1,0 +1,98 @@
+<launch>
+
+    <include file="$(find  ymbot_amp_devel)/launch/joy_teleop.launch"/>
+    <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/ymbot_e/onnx/policy_LAB_783.onnx" /> -->
+    <param name="model_path" value="$(find ymbot_amp_devel)/robots/ymboy/mjcf/ymboy-23dof.xml" />
+    <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/ymboy/onnx/policy_11.10_85000.onnx" />
+
+    <!-- isaaclab 关节参数 -->
+    <param name="num_joints" value="23" />
+
+    <param name="joint_names" value='["left_hip_pitch_joint", 
+                                    "right_hip_pitch_joint", 
+                                    "waist_yaw_joint", 
+                                    "left_hip_roll_joint", 
+                                    "right_hip_roll_joint",
+                                    "left_shoulder_pitch_joint", 
+                                    "right_shoulder_pitch_joint", 
+                                    "left_hip_yaw_joint", 
+                                    "right_hip_yaw_joint", 
+                                    "left_shoulder_roll_joint", 
+                                    "right_shoulder_roll_joint", 
+                                    "left_knee_joint", 
+                                    "right_knee_joint", 
+                                    "left_shoulder_yaw_joint", 
+                                    "right_shoulder_yaw_joint", 
+                                    "left_ankle_pitch_joint", 
+                                    "right_ankle_pitch_joint", 
+                                    "left_elbow_joint", 
+                                    "right_elbow_joint",
+                                    "left_ankle_roll_joint", 
+                                    "right_ankle_roll_joint",
+                                    "left_wrist_yaw_joint",
+                                    "right_wrist_yaw_joint" ]'/>
+
+
+    <param name="kps" value="[100, 100, 75, 
+                              75,  75,  40,  40, 
+                              75,  75,  40,  40, 
+                              100, 100, 40,  40, 
+                              60,  60,  40,  40, 
+                              60,  60,  40,  40]"/>
+
+    <param name="kds" value="[5, 5, 5, 
+                              5, 5, 2, 2, 
+                              5, 5, 2, 2, 
+                              5, 5, 2, 2, 
+                              3, 3, 2, 2, 
+                              3, 3, 2, 2]"/>
+
+    <param name="offsets" value="[-0.15, -0.15,   0, 
+                                   0.0,   0.0,    0.35,   0.35, 
+                                   0.0,   0.0,    0.18,  -0.18,
+                                   0.35,  0.35,   0,      0, 
+                                  -0.22, -0.22,  -0.7,     -0.7, 
+                                   0.0,   0.0,    0,      0]"/>
+
+
+    <param name="tau_limits" value="[200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 
+                                   200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200]"/>
+
+    <param name="directions" value="[1, -1,  1,
+                                    -1, -1,  1, -1,  
+                                    -1, -1,  1,  1, 
+                                    -1,  1, -1, -1, 
+                                     1,  1,  1, -1, 
+                                     1,  1, -1, -1]"/>
+
+    <!-- 定义 mujoco 关节名称 -->
+    <param name="joint_names_mujoco" value='["left_hip_pitch_joint",
+                                            "left_hip_roll_joint",
+                                            "left_hip_yaw_joint",
+                                            "left_knee_joint",
+                                            "left_ankle_pitch_joint",
+                                            "left_ankle_roll_joint",
+                                            "right_hip_pitch_joint",
+                                            "right_hip_roll_joint",
+                                            "right_hip_yaw_joint",
+                                            "right_knee_joint",
+                                            "right_ankle_pitch_joint",
+                                            "right_ankle_roll_joint",
+                                            "waist_yaw_joint",
+                                            "left_shoulder_pitch_joint",
+                                            "left_shoulder_roll_joint",
+                                            "left_shoulder_yaw_joint",
+                                            "left_elbow_joint",
+                                            "left_wrist_yaw_joint",
+                                            "right_shoulder_pitch_joint",
+                                            "right_shoulder_roll_joint",
+                                            "right_shoulder_yaw_joint",
+                                            "right_elbow_joint",
+                                            "right_wrist_yaw_joint"]'/>
+
+
+    <node pkg="ymbot_amp_devel" type="amp_sim2real" name="amp_sim2real" output="screen" />
+
+</launch>
+
+    

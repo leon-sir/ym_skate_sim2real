@@ -1,0 +1,1528 @@
+=== Observation Log Started ===
+Timestamp: 1769494983
+Observation size: 57
+================================
+
+=== ONNX Input Construction (Call #1) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = 3.05521e-05 * 0.2 = 6.11042e-06
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = 0.000146915 * 0.2 = 2.9383e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = 0.000167054 * 0.2 = 3.34108e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.00071284 * 0.25 = -0.00017821
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.000651412 * 0.25 = -0.000162853
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = 0.00110136 * 0.25 = 0.000275339
+obs_[6] = projected_gravity[0] = -0.201218
+obs_[7] = projected_gravity[1] = -0.025796
+obs_[8] = projected_gravity[2] = -0.979207
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00896454 - -0.1 = 0.108965
+obs_[13] = joint_pos[1] - offset = -0.00591278 - -0.1 = 0.0940872
+obs_[14] = joint_pos[2] - offset = 0.000953674 - 0 = 0.000953674
+obs_[15] = joint_pos[3] - offset = 0.0925074 - 0 = 0.0925074
+obs_[16] = joint_pos[4] - offset = -0.0680933 - 0 = -0.0680933
+obs_[17] = joint_pos[5] - offset = 0.495346 - 0 = 0.495346
+obs_[18] = joint_pos[6] - offset = -0.493057 - 0 = -0.493057
+obs_[19] = joint_pos[7] - offset = 0.251202 - 0.3 = -0.0487984
+obs_[20] = joint_pos[8] - offset = 0.250439 - 0.3 = -0.0495613
+obs_[21] = joint_pos[9] - offset = -0.0820264 - -0.2 = 0.117974
+obs_[22] = joint_pos[10] - offset = -0.0842394 - -0.2 = 0.115761
+obs_[23] = joint_pos[11] - offset = -0.00815379 - 0 = -0.00815379
+obs_[24] = joint_pos[12] - offset = 0.0149809 - 0 = 0.0149809
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[26] = joint_vel[1] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[28] = joint_vel[3] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[29] = joint_vel[4] * velocity_scale = 0.0219784 * 0.05 = 0.00109892
+obs_[30] = joint_vel[5] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[31] = joint_vel[6] * velocity_scale = -0.0219784 * 0.05 = -0.00109892
+obs_[32] = joint_vel[7] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[33] = joint_vel[8] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[34] = joint_vel[9] * velocity_scale = 0.00429787 * 0.05 = 0.000214894
+obs_[35] = joint_vel[10] * velocity_scale = -3.30644e-05 * 0.05 = -1.65322e-06
+obs_[36] = joint_vel[11] * velocity_scale = 9.93949e-06 * 0.05 = 4.96974e-07
+obs_[37] = joint_vel[12] * velocity_scale = -0.0071468 * 0.05 = -0.00035734
+Previous actions:
+obs_[38] = actions_[0] = 0
+obs_[39] = actions_[1] = 0
+obs_[40] = actions_[2] = 0
+obs_[41] = actions_[3] = 0
+obs_[42] = actions_[4] = 0
+obs_[43] = actions_[5] = 0
+obs_[44] = actions_[6] = 0
+obs_[45] = actions_[7] = 0
+obs_[46] = actions_[8] = 0
+obs_[47] = actions_[9] = 0
+obs_[48] = actions_[10] = 0
+obs_[49] = actions_[11] = 0
+obs_[50] = actions_[12] = 0
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 1
+obs_[52] = phase[1] = 0
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.61619
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-0.979207, 1]
+After clipping - obs_ summary:
+  obs_ range: [-0.979207, 1]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #2) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = 8.56462e-05 * 0.2 = 1.71292e-05
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -7.60642e-05 * 0.2 = -1.52128e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -3.7116e-05 * 0.2 = -7.4232e-06
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.000693978 * 0.25 = -0.000173495
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = 0.0003644 * 0.25 = 9.11001e-05
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.00195577 * 0.25 = -0.000488941
+obs_[6] = projected_gravity[0] = -0.201088
+obs_[7] = projected_gravity[1] = -0.0258621
+obs_[8] = projected_gravity[2] = -0.979232
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00896454 - -0.1 = 0.108965
+obs_[13] = joint_pos[1] - offset = -0.00591278 - -0.1 = 0.0940872
+obs_[14] = joint_pos[2] - offset = 0.000953674 - 0 = 0.000953674
+obs_[15] = joint_pos[3] - offset = 0.0944157 - 0 = 0.0944157
+obs_[16] = joint_pos[4] - offset = -0.0707636 - 0 = -0.0707636
+obs_[17] = joint_pos[5] - offset = 0.494583 - 0 = 0.494583
+obs_[18] = joint_pos[6] - offset = -0.488098 - 0 = -0.488098
+obs_[19] = joint_pos[7] - offset = 0.251965 - 0.3 = -0.0480354
+obs_[20] = joint_pos[8] - offset = 0.25082 - 0.3 = -0.0491798
+obs_[21] = joint_pos[9] - offset = -0.0835145 - -0.2 = 0.116486
+obs_[22] = joint_pos[10] - offset = -0.0855422 - -0.2 = 0.114458
+obs_[23] = joint_pos[11] - offset = -0.00939732 - 0 = -0.00939732
+obs_[24] = joint_pos[12] - offset = 0.0152941 - 0 = 0.0152941
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.0747261 * 0.05 = -0.00373631
+obs_[26] = joint_vel[1] * velocity_scale = 0.171429 * 0.05 = 0.00857143
+obs_[27] = joint_vel[2] * velocity_scale = 0.0395603 * 0.05 = 0.00197802
+obs_[28] = joint_vel[3] * velocity_scale = 1.15604 * 0.05 = 0.0578022
+obs_[29] = joint_vel[4] * velocity_scale = -1.49011 * 0.05 = -0.0745055
+obs_[30] = joint_vel[5] * velocity_scale = -0.452747 * 0.05 = -0.0226374
+obs_[31] = joint_vel[6] * velocity_scale = 2.01758 * 0.05 = 0.100879
+obs_[32] = joint_vel[7] * velocity_scale = 0.496704 * 0.05 = 0.0248352
+obs_[33] = joint_vel[8] * velocity_scale = 0.162638 * 0.05 = 0.00813189
+obs_[34] = joint_vel[9] * velocity_scale = -0.800899 * 0.05 = -0.040045
+obs_[35] = joint_vel[10] * velocity_scale = -0.659418 * 0.05 = -0.0329709
+obs_[36] = joint_vel[11] * velocity_scale = -0.80198 * 0.05 = -0.040099
+obs_[37] = joint_vel[12] * velocity_scale = 0.351713 * 0.05 = 0.0175856
+Previous actions:
+obs_[38] = actions_[0] = 0.0171322
+obs_[39] = actions_[1] = 0.230854
+obs_[40] = actions_[2] = 0.363165
+obs_[41] = actions_[3] = 0.777785
+obs_[42] = actions_[4] = -1.07584
+obs_[43] = actions_[5] = 0.306227
+obs_[44] = actions_[6] = 0.534404
+obs_[45] = actions_[7] = 0.308999
+obs_[46] = actions_[8] = 0.000183424
+obs_[47] = actions_[9] = -1.06254
+obs_[48] = actions_[10] = -1.0256
+obs_[49] = actions_[11] = 0.0228593
+obs_[50] = actions_[12] = -0.519783
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 1
+obs_[52] = phase[1] = 0
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.716705
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-1.07584, 1]
+After clipping - obs_ summary:
+  obs_ range: [-1.07584, 1]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #3) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = 8.56462e-05 * 0.2 = 1.71292e-05
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -7.60642e-05 * 0.2 = -1.52128e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -3.7116e-05 * 0.2 = -7.4232e-06
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.000693978 * 0.25 = -0.000173495
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = 0.0003644 * 0.25 = 9.11001e-05
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.00195577 * 0.25 = -0.000488941
+obs_[6] = projected_gravity[0] = -0.201088
+obs_[7] = projected_gravity[1] = -0.0258621
+obs_[8] = projected_gravity[2] = -0.979232
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00934601 - -0.1 = 0.109346
+obs_[13] = joint_pos[1] - offset = -0.00514984 - -0.1 = 0.0948502
+obs_[14] = joint_pos[2] - offset = 0.000572205 - 0 = 0.000572205
+obs_[15] = joint_pos[3] - offset = 0.109674 - 0 = 0.109674
+obs_[16] = joint_pos[4] - offset = -0.0860224 - 0 = -0.0860224
+obs_[17] = joint_pos[5] - offset = 0.487717 - 0 = 0.487717
+obs_[18] = joint_pos[6] - offset = -0.450713 - 0 = -0.450713
+obs_[19] = joint_pos[7] - offset = 0.265697 - 0.3 = -0.0343025
+obs_[20] = joint_pos[8] - offset = 0.262264 - 0.3 = -0.0377357
+obs_[21] = joint_pos[9] - offset = -0.101124 - -0.2 = 0.0988761
+obs_[22] = joint_pos[10] - offset = -0.09871 - -0.2 = 0.10129
+obs_[23] = joint_pos[11] - offset = -0.0209172 - 0 = -0.0209172
+obs_[24] = joint_pos[12] - offset = 0.0212207 - 0 = 0.0212207
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = 0.118681 * 0.05 = 0.00593405
+obs_[26] = joint_vel[1] * velocity_scale = -0.136263 * 0.05 = -0.00681314
+obs_[27] = joint_vel[2] * velocity_scale = -0.0835171 * 0.05 = -0.00417585
+obs_[28] = joint_vel[3] * velocity_scale = 0.514286 * 0.05 = 0.0257143
+obs_[29] = joint_vel[4] * velocity_scale = -0.523077 * 0.05 = -0.0261539
+obs_[30] = joint_vel[5] * velocity_scale = -0.865934 * 0.05 = -0.0432967
+obs_[31] = joint_vel[6] * velocity_scale = 3.81099 * 0.05 = 0.190549
+obs_[32] = joint_vel[7] * velocity_scale = 2.0967 * 0.05 = 0.104835
+obs_[33] = joint_vel[8] * velocity_scale = 2.53626 * 0.05 = 0.126813
+obs_[34] = joint_vel[9] * velocity_scale = -2.70432 * 0.05 = -0.135216
+obs_[35] = joint_vel[10] * velocity_scale = -1.58796 * 0.05 = -0.0793979
+obs_[36] = joint_vel[11] * velocity_scale = -1.46568 * 0.05 = -0.0732839
+obs_[37] = joint_vel[12] * velocity_scale = 0.454659 * 0.05 = 0.022733
+Previous actions:
+obs_[38] = actions_[0] = 0.0497255
+obs_[39] = actions_[1] = 0.21081
+obs_[40] = actions_[2] = 0.5692
+obs_[41] = actions_[3] = 0.377535
+obs_[42] = actions_[4] = -0.694652
+obs_[43] = actions_[5] = 0.282344
+obs_[44] = actions_[6] = 0.881804
+obs_[45] = actions_[7] = 0.401913
+obs_[46] = actions_[8] = 0.759867
+obs_[47] = actions_[9] = -1.37452
+obs_[48] = actions_[10] = -1.14667
+obs_[49] = actions_[11] = 0.199871
+obs_[50] = actions_[12] = -1.43823
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 1
+obs_[52] = phase[1] = 0
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.799494
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-1.43823, 1]
+After clipping - obs_ summary:
+  obs_ range: [-1.43823, 1]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+Note: Detailed input debug will be disabled after this call to reduce output.
+=== Observation Log Started ===
+Timestamp: 1769495130
+Observation size: 57
+================================
+=== Observation Log Started ===
+Timestamp: 1769495206
+Observation size: 57
+================================
+
+=== ONNX Input Construction (Call #1) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -0.00363994 * 0.2 = -0.000727989
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -0.00199115 * 0.2 = -0.00039823
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -0.000223712 * 0.2 = -4.47424e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.00114576 * 0.25 = -0.000286441
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.0115942 * 0.25 = -0.00289854
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.0117898 * 0.25 = -0.00294746
+obs_[6] = projected_gravity[0] = -0.150829
+obs_[7] = projected_gravity[1] = -0.00375832
+obs_[8] = projected_gravity[2] = -0.988553
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00743866 - -0.1 = 0.107439
+obs_[13] = joint_pos[1] - offset = 0.00514984 - -0.1 = 0.10515
+obs_[14] = joint_pos[2] - offset = -0.000190735 - 0 = -0.000190735
+obs_[15] = joint_pos[3] - offset = 0.107767 - 0 = 0.107767
+obs_[16] = joint_pos[4] - offset = -0.0898371 - 0 = -0.0898371
+obs_[17] = joint_pos[5] - offset = 0.492676 - 0 = 0.492676
+obs_[18] = joint_pos[6] - offset = -0.487717 - 0 = -0.487717
+obs_[19] = joint_pos[7] - offset = 0.238613 - 0.3 = -0.0613869
+obs_[20] = joint_pos[8] - offset = 0.243191 - 0.3 = -0.0568092
+obs_[21] = joint_pos[9] - offset = -0.0976635 - -0.2 = 0.102336
+obs_[22] = joint_pos[10] - offset = -0.0946953 - -0.2 = 0.105305
+obs_[23] = joint_pos[11] - offset = 0.00482293 - 0 = 0.00482293
+obs_[24] = joint_pos[12] - offset = 0.000126834 - 0 = 0.000126834
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[26] = joint_vel[1] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = 0.0219784 * 0.05 = 0.00109892
+obs_[28] = joint_vel[3] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[29] = joint_vel[4] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[30] = joint_vel[5] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[31] = joint_vel[6] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[32] = joint_vel[7] * velocity_scale = 0.0307693 * 0.05 = 0.00153847
+obs_[33] = joint_vel[8] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[34] = joint_vel[9] * velocity_scale = -0.00427933 * 0.05 = -0.000213966
+obs_[35] = joint_vel[10] * velocity_scale = -0.00856503 * 0.05 = -0.000428251
+obs_[36] = joint_vel[11] * velocity_scale = -1.21224e-05 * 0.05 = -6.06122e-07
+obs_[37] = joint_vel[12] * velocity_scale = -0.00711744 * 0.05 = -0.000355872
+Previous actions:
+obs_[38] = actions_[0] = 0
+obs_[39] = actions_[1] = 0
+obs_[40] = actions_[2] = 0
+obs_[41] = actions_[3] = 0
+obs_[42] = actions_[4] = 0
+obs_[43] = actions_[5] = 0
+obs_[44] = actions_[6] = 0
+obs_[45] = actions_[7] = 0
+obs_[46] = actions_[8] = 0
+obs_[47] = actions_[9] = 0
+obs_[48] = actions_[10] = 0
+obs_[49] = actions_[11] = 0
+obs_[50] = actions_[12] = 0
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 1
+obs_[52] = phase[1] = 0
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.616372
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-0.988553, 1]
+After clipping - obs_ summary:
+  obs_ range: [-0.988553, 1]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #2) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -0.00163509 * 0.2 = -0.000327018
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -0.00303192 * 0.2 = -0.000606384
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = 0.000326001 * 0.2 = 6.52001e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.00531474 * 0.25 = -0.00132869
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.00907117 * 0.25 = -0.00226779
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.00372009 * 0.25 = -0.000930022
+obs_[6] = projected_gravity[0] = -0.150728
+obs_[7] = projected_gravity[1] = -0.00305948
+obs_[8] = projected_gravity[2] = -0.98857
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00743866 - -0.1 = 0.107439
+obs_[13] = joint_pos[1] - offset = 0.00514984 - -0.1 = 0.10515
+obs_[14] = joint_pos[2] - offset = -0.000190735 - 0 = -0.000190735
+obs_[15] = joint_pos[3] - offset = 0.10853 - 0 = 0.10853
+obs_[16] = joint_pos[4] - offset = -0.0906 - 0 = -0.0906
+obs_[17] = joint_pos[5] - offset = 0.492676 - 0 = 0.492676
+obs_[18] = joint_pos[6] - offset = -0.482376 - 0 = -0.482376
+obs_[19] = joint_pos[7] - offset = 0.239376 - 0.3 = -0.0606239
+obs_[20] = joint_pos[8] - offset = 0.24548 - 0.3 = -0.0545204
+obs_[21] = joint_pos[9] - offset = -0.0998925 - -0.2 = 0.100108
+obs_[22] = joint_pos[10] - offset = -0.0954383 - -0.2 = 0.104562
+obs_[23] = joint_pos[11] - offset = 0.00357713 - 0 = 0.00357713
+obs_[24] = joint_pos[12] - offset = -0.00111071 - 0 = -0.00111071
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.0835171 * 0.05 = -0.00417585
+obs_[26] = joint_vel[1] * velocity_scale = 0.0219784 * 0.05 = 0.00109892
+obs_[27] = joint_vel[2] * velocity_scale = 0.0835171 * 0.05 = 0.00417585
+obs_[28] = joint_vel[3] * velocity_scale = 0.417582 * 0.05 = 0.0208791
+obs_[29] = joint_vel[4] * velocity_scale = -0.47912 * 0.05 = -0.023956
+obs_[30] = joint_vel[5] * velocity_scale = 0.0395603 * 0.05 = 0.00197802
+obs_[31] = joint_vel[6] * velocity_scale = 2.62418 * 0.05 = 0.131209
+obs_[32] = joint_vel[7] * velocity_scale = 0.338461 * 0.05 = 0.016923
+obs_[33] = joint_vel[8] * velocity_scale = 0.962637 * 0.05 = 0.0481318
+obs_[34] = joint_vel[9] * velocity_scale = -1.00966 * 0.05 = -0.0504832
+obs_[35] = joint_vel[10] * velocity_scale = -0.350798 * 0.05 = -0.0175399
+obs_[36] = joint_vel[11] * velocity_scale = -0.495579 * 0.05 = -0.0247789
+obs_[37] = joint_vel[12] * velocity_scale = -0.720239 * 0.05 = -0.0360119
+Previous actions:
+obs_[38] = actions_[0] = 0.0330059
+obs_[39] = actions_[1] = 0.109682
+obs_[40] = actions_[2] = 0.410642
+obs_[41] = actions_[3] = 0.242689
+obs_[42] = actions_[4] = -0.37698
+obs_[43] = actions_[5] = 0.52559
+obs_[44] = actions_[6] = 0.290548
+obs_[45] = actions_[7] = 0.107146
+obs_[46] = actions_[8] = 0.450294
+obs_[47] = actions_[9] = -1.1643
+obs_[48] = actions_[10] = -0.762835
+obs_[49] = actions_[11] = 0.451457
+obs_[50] = actions_[12] = -1.47663
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 1
+obs_[52] = phase[1] = 0
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.717037
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-1.47663, 1]
+After clipping - obs_ summary:
+  obs_ range: [-1.47663, 1]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #3) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -0.00163509 * 0.2 = -0.000327018
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -0.00303192 * 0.2 = -0.000606384
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = 0.000326001 * 0.2 = 6.52001e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.00531474 * 0.25 = -0.00132869
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.00907117 * 0.25 = -0.00226779
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.00372009 * 0.25 = -0.000930022
+obs_[6] = projected_gravity[0] = -0.150728
+obs_[7] = projected_gravity[1] = -0.00305948
+obs_[8] = projected_gravity[2] = -0.98857
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00667572 - -0.1 = 0.106676
+obs_[13] = joint_pos[1] - offset = 0.00476837 - -0.1 = 0.104768
+obs_[14] = joint_pos[2] - offset = -0.000953674 - 0 = -0.000953674
+obs_[15] = joint_pos[3] - offset = 0.113871 - 0 = 0.113871
+obs_[16] = joint_pos[4] - offset = -0.100138 - 0 = -0.100138
+obs_[17] = joint_pos[5] - offset = 0.494583 - 0 = 0.494583
+obs_[18] = joint_pos[6] - offset = -0.453002 - 0 = -0.453002
+obs_[19] = joint_pos[7] - offset = 0.247387 - 0.3 = -0.0526131
+obs_[20] = joint_pos[8] - offset = 0.264172 - 0.3 = -0.0358284
+obs_[21] = joint_pos[9] - offset = -0.119694 - -0.2 = 0.0803064
+obs_[22] = joint_pos[10] - offset = -0.105223 - -0.2 = 0.0947771
+obs_[23] = joint_pos[11] - offset = 0.000105474 - 0 = 0.000105474
+obs_[24] = joint_pos[12] - offset = -0.0175021 - 0 = -0.0175021
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.118681 * 0.05 = -0.00593405
+obs_[26] = joint_vel[1] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[27] = joint_vel[2] * velocity_scale = -0.347252 * 0.05 = -0.0173626
+obs_[28] = joint_vel[3] * velocity_scale = 0.417582 * 0.05 = 0.0208791
+obs_[29] = joint_vel[4] * velocity_scale = -0.909889 * 0.05 = -0.0454945
+obs_[30] = joint_vel[5] * velocity_scale = 0.681318 * 0.05 = 0.0340659
+obs_[31] = joint_vel[6] * velocity_scale = 3.53846 * 0.05 = 0.176923
+obs_[32] = joint_vel[7] * velocity_scale = 1.19121 * 0.05 = 0.0595604
+obs_[33] = joint_vel[8] * velocity_scale = 2.42198 * 0.05 = 0.121099
+obs_[34] = joint_vel[9] * velocity_scale = -2.30047 * 0.05 = -0.115023
+obs_[35] = joint_vel[10] * velocity_scale = -1.55928 * 0.05 = -0.0779639
+obs_[36] = joint_vel[11] * velocity_scale = -0.222241 * 0.05 = -0.011112
+obs_[37] = joint_vel[12] * velocity_scale = -2.12922 * 0.05 = -0.106461
+Previous actions:
+obs_[38] = actions_[0] = 0.0593142
+obs_[39] = actions_[1] = 0.0665257
+obs_[40] = actions_[2] = 0.515282
+obs_[41] = actions_[3] = 0.160841
+obs_[42] = actions_[4] = -0.214886
+obs_[43] = actions_[5] = 0.834888
+obs_[44] = actions_[6] = 0.288925
+obs_[45] = actions_[7] = 0.208039
+obs_[46] = actions_[8] = 0.818631
+obs_[47] = actions_[9] = -1.35145
+obs_[48] = actions_[10] = -0.99395
+obs_[49] = actions_[11] = 1.09578
+obs_[50] = actions_[12] = -2
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 1
+obs_[52] = phase[1] = 0
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.799915
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-2, 1.09578]
+After clipping - obs_ summary:
+  obs_ range: [-2, 1.09578]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+Note: Detailed input debug will be disabled after this call to reduce output.
+=== Observation Log Started ===
+Timestamp: 1769505601
+Observation size: 57
+================================
+=== Observation Log Started ===
+Timestamp: 1769505608
+Observation size: 57
+================================
+=== Observation Log Started ===
+Timestamp: 1769505624
+Observation size: 57
+================================
+=== Observation Log Started ===
+Timestamp: 1769505714
+Observation size: 57
+================================
+
+=== ONNX Input Construction (Call #1) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -0.000497055 * 0.2 = -9.9411e-05
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -0.000283244 * 0.2 = -5.66489e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = 0.000193457 * 0.2 = 3.86914e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.00222008 * 0.25 = -0.000555019
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.00342897 * 0.25 = -0.000857242
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.00719527 * 0.25 = -0.00179882
+obs_[6] = projected_gravity[0] = -0.224572
+obs_[7] = projected_gravity[1] = -0.0099389
+obs_[8] = projected_gravity[2] = -0.974407
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00247955 - -0.1 = 0.10248
+obs_[13] = joint_pos[1] - offset = 0.00400543 - -0.1 = 0.104005
+obs_[14] = joint_pos[2] - offset = 0.00247955 - 0 = 0.00247955
+obs_[15] = joint_pos[3] - offset = 0.0974674 - 0 = 0.0974674
+obs_[16] = joint_pos[4] - offset = -0.0875483 - 0 = -0.0875483
+obs_[17] = joint_pos[5] - offset = 0.494583 - 0 = 0.494583
+obs_[18] = joint_pos[6] - offset = -0.495346 - 0 = -0.495346
+obs_[19] = joint_pos[7] - offset = 0.244717 - 0.3 = -0.0552834
+obs_[20] = joint_pos[8] - offset = 0.240902 - 0.3 = -0.0590981
+obs_[21] = joint_pos[9] - offset = -0.0902285 - -0.2 = 0.109771
+obs_[22] = joint_pos[10] - offset = -0.091903 - -0.2 = 0.108097
+obs_[23] = joint_pos[11] - offset = -0.00507471 - 0 = -0.00507471
+obs_[24] = joint_pos[12] - offset = 0.00476908 - 0 = 0.00476908
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[26] = joint_vel[1] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = 0.0219784 * 0.05 = 0.00109892
+obs_[28] = joint_vel[3] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[29] = joint_vel[4] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[30] = joint_vel[5] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[31] = joint_vel[6] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[32] = joint_vel[7] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[33] = joint_vel[8] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[34] = joint_vel[9] * velocity_scale = 0.017161 * 0.05 = 0.000858052
+obs_[35] = joint_vel[10] * velocity_scale = 0.00856086 * 0.05 = 0.000428043
+obs_[36] = joint_vel[11] * velocity_scale = -0.00709811 * 0.05 = -0.000354906
+obs_[37] = joint_vel[12] * velocity_scale = -0.00716436 * 0.05 = -0.000358218
+Previous actions:
+obs_[38] = actions_[0] = 0
+obs_[39] = actions_[1] = 0
+obs_[40] = actions_[2] = 0
+obs_[41] = actions_[3] = 0
+obs_[42] = actions_[4] = 0
+obs_[43] = actions_[5] = 0
+obs_[44] = actions_[6] = 0
+obs_[45] = actions_[7] = 0
+obs_[46] = actions_[8] = 0
+obs_[47] = actions_[9] = 0
+obs_[48] = actions_[10] = 0
+obs_[49] = actions_[11] = 0
+obs_[50] = actions_[12] = 0
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 0.981126
+obs_[52] = phase[1] = 0.0188739
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.525346
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-0.974407, 0.981126]
+After clipping - obs_ summary:
+  obs_ range: [-0.974407, 0.981126]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #2) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -4.66887e-06 * 0.2 = -9.33773e-07
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = 0.0002104 * 0.2 = 4.208e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = 4.96045e-05 * 0.2 = 9.9209e-06
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = 0.000765993 * 0.25 = 0.000191498
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = 1.8771e-06 * 0.25 = 4.69275e-07
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -6.05212e-05 * 0.25 = -1.51303e-05
+obs_[6] = projected_gravity[0] = -0.224212
+obs_[7] = projected_gravity[1] = -0.0101351
+obs_[8] = projected_gravity[2] = -0.974488
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00247955 - -0.1 = 0.10248
+obs_[13] = joint_pos[1] - offset = 0.00400543 - -0.1 = 0.104005
+obs_[14] = joint_pos[2] - offset = 0.00247955 - 0 = 0.00247955
+obs_[15] = joint_pos[3] - offset = 0.0974674 - 0 = 0.0974674
+obs_[16] = joint_pos[4] - offset = -0.0875483 - 0 = -0.0875483
+obs_[17] = joint_pos[5] - offset = 0.494583 - 0 = 0.494583
+obs_[18] = joint_pos[6] - offset = -0.495346 - 0 = -0.495346
+obs_[19] = joint_pos[7] - offset = 0.244717 - 0.3 = -0.0552834
+obs_[20] = joint_pos[8] - offset = 0.240902 - 0.3 = -0.0590981
+obs_[21] = joint_pos[9] - offset = -0.0902285 - -0.2 = 0.109771
+obs_[22] = joint_pos[10] - offset = -0.091903 - -0.2 = 0.108097
+obs_[23] = joint_pos[11] - offset = -0.00507471 - 0 = -0.00507471
+obs_[24] = joint_pos[12] - offset = 0.00476908 - 0 = 0.00476908
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[26] = joint_vel[1] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[28] = joint_vel[3] * velocity_scale = 0.0219784 * 0.05 = 0.00109892
+obs_[29] = joint_vel[4] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[30] = joint_vel[5] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[31] = joint_vel[6] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[32] = joint_vel[7] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[33] = joint_vel[8] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[34] = joint_vel[9] * velocity_scale = 3.36133e-05 * 0.05 = 1.68067e-06
+obs_[35] = joint_vel[10] * velocity_scale = -1.05442e-05 * 0.05 = -5.27212e-07
+obs_[36] = joint_vel[11] * velocity_scale = -0.0214278 * 0.05 = -0.00107139
+obs_[37] = joint_vel[12] * velocity_scale = -0.0071435 * 0.05 = -0.000357175
+Previous actions:
+obs_[38] = actions_[0] = 0.0215431
+obs_[39] = actions_[1] = 0.105527
+obs_[40] = actions_[2] = 0.438319
+obs_[41] = actions_[3] = 0.269312
+obs_[42] = actions_[4] = -0.335272
+obs_[43] = actions_[5] = 0.561278
+obs_[44] = actions_[6] = 0.258987
+obs_[45] = actions_[7] = 0.257345
+obs_[46] = actions_[8] = 0.690626
+obs_[47] = actions_[9] = -1.26887
+obs_[48] = actions_[10] = -0.866577
+obs_[49] = actions_[11] = 0.603369
+obs_[50] = actions_[12] = -1.59651
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 0.999961
+obs_[52] = phase[1] = 3.86374e-05
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.550078
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-1.59651, 0.999961]
+After clipping - obs_ summary:
+  obs_ range: [-1.59651, 0.999961]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #3) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -0.000124965 * 0.2 = -2.49931e-05
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = 0.000164514 * 0.2 = 3.29027e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = 0.000191644 * 0.2 = 3.83287e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.00211738 * 0.25 = -0.000529344
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.000778413 * 0.25 = -0.000194603
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.00423113 * 0.25 = -0.00105778
+obs_[6] = projected_gravity[0] = -0.224307
+obs_[7] = projected_gravity[1] = -0.00990034
+obs_[8] = projected_gravity[2] = -0.974468
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00247955 - -0.1 = 0.10248
+obs_[13] = joint_pos[1] - offset = 0.00400543 - -0.1 = 0.104005
+obs_[14] = joint_pos[2] - offset = 0.00247955 - 0 = 0.00247955
+obs_[15] = joint_pos[3] - offset = 0.0974674 - 0 = 0.0974674
+obs_[16] = joint_pos[4] - offset = -0.0875483 - 0 = -0.0875483
+obs_[17] = joint_pos[5] - offset = 0.494583 - 0 = 0.494583
+obs_[18] = joint_pos[6] - offset = -0.495346 - 0 = -0.495346
+obs_[19] = joint_pos[7] - offset = 0.244717 - 0.3 = -0.0552834
+obs_[20] = joint_pos[8] - offset = 0.240902 - 0.3 = -0.0590981
+obs_[21] = joint_pos[9] - offset = -0.0902285 - -0.2 = 0.109771
+obs_[22] = joint_pos[10] - offset = -0.091903 - -0.2 = 0.108097
+obs_[23] = joint_pos[11] - offset = -0.00507471 - 0 = -0.00507471
+obs_[24] = joint_pos[12] - offset = 0.00476908 - 0 = 0.00476908
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[26] = joint_vel[1] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[28] = joint_vel[3] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[29] = joint_vel[4] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[30] = joint_vel[5] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[31] = joint_vel[6] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[32] = joint_vel[7] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[33] = joint_vel[8] * velocity_scale = -0.0219784 * 0.05 = -0.00109892
+obs_[34] = joint_vel[9] * velocity_scale = 0.00430964 * 0.05 = 0.000215482
+obs_[35] = joint_vel[10] * velocity_scale = 0.00426415 * 0.05 = 0.000213208
+obs_[36] = joint_vel[11] * velocity_scale = -0.0142747 * 0.05 = -0.000713736
+obs_[37] = joint_vel[12] * velocity_scale = -0.0142967 * 0.05 = -0.000714833
+Previous actions:
+obs_[38] = actions_[0] = 0.00933846
+obs_[39] = actions_[1] = 0.122132
+obs_[40] = actions_[2] = 0.531175
+obs_[41] = actions_[3] = 0.270174
+obs_[42] = actions_[4] = -0.230027
+obs_[43] = actions_[5] = 0.951364
+obs_[44] = actions_[6] = 0.328328
+obs_[45] = actions_[7] = 0.424565
+obs_[46] = actions_[8] = 1.38821
+obs_[47] = actions_[9] = -1.5238
+obs_[48] = actions_[10] = -0.98188
+obs_[49] = actions_[11] = 1.46655
+obs_[50] = actions_[12] = -2
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 1
+obs_[52] = phase[1] = 8.27757e-09
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.57416
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-2, 1.46655]
+After clipping - obs_ summary:
+  obs_ range: [-2, 1.46655]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+Note: Detailed input debug will be disabled after this call to reduce output.
+=== Observation Log Started ===
+Timestamp: 1769505874
+Observation size: 57
+================================
+
+=== ONNX Input Construction (Call #1) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = 0.000317628 * 0.2 = 6.35256e-05
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -2.00245e-05 * 0.2 = -4.00491e-06
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -9.42587e-05 * 0.2 = -1.88517e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.00042939 * 0.25 = -0.000107347
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.0066505 * 0.25 = -0.00166263
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.00411419 * 0.25 = -0.00102855
+obs_[6] = projected_gravity[0] = -0.0301007
+obs_[7] = projected_gravity[1] = -0.00378424
+obs_[8] = projected_gravity[2] = -0.99954
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = -0.00476837 - -0.1 = 0.0952316
+obs_[13] = joint_pos[1] - offset = -0.00286102 - -0.1 = 0.097139
+obs_[14] = joint_pos[2] - offset = 0.00133514 - 0 = 0.00133514
+obs_[15] = joint_pos[3] - offset = 0.135996 - 0 = 0.135996
+obs_[16] = joint_pos[4] - offset = -0.132181 - 0 = -0.132181
+obs_[17] = joint_pos[5] - offset = 0.501068 - 0 = 0.501068
+obs_[18] = joint_pos[6] - offset = -0.499542 - 0 = -0.499542
+obs_[19] = joint_pos[7] - offset = 0.198558 - 0.3 = -0.101442
+obs_[20] = joint_pos[8] - offset = 0.193217 - 0.3 = -0.106783
+obs_[21] = joint_pos[9] - offset = -0.125411 - -0.2 = 0.0745887
+obs_[22] = joint_pos[10] - offset = -0.123951 - -0.2 = 0.0760494
+obs_[23] = joint_pos[11] - offset = 0.033535 - 0 = 0.033535
+obs_[24] = joint_pos[12] - offset = -0.0323021 - 0 = -0.0323021
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[26] = joint_vel[1] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[27] = joint_vel[2] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[28] = joint_vel[3] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[29] = joint_vel[4] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[30] = joint_vel[5] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[31] = joint_vel[6] * velocity_scale = 0.0219784 * 0.05 = 0.00109892
+obs_[32] = joint_vel[7] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[33] = joint_vel[8] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[34] = joint_vel[9] * velocity_scale = 7.72873e-05 * 0.05 = 3.86436e-06
+obs_[35] = joint_vel[10] * velocity_scale = 0.00871505 * 0.05 = 0.000435752
+obs_[36] = joint_vel[11] * velocity_scale = 0.00713719 * 0.05 = 0.00035686
+obs_[37] = joint_vel[12] * velocity_scale = -0.0214421 * 0.05 = -0.00107211
+Previous actions:
+obs_[38] = actions_[0] = 0
+obs_[39] = actions_[1] = 0
+obs_[40] = actions_[2] = 0
+obs_[41] = actions_[3] = 0
+obs_[42] = actions_[4] = 0
+obs_[43] = actions_[5] = 0
+obs_[44] = actions_[6] = 0
+obs_[45] = actions_[7] = 0
+obs_[46] = actions_[8] = 0
+obs_[47] = actions_[9] = 0
+obs_[48] = actions_[10] = 0
+obs_[49] = actions_[11] = 0
+obs_[50] = actions_[12] = 0
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 0.981126
+obs_[52] = phase[1] = 0.0188738
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.525345
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-0.99954, 0.981126]
+After clipping - obs_ summary:
+  obs_ range: [-0.99954, 0.981126]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #2) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = 0.000317628 * 0.2 = 6.35256e-05
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -2.00245e-05 * 0.2 = -4.00491e-06
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -9.42587e-05 * 0.2 = -1.88517e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.00042939 * 0.25 = -0.000107347
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.0066505 * 0.25 = -0.00166263
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.00411419 * 0.25 = -0.00102855
+obs_[6] = projected_gravity[0] = -0.0301007
+obs_[7] = projected_gravity[1] = -0.00378424
+obs_[8] = projected_gravity[2] = -0.99954
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = -0.00476837 - -0.1 = 0.0952316
+obs_[13] = joint_pos[1] - offset = -0.00286102 - -0.1 = 0.097139
+obs_[14] = joint_pos[2] - offset = 0.00133514 - 0 = 0.00133514
+obs_[15] = joint_pos[3] - offset = 0.135996 - 0 = 0.135996
+obs_[16] = joint_pos[4] - offset = -0.132181 - 0 = -0.132181
+obs_[17] = joint_pos[5] - offset = 0.501068 - 0 = 0.501068
+obs_[18] = joint_pos[6] - offset = -0.499542 - 0 = -0.499542
+obs_[19] = joint_pos[7] - offset = 0.198558 - 0.3 = -0.101442
+obs_[20] = joint_pos[8] - offset = 0.193217 - 0.3 = -0.106783
+obs_[21] = joint_pos[9] - offset = -0.125411 - -0.2 = 0.0745887
+obs_[22] = joint_pos[10] - offset = -0.123951 - -0.2 = 0.0760494
+obs_[23] = joint_pos[11] - offset = 0.033535 - 0 = 0.033535
+obs_[24] = joint_pos[12] - offset = -0.0323021 - 0 = -0.0323021
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[26] = joint_vel[1] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = 0.0307693 * 0.05 = 0.00153847
+obs_[28] = joint_vel[3] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[29] = joint_vel[4] * velocity_scale = 0.0219784 * 0.05 = 0.00109892
+obs_[30] = joint_vel[5] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[31] = joint_vel[6] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[32] = joint_vel[7] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[33] = joint_vel[8] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[34] = joint_vel[9] * velocity_scale = 0.00841207 * 0.05 = 0.000420604
+obs_[35] = joint_vel[10] * velocity_scale = 7.43314e-05 * 0.05 = 3.71657e-06
+obs_[36] = joint_vel[11] * velocity_scale = -0.00710173 * 0.05 = -0.000355087
+obs_[37] = joint_vel[12] * velocity_scale = -0.00713728 * 0.05 = -0.000356864
+Previous actions:
+obs_[38] = actions_[0] = 0.0806452
+obs_[39] = actions_[1] = 0.13093
+obs_[40] = actions_[2] = 0.393096
+obs_[41] = actions_[3] = -0.163136
+obs_[42] = actions_[4] = 0.0581418
+obs_[43] = actions_[5] = 0.379629
+obs_[44] = actions_[6] = 0.394301
+obs_[45] = actions_[7] = 0.169341
+obs_[46] = actions_[8] = 0.197197
+obs_[47] = actions_[9] = -0.589447
+obs_[48] = actions_[10] = -0.12156
+obs_[49] = actions_[11] = 0.0228758
+obs_[50] = actions_[12] = -1.16203
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 0.999961
+obs_[52] = phase[1] = 3.86364e-05
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.550076
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-1.16203, 0.999961]
+After clipping - obs_ summary:
+  obs_ range: [-1.16203, 0.999961]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #3) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = 0.000317628 * 0.2 = 6.35256e-05
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -2.00245e-05 * 0.2 = -4.00491e-06
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -9.42587e-05 * 0.2 = -1.88517e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.00042939 * 0.25 = -0.000107347
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.0066505 * 0.25 = -0.00166263
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.00411419 * 0.25 = -0.00102855
+obs_[6] = projected_gravity[0] = -0.0301007
+obs_[7] = projected_gravity[1] = -0.00378424
+obs_[8] = projected_gravity[2] = -0.99954
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = -0.00476837 - -0.1 = 0.0952316
+obs_[13] = joint_pos[1] - offset = -0.00286102 - -0.1 = 0.097139
+obs_[14] = joint_pos[2] - offset = 0.00133514 - 0 = 0.00133514
+obs_[15] = joint_pos[3] - offset = 0.135996 - 0 = 0.135996
+obs_[16] = joint_pos[4] - offset = -0.132181 - 0 = -0.132181
+obs_[17] = joint_pos[5] - offset = 0.501068 - 0 = 0.501068
+obs_[18] = joint_pos[6] - offset = -0.499542 - 0 = -0.499542
+obs_[19] = joint_pos[7] - offset = 0.198558 - 0.3 = -0.101442
+obs_[20] = joint_pos[8] - offset = 0.193217 - 0.3 = -0.106783
+obs_[21] = joint_pos[9] - offset = -0.125411 - -0.2 = 0.0745887
+obs_[22] = joint_pos[10] - offset = -0.123951 - -0.2 = 0.0760494
+obs_[23] = joint_pos[11] - offset = 0.033535 - 0 = 0.033535
+obs_[24] = joint_pos[12] - offset = -0.0323021 - 0 = -0.0323021
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[26] = joint_vel[1] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = 0.0219784 * 0.05 = 0.00109892
+obs_[28] = joint_vel[3] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[29] = joint_vel[4] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[30] = joint_vel[5] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[31] = joint_vel[6] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[32] = joint_vel[7] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[33] = joint_vel[8] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[34] = joint_vel[9] * velocity_scale = 0.00841207 * 0.05 = 0.000420604
+obs_[35] = joint_vel[10] * velocity_scale = -0.00841869 * 0.05 = -0.000420934
+obs_[36] = joint_vel[11] * velocity_scale = -0.00710173 * 0.05 = -0.000355087
+obs_[37] = joint_vel[12] * velocity_scale = -0.00710238 * 0.05 = -0.000355119
+Previous actions:
+obs_[38] = actions_[0] = 0.0779527
+obs_[39] = actions_[1] = 0.157317
+obs_[40] = actions_[2] = 0.518397
+obs_[41] = actions_[3] = -0.104918
+obs_[42] = actions_[4] = 0.0638192
+obs_[43] = actions_[5] = 0.662711
+obs_[44] = actions_[6] = 0.690693
+obs_[45] = actions_[7] = 0.22463
+obs_[46] = actions_[8] = 0.685735
+obs_[47] = actions_[9] = -0.663589
+obs_[48] = actions_[10] = -0.135602
+obs_[49] = actions_[11] = 0.298368
+obs_[50] = actions_[12] = -1.94134
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 1
+obs_[52] = phase[1] = 8.27712e-09
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.574156
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-1.94134, 1]
+After clipping - obs_ summary:
+  obs_ range: [-1.94134, 1]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+Note: Detailed input debug will be disabled after this call to reduce output.
+=== Observation Log Started ===
+Timestamp: 1769506025
+Observation size: 57
+================================
+
+=== ONNX Input Construction (Call #1) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -0.000357468 * 0.2 = -7.14935e-05
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = 0.000351263 * 0.2 = 7.02526e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -0.000512078 * 0.2 = -0.000102416
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = 0.012846 * 0.25 = 0.00321151
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.015669 * 0.25 = -0.00391725
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = 0.00584375 * 0.25 = 0.00146094
+obs_[6] = projected_gravity[0] = -0.0467015
+obs_[7] = projected_gravity[1] = -0.0101118
+obs_[8] = projected_gravity[2] = -0.998858
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = -0.00743866 - -0.1 = 0.0925613
+obs_[13] = joint_pos[1] - offset = -0.00400543 - -0.1 = 0.0959946
+obs_[14] = joint_pos[2] - offset = 0.00133514 - 0 = 0.00133514
+obs_[15] = joint_pos[3] - offset = 0.126459 - 0 = 0.126459
+obs_[16] = joint_pos[4] - offset = -0.121119 - 0 = -0.121119
+obs_[17] = joint_pos[5] - offset = 0.498398 - 0 = 0.498398
+obs_[18] = joint_pos[6] - offset = -0.498016 - 0 = -0.498016
+obs_[19] = joint_pos[7] - offset = 0.199321 - 0.3 = -0.100679
+obs_[20] = joint_pos[8] - offset = 0.199321 - 0.3 = -0.100679
+obs_[21] = joint_pos[9] - offset = -0.120867 - -0.2 = 0.0791331
+obs_[22] = joint_pos[10] - offset = -0.119589 - -0.2 = 0.0804113
+obs_[23] = joint_pos[11] - offset = 0.0270494 - 0 = 0.0270494
+obs_[24] = joint_pos[12] - offset = -0.0255058 - 0 = -0.0255058
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[26] = joint_vel[1] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[28] = joint_vel[3] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[29] = joint_vel[4] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[30] = joint_vel[5] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[31] = joint_vel[6] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[32] = joint_vel[7] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[33] = joint_vel[8] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[34] = joint_vel[9] * velocity_scale = 0.0125018 * 0.05 = 0.00062509
+obs_[35] = joint_vel[10] * velocity_scale = -0.00844575 * 0.05 = -0.000422288
+obs_[36] = joint_vel[11] * velocity_scale = -0.0284976 * 0.05 = -0.00142488
+obs_[37] = joint_vel[12] * velocity_scale = -0.00710465 * 0.05 = -0.000355233
+Previous actions:
+obs_[38] = actions_[0] = 0
+obs_[39] = actions_[1] = 0
+obs_[40] = actions_[2] = 0
+obs_[41] = actions_[3] = 0
+obs_[42] = actions_[4] = 0
+obs_[43] = actions_[5] = 0
+obs_[44] = actions_[6] = 0
+obs_[45] = actions_[7] = 0
+obs_[46] = actions_[8] = 0
+obs_[47] = actions_[9] = 0
+obs_[48] = actions_[10] = 0
+obs_[49] = actions_[11] = 0
+obs_[50] = actions_[12] = 0
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 0.981126
+obs_[52] = phase[1] = 0.0188739
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.525346
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-0.998858, 0.981126]
+After clipping - obs_ summary:
+  obs_ range: [-0.998858, 0.981126]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #2) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -0.000357468 * 0.2 = -7.14935e-05
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = 0.000351263 * 0.2 = 7.02526e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -0.000512078 * 0.2 = -0.000102416
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = 0.012846 * 0.25 = 0.00321151
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.015669 * 0.25 = -0.00391725
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = 0.00584375 * 0.25 = 0.00146094
+obs_[6] = projected_gravity[0] = -0.0467015
+obs_[7] = projected_gravity[1] = -0.0101118
+obs_[8] = projected_gravity[2] = -0.998858
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = -0.00743866 - -0.1 = 0.0925613
+obs_[13] = joint_pos[1] - offset = -0.00400543 - -0.1 = 0.0959946
+obs_[14] = joint_pos[2] - offset = 0.00133514 - 0 = 0.00133514
+obs_[15] = joint_pos[3] - offset = 0.126459 - 0 = 0.126459
+obs_[16] = joint_pos[4] - offset = -0.121119 - 0 = -0.121119
+obs_[17] = joint_pos[5] - offset = 0.498398 - 0 = 0.498398
+obs_[18] = joint_pos[6] - offset = -0.498016 - 0 = -0.498016
+obs_[19] = joint_pos[7] - offset = 0.199321 - 0.3 = -0.100679
+obs_[20] = joint_pos[8] - offset = 0.199321 - 0.3 = -0.100679
+obs_[21] = joint_pos[9] - offset = -0.120867 - -0.2 = 0.0791331
+obs_[22] = joint_pos[10] - offset = -0.119589 - -0.2 = 0.0804113
+obs_[23] = joint_pos[11] - offset = 0.0270494 - 0 = 0.0270494
+obs_[24] = joint_pos[12] - offset = -0.0255058 - 0 = -0.0255058
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[26] = joint_vel[1] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[27] = joint_vel[2] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[28] = joint_vel[3] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[29] = joint_vel[4] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[30] = joint_vel[5] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[31] = joint_vel[6] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[32] = joint_vel[7] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[33] = joint_vel[8] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[34] = joint_vel[9] * velocity_scale = -0.0126269 * 0.05 = -0.000631344
+obs_[35] = joint_vel[10] * velocity_scale = 0.00436857 * 0.05 = 0.000218429
+obs_[36] = joint_vel[11] * velocity_scale = 0.014224 * 0.05 = 0.000711202
+obs_[37] = joint_vel[12] * velocity_scale = -0.0142896 * 0.05 = -0.000714479
+Previous actions:
+obs_[38] = actions_[0] = 0.0798234
+obs_[39] = actions_[1] = 0.129586
+obs_[40] = actions_[2] = 0.4071
+obs_[41] = actions_[3] = -0.0568675
+obs_[42] = actions_[4] = -0.0361157
+obs_[43] = actions_[5] = 0.435908
+obs_[44] = actions_[6] = 0.367825
+obs_[45] = actions_[7] = 0.206758
+obs_[46] = actions_[8] = 0.299184
+obs_[47] = actions_[9] = -0.667613
+obs_[48] = actions_[10] = -0.253043
+obs_[49] = actions_[11] = 0.0998698
+obs_[50] = actions_[12] = -1.2028
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 0.999961
+obs_[52] = phase[1] = 3.86375e-05
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.550079
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-1.2028, 0.999961]
+After clipping - obs_ summary:
+  obs_ range: [-1.2028, 0.999961]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #3) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -0.000357468 * 0.2 = -7.14935e-05
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = 0.000351263 * 0.2 = 7.02526e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -0.000512078 * 0.2 = -0.000102416
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = 0.012846 * 0.25 = 0.00321151
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.015669 * 0.25 = -0.00391725
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = 0.00584375 * 0.25 = 0.00146094
+obs_[6] = projected_gravity[0] = -0.0467015
+obs_[7] = projected_gravity[1] = -0.0101118
+obs_[8] = projected_gravity[2] = -0.998858
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = -0.00743866 - -0.1 = 0.0925613
+obs_[13] = joint_pos[1] - offset = -0.00400543 - -0.1 = 0.0959946
+obs_[14] = joint_pos[2] - offset = 0.00133514 - 0 = 0.00133514
+obs_[15] = joint_pos[3] - offset = 0.126459 - 0 = 0.126459
+obs_[16] = joint_pos[4] - offset = -0.121119 - 0 = -0.121119
+obs_[17] = joint_pos[5] - offset = 0.498398 - 0 = 0.498398
+obs_[18] = joint_pos[6] - offset = -0.498016 - 0 = -0.498016
+obs_[19] = joint_pos[7] - offset = 0.199321 - 0.3 = -0.100679
+obs_[20] = joint_pos[8] - offset = 0.199321 - 0.3 = -0.100679
+obs_[21] = joint_pos[9] - offset = -0.120867 - -0.2 = 0.0791331
+obs_[22] = joint_pos[10] - offset = -0.119589 - -0.2 = 0.0804113
+obs_[23] = joint_pos[11] - offset = 0.0270494 - 0 = 0.0270494
+obs_[24] = joint_pos[12] - offset = -0.0255058 - 0 = -0.0255058
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[26] = joint_vel[1] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[28] = joint_vel[3] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[29] = joint_vel[4] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[30] = joint_vel[5] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[31] = joint_vel[6] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[32] = joint_vel[7] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[33] = joint_vel[8] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[34] = joint_vel[9] * velocity_scale = -0.0213752 * 0.05 = -0.00106876
+obs_[35] = joint_vel[10] * velocity_scale = -0.00425257 * 0.05 = -0.000212628
+obs_[36] = joint_vel[11] * velocity_scale = -0.014352 * 0.05 = -0.000717599
+obs_[37] = joint_vel[12] * velocity_scale = 1.57468e-05 * 0.05 = 7.87338e-07
+Previous actions:
+obs_[38] = actions_[0] = 0.0755562
+obs_[39] = actions_[1] = 0.153577
+obs_[40] = actions_[2] = 0.528113
+obs_[41] = actions_[3] = -0.0098819
+obs_[42] = actions_[4] = -0.0114804
+obs_[43] = actions_[5] = 0.731603
+obs_[44] = actions_[6] = 0.629958
+obs_[45] = actions_[7] = 0.255908
+obs_[46] = actions_[8] = 0.847267
+obs_[47] = actions_[9] = -0.784638
+obs_[48] = actions_[10] = -0.296251
+obs_[49] = actions_[11] = 0.464784
+obs_[50] = actions_[12] = -2
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 1
+obs_[52] = phase[1] = 8.27773e-09
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.574161
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-2, 1]
+After clipping - obs_ summary:
+  obs_ range: [-2, 1]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+Note: Detailed input debug will be disabled after this call to reduce output.
+=== Observation Log Started ===
+Timestamp: 1769506466
+Observation size: 57
+================================
+
+=== ONNX Input Construction (Call #1) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = 0.0090241 * 0.2 = 0.00180482
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = 6.22542e-05 * 0.2 = 1.24508e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -0.000199909 * 0.2 = -3.99818e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = 0.000303777 * 0.25 = 7.59442e-05
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = 0.0120334 * 0.25 = 0.00300834
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = 0.00187995 * 0.25 = 0.000469987
+obs_[6] = projected_gravity[0] = -0.0426949
+obs_[7] = projected_gravity[1] = -0.00465702
+obs_[8] = projected_gravity[2] = -0.999077
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = -0.00782013 - -0.1 = 0.0921799
+obs_[13] = joint_pos[1] - offset = 0.00171661 - -0.1 = 0.101717
+obs_[14] = joint_pos[2] - offset = 0.000190735 - 0 = 0.000190735
+obs_[15] = joint_pos[3] - offset = 0.1215 - 0 = 0.1215
+obs_[16] = joint_pos[4] - offset = -0.109674 - 0 = -0.109674
+obs_[17] = joint_pos[5] - offset = 0.499542 - 0 = 0.499542
+obs_[18] = joint_pos[6] - offset = -0.499542 - 0 = -0.499542
+obs_[19] = joint_pos[7] - offset = 0.198939 - 0.3 = -0.101061
+obs_[20] = joint_pos[8] - offset = 0.213435 - 0.3 = -0.0865648
+obs_[21] = joint_pos[9] - offset = -0.120519 - -0.2 = 0.0794814
+obs_[22] = joint_pos[10] - offset = -0.113537 - -0.2 = 0.0864628
+obs_[23] = joint_pos[11] - offset = 0.0245732 - 0 = 0.0245732
+obs_[24] = joint_pos[12] - offset = -0.0196429 - 0 = -0.0196429
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[26] = joint_vel[1] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[27] = joint_vel[2] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[28] = joint_vel[3] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[29] = joint_vel[4] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[30] = joint_vel[5] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[31] = joint_vel[6] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[32] = joint_vel[7] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[33] = joint_vel[8] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[34] = joint_vel[9] * velocity_scale = 5.64147e-05 * 0.05 = 2.82074e-06
+obs_[35] = joint_vel[10] * velocity_scale = 4.47673e-05 * 0.05 = 2.23836e-06
+obs_[36] = joint_vel[11] * velocity_scale = 0.00713767 * 0.05 = 0.000356884
+obs_[37] = joint_vel[12] * velocity_scale = -0.00713841 * 0.05 = -0.000356921
+Previous actions:
+obs_[38] = actions_[0] = 0
+obs_[39] = actions_[1] = 0
+obs_[40] = actions_[2] = 0
+obs_[41] = actions_[3] = 0
+obs_[42] = actions_[4] = 0
+obs_[43] = actions_[5] = 0
+obs_[44] = actions_[6] = 0
+obs_[45] = actions_[7] = 0
+obs_[46] = actions_[8] = 0
+obs_[47] = actions_[9] = 0
+obs_[48] = actions_[10] = 0
+obs_[49] = actions_[11] = 0
+obs_[50] = actions_[12] = 0
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 0.981126
+obs_[52] = phase[1] = 0.0188738
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.525345
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-0.999077, 0.981126]
+After clipping - obs_ summary:
+  obs_ range: [-0.999077, 0.981126]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #2) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = 0.0090241 * 0.2 = 0.00180482
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = 6.22542e-05 * 0.2 = 1.24508e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -0.000199909 * 0.2 = -3.99818e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = 0.000303777 * 0.25 = 7.59442e-05
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = 0.0120334 * 0.25 = 0.00300834
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = 0.00187995 * 0.25 = 0.000469987
+obs_[6] = projected_gravity[0] = -0.0426949
+obs_[7] = projected_gravity[1] = -0.00465702
+obs_[8] = projected_gravity[2] = -0.999077
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = -0.00782013 - -0.1 = 0.0921799
+obs_[13] = joint_pos[1] - offset = 0.00171661 - -0.1 = 0.101717
+obs_[14] = joint_pos[2] - offset = 0.000190735 - 0 = 0.000190735
+obs_[15] = joint_pos[3] - offset = 0.1215 - 0 = 0.1215
+obs_[16] = joint_pos[4] - offset = -0.109674 - 0 = -0.109674
+obs_[17] = joint_pos[5] - offset = 0.499542 - 0 = 0.499542
+obs_[18] = joint_pos[6] - offset = -0.499542 - 0 = -0.499542
+obs_[19] = joint_pos[7] - offset = 0.198939 - 0.3 = -0.101061
+obs_[20] = joint_pos[8] - offset = 0.213435 - 0.3 = -0.0865648
+obs_[21] = joint_pos[9] - offset = -0.120519 - -0.2 = 0.0794814
+obs_[22] = joint_pos[10] - offset = -0.113537 - -0.2 = 0.0864628
+obs_[23] = joint_pos[11] - offset = 0.0245732 - 0 = 0.0245732
+obs_[24] = joint_pos[12] - offset = -0.0196429 - 0 = -0.0196429
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[26] = joint_vel[1] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[27] = joint_vel[2] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[28] = joint_vel[3] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[29] = joint_vel[4] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[30] = joint_vel[5] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[31] = joint_vel[6] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[32] = joint_vel[7] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[33] = joint_vel[8] * velocity_scale = -0.0307693 * 0.05 = -0.00153847
+obs_[34] = joint_vel[9] * velocity_scale = -0.0128655 * 0.05 = -0.000643273
+obs_[35] = joint_vel[10] * velocity_scale = -0.0212071 * 0.05 = -0.00106035
+obs_[36] = joint_vel[11] * velocity_scale = -0.0143198 * 0.05 = -0.000715989
+obs_[37] = joint_vel[12] * velocity_scale = -0.0142004 * 0.05 = -0.00071002
+Previous actions:
+obs_[38] = actions_[0] = 0.0969528
+obs_[39] = actions_[1] = 0.108053
+obs_[40] = actions_[2] = 0.457256
+obs_[41] = actions_[3] = 0.0611973
+obs_[42] = actions_[4] = -0.2075
+obs_[43] = actions_[5] = 0.441867
+obs_[44] = actions_[6] = 0.389636
+obs_[45] = actions_[7] = 0.149866
+obs_[46] = actions_[8] = 0.286203
+obs_[47] = actions_[9] = -0.656108
+obs_[48] = actions_[10] = -0.337952
+obs_[49] = actions_[11] = 0.157454
+obs_[50] = actions_[12] = -1.21674
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 0.999961
+obs_[52] = phase[1] = 3.86364e-05
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.550076
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-1.21674, 0.999961]
+After clipping - obs_ summary:
+  obs_ range: [-1.21674, 0.999961]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #3) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = 0.0090241 * 0.2 = 0.00180482
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = 6.22542e-05 * 0.2 = 1.24508e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -0.000199909 * 0.2 = -3.99818e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = 0.000303777 * 0.25 = 7.59442e-05
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = 0.0120334 * 0.25 = 0.00300834
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = 0.00187995 * 0.25 = 0.000469987
+obs_[6] = projected_gravity[0] = -0.0426949
+obs_[7] = projected_gravity[1] = -0.00465702
+obs_[8] = projected_gravity[2] = -0.999077
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = -0.00782013 - -0.1 = 0.0921799
+obs_[13] = joint_pos[1] - offset = 0.00171661 - -0.1 = 0.101717
+obs_[14] = joint_pos[2] - offset = 0.000190735 - 0 = 0.000190735
+obs_[15] = joint_pos[3] - offset = 0.1215 - 0 = 0.1215
+obs_[16] = joint_pos[4] - offset = -0.109674 - 0 = -0.109674
+obs_[17] = joint_pos[5] - offset = 0.499542 - 0 = 0.499542
+obs_[18] = joint_pos[6] - offset = -0.499542 - 0 = -0.499542
+obs_[19] = joint_pos[7] - offset = 0.198939 - 0.3 = -0.101061
+obs_[20] = joint_pos[8] - offset = 0.213435 - 0.3 = -0.0865648
+obs_[21] = joint_pos[9] - offset = -0.120519 - -0.2 = 0.0794814
+obs_[22] = joint_pos[10] - offset = -0.113537 - -0.2 = 0.0864628
+obs_[23] = joint_pos[11] - offset = 0.0245732 - 0 = 0.0245732
+obs_[24] = joint_pos[12] - offset = -0.0196429 - 0 = -0.0196429
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[26] = joint_vel[1] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[27] = joint_vel[2] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[28] = joint_vel[3] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[29] = joint_vel[4] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[30] = joint_vel[5] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[31] = joint_vel[6] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[32] = joint_vel[7] * velocity_scale = 0.0219784 * 0.05 = 0.00109892
+obs_[33] = joint_vel[8] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[34] = joint_vel[9] * velocity_scale = -5.64147e-05 * 0.05 = -2.82074e-06
+obs_[35] = joint_vel[10] * velocity_scale = 4.47673e-05 * 0.05 = 2.23836e-06
+obs_[36] = joint_vel[11] * velocity_scale = -0.00713767 * 0.05 = -0.000356884
+obs_[37] = joint_vel[12] * velocity_scale = -0.00713841 * 0.05 = -0.000356921
+Previous actions:
+obs_[38] = actions_[0] = 0.0858465
+obs_[39] = actions_[1] = 0.135863
+obs_[40] = actions_[2] = 0.589384
+obs_[41] = actions_[3] = 0.0696222
+obs_[42] = actions_[4] = -0.146575
+obs_[43] = actions_[5] = 0.697792
+obs_[44] = actions_[6] = 0.677716
+obs_[45] = actions_[7] = 0.178725
+obs_[46] = actions_[8] = 0.872691
+obs_[47] = actions_[9] = -0.805988
+obs_[48] = actions_[10] = -0.352992
+obs_[49] = actions_[11] = 0.559579
+obs_[50] = actions_[12] = -2
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 1
+obs_[52] = phase[1] = 8.27712e-09
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.574156
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-2, 1]
+After clipping - obs_ summary:
+  obs_ range: [-2, 1]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+Note: Detailed input debug will be disabled after this call to reduce output.
+=== Observation Log Started ===
+Timestamp: 1769506854
+Observation size: 57
+================================
+
+=== ONNX Input Construction (Call #1) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -4.91771e-05 * 0.2 = -9.83542e-06
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -1.73255e-05 * 0.2 = -3.46509e-06
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = 3.41987e-05 * 0.2 = 6.83975e-06
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = -0.000841518 * 0.25 = -0.00021038
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.000701273 * 0.25 = -0.000175318
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = 5.75276e-05 * 0.25 = 1.43819e-05
+obs_[6] = projected_gravity[0] = -0.14568
+obs_[7] = projected_gravity[1] = -0.00567028
+obs_[8] = projected_gravity[2] = -0.989315
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00324249 - -0.1 = 0.103242
+obs_[13] = joint_pos[1] - offset = 0.00133514 - -0.1 = 0.101335
+obs_[14] = joint_pos[2] - offset = 0.00400543 - 0 = 0.00400543
+obs_[15] = joint_pos[3] - offset = 0.10586 - 0 = 0.10586
+obs_[16] = joint_pos[4] - offset = -0.0944157 - 0 = -0.0944157
+obs_[17] = joint_pos[5] - offset = 0.496109 - 0 = 0.496109
+obs_[18] = joint_pos[6] - offset = -0.49649 - 0 = -0.49649
+obs_[19] = joint_pos[7] - offset = 0.227169 - 0.3 = -0.072831
+obs_[20] = joint_pos[8] - offset = 0.236706 - 0.3 = -0.0632942
+obs_[21] = joint_pos[9] - offset = -0.105257 - -0.2 = 0.0947428
+obs_[22] = joint_pos[10] - offset = -0.100447 - -0.2 = 0.0995531
+obs_[23] = joint_pos[11] - offset = 0.00944781 - 0 = 0.00944781
+obs_[24] = joint_pos[12] - offset = -0.00512477 - 0 = -0.00512477
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[26] = joint_vel[1] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[28] = joint_vel[3] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[29] = joint_vel[4] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[30] = joint_vel[5] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[31] = joint_vel[6] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[32] = joint_vel[7] * velocity_scale = 0.0219784 * 0.05 = 0.00109892
+obs_[33] = joint_vel[8] * velocity_scale = -0.0131874 * 0.05 = -0.00065937
+obs_[34] = joint_vel[9] * velocity_scale = 0.00856091 * 0.05 = 0.000428045
+obs_[35] = joint_vel[10] * velocity_scale = 0.00858492 * 0.05 = 0.000429246
+obs_[36] = joint_vel[11] * velocity_scale = 0.00716494 * 0.05 = 0.000358247
+obs_[37] = joint_vel[12] * velocity_scale = -0.0214448 * 0.05 = -0.00107224
+Previous actions:
+obs_[38] = actions_[0] = 0
+obs_[39] = actions_[1] = 0
+obs_[40] = actions_[2] = 0
+obs_[41] = actions_[3] = 0
+obs_[42] = actions_[4] = 0
+obs_[43] = actions_[5] = 0
+obs_[44] = actions_[6] = 0
+obs_[45] = actions_[7] = 0
+obs_[46] = actions_[8] = 0
+obs_[47] = actions_[9] = 0
+obs_[48] = actions_[10] = 0
+obs_[49] = actions_[11] = 0
+obs_[50] = actions_[12] = 0
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 0.981126
+obs_[52] = phase[1] = 0.0188738
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.525345
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-0.989315, 0.981126]
+After clipping - obs_ summary:
+  obs_ range: [-0.989315, 0.981126]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #2) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -0.000671388 * 0.2 = -0.000134278
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -0.000276514 * 0.2 = -5.53027e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -0.000425713 * 0.2 = -8.51425e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = 0.000967222 * 0.25 = 0.000241805
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.00238395 * 0.25 = -0.000595986
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.000954117 * 0.25 = -0.000238529
+obs_[6] = projected_gravity[0] = -0.145915
+obs_[7] = projected_gravity[1] = -0.00591171
+obs_[8] = projected_gravity[2] = -0.989279
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00324249 - -0.1 = 0.103242
+obs_[13] = joint_pos[1] - offset = 0.00133514 - -0.1 = 0.101335
+obs_[14] = joint_pos[2] - offset = 0.00400543 - 0 = 0.00400543
+obs_[15] = joint_pos[3] - offset = 0.10586 - 0 = 0.10586
+obs_[16] = joint_pos[4] - offset = -0.0944157 - 0 = -0.0944157
+obs_[17] = joint_pos[5] - offset = 0.496109 - 0 = 0.496109
+obs_[18] = joint_pos[6] - offset = -0.49649 - 0 = -0.49649
+obs_[19] = joint_pos[7] - offset = 0.227169 - 0.3 = -0.072831
+obs_[20] = joint_pos[8] - offset = 0.237087 - 0.3 = -0.0629128
+obs_[21] = joint_pos[9] - offset = -0.105257 - -0.2 = 0.0947428
+obs_[22] = joint_pos[10] - offset = -0.100447 - -0.2 = 0.0995531
+obs_[23] = joint_pos[11] - offset = 0.00944781 - 0 = 0.00944781
+obs_[24] = joint_pos[12] - offset = -0.00512477 - 0 = -0.00512477
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[26] = joint_vel[1] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[28] = joint_vel[3] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[29] = joint_vel[4] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[30] = joint_vel[5] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[31] = joint_vel[6] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[32] = joint_vel[7] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[33] = joint_vel[8] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[34] = joint_vel[9] * velocity_scale = 0.0128516 * 0.05 = 0.00064258
+obs_[35] = joint_vel[10] * velocity_scale = -0.00425191 * 0.05 = -0.000212595
+obs_[36] = joint_vel[11] * velocity_scale = 0.0143167 * 0.05 = 0.000715833
+obs_[37] = joint_vel[12] * velocity_scale = -0.0142679 * 0.05 = -0.000713396
+Previous actions:
+obs_[38] = actions_[0] = 0.0438587
+obs_[39] = actions_[1] = 0.11432
+obs_[40] = actions_[2] = 0.415251
+obs_[41] = actions_[3] = 0.200252
+obs_[42] = actions_[4] = -0.31486
+obs_[43] = actions_[5] = 0.524481
+obs_[44] = actions_[6] = 0.30987
+obs_[45] = actions_[7] = 0.18044
+obs_[46] = actions_[8] = 0.478307
+obs_[47] = actions_[9] = -1.03353
+obs_[48] = actions_[10] = -0.663424
+obs_[49] = actions_[11] = 0.397044
+obs_[50] = actions_[12] = -1.45244
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 0.999961
+obs_[52] = phase[1] = 3.86372e-05
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.550078
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-1.45244, 0.999961]
+After clipping - obs_ summary:
+  obs_ range: [-1.45244, 0.999961]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+=== ONNX Input Construction (Call #3) ===
+obs_[0] = base_linear_velocity[0] * lin_vel_scale = -0.000671388 * 0.2 = -0.000134278
+obs_[1] = base_linear_velocity[1] * lin_vel_scale = -0.000276514 * 0.2 = -5.53027e-05
+obs_[2] = base_linear_velocity[2] * lin_vel_scale = -0.000425713 * 0.2 = -8.51425e-05
+obs_[3] = base_angular_velocity[0] * anglar_vel_scale = 0.000967222 * 0.25 = 0.000241805
+obs_[4] = base_angular_velocity[1] * anglar_vel_scale = -0.00238395 * 0.25 = -0.000595986
+obs_[5] = base_angular_velocity[2] * anglar_vel_scale = -0.000954117 * 0.25 = -0.000238529
+obs_[6] = projected_gravity[0] = -0.145915
+obs_[7] = projected_gravity[1] = -0.00591171
+obs_[8] = projected_gravity[2] = -0.989279
+obs_[9] = velocity_commands[0] = 0
+obs_[10] = velocity_commands[1] = 0.05
+obs_[11] = velocity_commands[2] = 0.1
+Joint positions (offset corrected):
+obs_[12] = joint_pos[0] - offset = 0.00324249 - -0.1 = 0.103242
+obs_[13] = joint_pos[1] - offset = 0.00133514 - -0.1 = 0.101335
+obs_[14] = joint_pos[2] - offset = 0.00400543 - 0 = 0.00400543
+obs_[15] = joint_pos[3] - offset = 0.10586 - 0 = 0.10586
+obs_[16] = joint_pos[4] - offset = -0.0944157 - 0 = -0.0944157
+obs_[17] = joint_pos[5] - offset = 0.496109 - 0 = 0.496109
+obs_[18] = joint_pos[6] - offset = -0.49649 - 0 = -0.49649
+obs_[19] = joint_pos[7] - offset = 0.227169 - 0.3 = -0.072831
+obs_[20] = joint_pos[8] - offset = 0.236706 - 0.3 = -0.0632942
+obs_[21] = joint_pos[9] - offset = -0.105257 - -0.2 = 0.0947428
+obs_[22] = joint_pos[10] - offset = -0.100447 - -0.2 = 0.0995531
+obs_[23] = joint_pos[11] - offset = 0.00944781 - 0 = 0.00944781
+obs_[24] = joint_pos[12] - offset = -0.00512477 - 0 = -0.00512477
+Joint velocities (scaled):
+obs_[25] = joint_vel[0] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[26] = joint_vel[1] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[27] = joint_vel[2] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[28] = joint_vel[3] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[29] = joint_vel[4] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[30] = joint_vel[5] * velocity_scale = 0.00439644 * 0.05 = 0.000219822
+obs_[31] = joint_vel[6] * velocity_scale = 0.0131874 * 0.05 = 0.00065937
+obs_[32] = joint_vel[7] * velocity_scale = 0.0307693 * 0.05 = 0.00153847
+obs_[33] = joint_vel[8] * velocity_scale = -0.00439644 * 0.05 = -0.000219822
+obs_[34] = joint_vel[9] * velocity_scale = -2.14039e-05 * 0.05 = -1.0702e-06
+obs_[35] = joint_vel[10] * velocity_scale = 0.00856267 * 0.05 = 0.000428134
+obs_[36] = joint_vel[11] * velocity_scale = -0.00714003 * 0.05 = -0.000357002
+obs_[37] = joint_vel[12] * velocity_scale = -0.00716441 * 0.05 = -0.00035822
+Previous actions:
+obs_[38] = actions_[0] = 0.0342751
+obs_[39] = actions_[1] = 0.133209
+obs_[40] = actions_[2] = 0.515178
+obs_[41] = actions_[3] = 0.192075
+obs_[42] = actions_[4] = -0.220351
+obs_[43] = actions_[5] = 0.865395
+obs_[44] = actions_[6] = 0.467911
+obs_[45] = actions_[7] = 0.272066
+obs_[46] = actions_[8] = 1.10672
+obs_[47] = actions_[9] = -1.26755
+obs_[48] = actions_[10] = -0.749854
+obs_[49] = actions_[11] = 1.04445
+obs_[50] = actions_[12] = -2
+Phase observations (from PhaseGenerator):
+obs_[51] = phase[0] = 1
+obs_[52] = phase[1] = 8.27776e-09
+obs_[53] = phase[2] = 0
+obs_[54] = phase[3] = 0.574161
+obs_[55] = phase[4] = 0
+obs_[56] = phase[5] = 0
+Before clipping - obs_ summary:
+  obs_ size: 57
+  obs_ range: [-2, 1.10672]
+After clipping - obs_ summary:
+  obs_ range: [-2, 1.10672]
+  clipped values: 0
+=== End ONNX Input Construction ===
+
+Note: Detailed input debug will be disabled after this call to reduce output.

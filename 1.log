@@ -1,0 +1,8 @@
+rosrun ymbot_amp_devel encos_motor_interface
+
+rosrun ymbot_amp_devel eumotor_interface_amp
+
+roslaunch /home/pc/ymbot_e_13dof_skate/src/ymbot_amp_devel/launch/skate_amp_rl_sim2real.launch
+
+left_hip_pitch -0.3 向前     left_roll 0.3 向内 （X）         left_hip_yaw 0.5 向右转  （X）  left_knee_pitch 0.5 向前（X）    left_ankle_pitch 0.3 向后   left_ankle_roll 0.3 向外
+right_hip_pitch -0.3 向后  (X)  right_roll 0.3 向外 （X） right_hip_yaw 0.5 向右转  （X） right_knee_pitch 0.5 向后	right_ankle_pitch 0.3 向后   right_ankle_roll 0.3 向内   waist 向右 （X）

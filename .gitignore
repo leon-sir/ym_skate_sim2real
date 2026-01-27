@@ -1,0 +1,6 @@
+build/
+devel/
+*.usd
+*.zip
+*.rar
+*.7z

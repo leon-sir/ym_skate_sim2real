@@ -1,0 +1,23 @@
+<mujoco model="physics">
+  <compiler angle="radian" meshdir="../meshes/"/>
+
+  <worldbody>
+    <body name="slideBar">
+      <inertial pos="0 0 0" mass="1" diaginertia="1 1 1"/>
+      <joint name="base_footprint_joint" type="free" limited="false" actuatorfrclimited="false"/>
+      <geom size="15 0.025 0.025" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 0.8 0.8 1"/>
+      <body name="cart">
+        <inertial pos="0 0 0" mass="1" diaginertia="1 1 1"/>
+        <joint name="slider_to_cart" pos="0 0 0" axis="1 0 0" type="slide" range="-15 15" actuatorfrcrange="-1000 1000"/>
+        <geom size="0.25 0.25 0.1" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 0 0.8 1"/>
+        <geom size="0.25 0.25 0.1" type="box" rgba="0 0 0.8 1"/>
+        <body name="pole">
+          <inertial pos="0 0 0.5" mass="10" diaginertia="1 1 1"/>
+          <joint name="cart_to_pole" pos="0 0 0" axis="0 1 0"/>
+          <geom size="0.025 0.025 0.5" pos="0 0 0.5" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1"/>
+          <geom size="0.025 0.025 0.5" pos="0 0 0.5" type="box" rgba="1 1 1 1"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+</mujoco>
