@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "math.h": "c",
+        "array": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "ethercat.h": "c",
+        "inttypes.h": "c",
+        "thread": "c",
+        "time.h": "c"
+    }
+}

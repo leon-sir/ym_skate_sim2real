@@ -1,0 +1,20 @@
+<launch>
+
+
+    <param name="model_path" value="$(find ymbot_amp_devel)/robots/cartpole/mjcf/cartpole.xml" />
+    <param name="onnx_path" value="$(find ymbot_amp_devel)/onnx/policy.onnx" />
+    <param name="kps" value="[70, 70, 50, 70, 20, 20, 70, 70, 50, 70, 20, 20]"/>
+    <param name="kds" value="[7.0, 7.0, 5.0, 7.0, 2.0, 2.0, 7.0, 7.0, 5.0, 7.0, 2.0, 2.0]"/>
+    <param name="default_dof_pos" value="[0.0, 0.0, 0.0, 0.0, -0.0, 0.0, 0.0, -0.0, 0.0, 0.0, -0.0, 0.0]"/>
+    <param name="joint_directions" value="[1, -1, -1, -1, -1, 1,  
+                                          1, -1, -1, -1, -1, 1]"/>
+
+
+
+    <param name="tau_limit" value="[200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0, 200.0]"/>
+
+    <node pkg="ymbot_amp_devel" type="cartpole_sim2sim" name="cartpole_sim2sim" output="screen" />
+
+</launch>
+
+    

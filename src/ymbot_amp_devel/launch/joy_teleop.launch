@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<launch>
+    <arg name="joy_dev" default="/dev/input/js0"/>
+    <arg name="teleop_config" default="$(find ymbot_amp_devel)/config/joy_bluetooth.yaml"/>
+    <arg name="joy_config" default=""/>
+    
+    <!-- <arg name="joy_dev" default="/dev/input/js0"/>
+    <arg name="teleop_config" default="$(find ymbot_amp_devel)/config/joy_bluetooth.yaml"/> -->
+
+    <node pkg="joy" type="joy_node" name="joy_node" respawn="true" respawn_delay="5">
+        <param name="dev" value="$(arg joy_dev)"/>
+        <param name="deadzone" value="1e-3"/>
+        <param name="autorepeat_rate" value="5"/>
+        <param name="coalesce_interval" value="0.01"/>
+        <param name="retry_bind_timeout" value="5.0"/>
+    </node>
+
+    <rosparam file="$(arg teleop_config)" command="load"/>
+    <node pkg="joy_teleop" type="joy_teleop.py" name="joy_teleop">
+    </node>
+
+</launch>

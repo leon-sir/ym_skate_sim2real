@@ -1,0 +1,7 @@
+motor_groups:
+  - can_index: 0
+    ids: [31, 32, 33, 34, 35]
+  - can_index: 2
+    ids: [41, 42, 43, 44, 45]
+  # - can_index: 1
+  #   ids: [21, 22]

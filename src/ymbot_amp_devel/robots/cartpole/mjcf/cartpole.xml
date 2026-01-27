@@ -1,0 +1,71 @@
+<mujoco model="physics">
+  <compiler angle="radian" meshdir="../meshes/"/>
+
+  <option timestep='0.002' iterations='50' solver='Newton' gravity='0 0 -9.81' integrator = 'RK4'/>
+  <size njmax="500" nconmax="100" />
+
+  <size nuser_actuator='1' nuser_sensor='1' nuser_geom='1'/>
+
+  <visual>
+    <quality shadowsize='4096'/>
+    <map znear='0.01'/>
+  </visual>
+
+  <default>
+    <geom contype='0' conaffinity='0' condim='3' solref='0.01 0.7' rgba="1.0000 0.9804 0.9804 1"/>
+  </default>
+
+  <asset>
+    <texture name='plane' type='2d' builtin='checker' rgb1='0.2745 0.5098 0.7059' rgb2='0.5294 0.8078 0.9804' width='512' height='512'/>
+    <material name='plane' reflectance='0.0' texture='plane' texrepeat='1 1' texuniform='true'/>
+  </asset>
+
+  <worldbody>
+    <geom name="floor" type="plane" conaffinity="2" size="100 100 .2" material="plane"/>
+    <body name="slideBar" pos="0 0 1.2">
+      <!-- <inertial pos="0 0 0.0" mass="1" diaginertia="1 1 1"/>
+      <joint name="base_footprint_joint" type="free" limited="false" actuatorfrclimited="false"/> -->
+      <geom size="15 0.025 0.025" type="box" contype="2" conaffinity="4" group="1" density="0" rgba="0 0.8 0.8 1"/>
+      <body name="cart">
+        <inertial pos="0 0 0" mass="1" diaginertia="1 1 1"/>
+        <joint name="slider_to_cart" pos="0 0 0" axis="1 0 0" type="slide" range="-15 15" actuatorfrcrange="-1000 1000" damping="0.0" frictionloss="0.0"/>
+        <geom size="0.25 0.25 0.1" type="box" contype="2" conaffinity="4" group="1" density="0" rgba="0 0 0.8 1"/>
+        <geom size="0.25 0.25 0.1" type="box" rgba="0 0 0.8 1"/>
+
+        <site name='imu' size='0.01' pos='0.0 0 0.0' />
+
+        <body name="pole">
+          <inertial pos="0 0 0.5" mass="10" diaginertia="1 1 1"/>
+          <joint name="cart_to_pole" pos="0 0 0" axis="0 1 0" type="hinge" actuatorfrcrange="-1000 1000" damping="0.0" frictionloss="0.0"/>
+          <geom size="0.025 0.025 0.5" pos="0 0 0.5" type="box" contype="2" conaffinity="4" group="1" density="0" rgba="1 1 1 1"/>
+          <geom size="0.025 0.025 0.5" pos="0 0 0.5" type="box" rgba="1 1 1 1"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <motor name="slider_to_cart" joint="slider_to_cart" gear="1" ctrllimited="true" ctrlrange="-1000 1000"/>
+    <motor name="cart_to_pole" joint="cart_to_pole" gear="1" ctrllimited="true" ctrlrange="-1000 1000" />
+  </actuator>
+
+  <sensor>
+    <actuatorpos name='slider_to_cart_p' actuator='slider_to_cart' user='13' />
+    <actuatorpos name='cart_to_pole_p' actuator='cart_to_pole' user='13' />
+
+    <actuatorvel name='slider_to_cart_v' actuator='slider_to_cart' user='13' />
+    <actuatorvel name='cart_to_pole_v' actuator='cart_to_pole' user='13' />
+
+    <actuatorfrc name='slider_to_cart_f' actuator='slider_to_cart' user='13' />
+    <actuatorfrc name='cart_to_pole_f' actuator='cart_to_pole' user='13' />
+
+
+    <framequat name='orientation' objtype='site' noise='0.001' objname='imu' />
+    <framepos name='position' objtype='site' noise='0.001' objname='imu' />
+    <gyro name='angular-velocity' site='imu' noise='0.005' cutoff='34.9' />
+    <velocimeter name='linear-velocity' site='imu' noise='0.001' cutoff='30' />
+    <accelerometer name='linear-acceleration' site='imu' noise='0.005' cutoff='157' />
+    <magnetometer name='magnetometer' site='imu' />
+
+  </sensor>
+</mujoco>
