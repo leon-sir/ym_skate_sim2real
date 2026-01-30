@@ -1,4 +1,4 @@
-#include "ymbot_amp_devel/SharedMemory.hpp"
+ #include "ymbot_amp_devel/SharedMemory.hpp"
 #include "ymbot_amp_devel/SharedMemoryArm.hpp"
 #include <Eigen/Dense>
 #include <GLFW/glfw3.h>
@@ -15,6 +15,7 @@
 #include <thread>
 #include <sstream>
 #include <iomanip>
+#include "std_msgs/Float32.h"
 #include "std_msgs/Float32.h"
 #include "std_msgs/Float64MultiArray.h"
 #include <geometry_msgs/Twist.h>
@@ -94,6 +95,24 @@ std::mutex sensor_mutex;
 Eigen::VectorXd g_projected_gravity = Eigen::VectorXd::Zero(3);
 Eigen::VectorXd g_base_lin_vel = Eigen::VectorXd::Zero(3);
 Eigen::VectorXd g_base_ang_vel = Eigen::VectorXd::Zero(3);
+double g_current_heading = 0.0; // [新增] 全局变量存储Heading
+
+// [新增] 角度归一化函数
+double wrap_to_pi(double angle)
+{
+    while (angle > M_PI)
+        angle -= 2.0 * M_PI;
+    while (angle < -M_PI)
+        angle += 2.0 * M_PI;
+    return angle;
+}
+
+// [新增] 回调函数：Heading
+void currentHeadingCallback(const std_msgs::Float32::ConstPtr& msg)
+{
+    std::lock_guard<std::mutex> lock(sensor_mutex);
+    g_current_heading = msg->data;
+}
 
 // [新增] 回调函数：重力投影
 void projectedGravityCallback(const geometry_msgs::Vector3Stamped::ConstPtr &msg)
@@ -315,20 +334,46 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                     if (count_onnx % real_cfg.decimation == 0)
                     {
                         Eigen::VectorXd velocity_commands(3);
-                        velocity_commands << 
+                            velocity_commands << 
                             cmd_vel.linear.x,            // 前进方向补偿
-                            cmd_vel.linear.y + 0.05,     // 侧向补偿
-                            cmd_vel.angular.z + 0.1;     // Yaw补偿
-
-                        if(cmd_vel.angular.z != 0)
+                            cmd_vel.linear.y ,     // 侧向补偿
+                            cmd_vel.angular.z ;     // Yaw补偿
+                            
+                        // [修改] 始终计算 Heading 偏置并叠加到指令中
+                        // 使用从 topic 订阅得到的全局 heading
+                        double current_heading;
                         {
-                            // velocity_commands[1]-=0;
-                            // velocity_commands[2]+=0;
+                            std::lock_guard<std::mutex> lock(sensor_mutex);
+                            current_heading = g_current_heading;
+                        }
+                        
+                        // heading_target 为 0
+                        double heading_target = 0.0;
+                        double heading_error = wrap_to_pi(heading_target - current_heading);
+                        
+                        // stiffness = 0.5
+                        double heading_control_stiffness = 0.5;
+                        
+                        // 计算 Heading 修正量 (作为已有的 yaw 指令的偏置)
+                        double heading_correction_z = heading_control_stiffness * heading_error;
+                        
+                        // 叠加偏置
+                        velocity_commands[2] += heading_correction_z;
+
+                        // 限制范围 (假设范围为 [-1.0, 1.0])
+                        double min_ang_vel = -1.0;
+                        double max_ang_vel = 1.0;
+                        velocity_commands[2] = std::clamp(velocity_commands[2], min_ang_vel, max_ang_vel);
+                        
+                        // ROS_INFO_THROTTLE(1.0, "Auto Heading: error=%.3f, cmd=%.3f", heading_error, velocity_commands[2]);
                         }
 
                         // [新增] 使用 PhaseGenerator 生成 phase 观测
+                        // 注意: 因为我们在 decimation 之后调用，所以 dt 应该是 real_cfg.dt * decimation
+                        // 否则相位更新速度会比实际慢 decimation 倍
+                        double effective_dt = real_cfg.dt * real_cfg.decimation;
                         Eigen::Vector3d cmd_vel_vector(velocity_commands[0], velocity_commands[1], velocity_commands[2]);
-                        phase = phase_generator.generatePhase(base_linear_velocity, cmd_vel_vector, real_cfg.dt);
+                        phase = phase_generator.generatePhase(base_linear_velocity, cmd_vel_vector, effective_dt);
 
                         // [修改] 调用 ONNX 推理，使用从 ROS 订阅到的数据
                         amp_controller.onnx_output(base_linear_velocity, base_angular_velocity, projected_gravity, velocity_commands, q_lab, dq_lab, action, phase);
@@ -747,6 +792,7 @@ int main(int argc, char *argv[])
     ros::Subscriber sub_grav = nh.subscribe<geometry_msgs::Vector3Stamped>("/projected_gravity", 1, projectedGravityCallback);
     ros::Subscriber sub_vel = nh.subscribe<geometry_msgs::Vector3Stamped>("/projected_velocity", 1, projectedVelocityCallback);
     ros::Subscriber sub_omega = nh.subscribe<geometry_msgs::Vector3Stamped>("/projected_omega", 1, projectedOmegaCallback);
+    ros::Subscriber sub_heading = nh.subscribe<std_msgs::Float32>("/current_heading", 1, currentHeadingCallback); // [新增] Heading 订阅
 
     ros::Subscriber subSetWalk_ = nh.subscribe<std_msgs::Float32>("/set_walk", 1, setWalkCallback);
     ros::Subscriber subLoadcontroller_ = nh.subscribe<std_msgs::Float32>("/load_controller", 1, loadControllerCallback);
@@ -772,6 +818,21 @@ int main(int argc, char *argv[])
     AMPController amp_controller(onnx_path, num_joints, joint_params_isaaclab, joint_names_mujoco);
     ROS_INFO("AMPController created successfully");
     
+    // [新增] 读取 action_clip_min 和 action_clip_max 参数
+    std::vector<double> action_clip_min_vec = getParamVec(nh, "action_clip_min");
+    std::vector<double> action_clip_max_vec = getParamVec(nh, "action_clip_max");
+    
+    // 如果参数不存在，提供默认值 (可选，或者在控制器中处理空值)
+    if (action_clip_min_vec.empty() || action_clip_max_vec.empty()) {
+        ROS_WARN("Action clip parameters not found or empty. Using default clipping.");
+    } else {
+        ROS_INFO("Action clip parameters loaded. Size: min=%lu, max=%lu", action_clip_min_vec.size(), action_clip_max_vec.size());
+    }
+    
+    // 3. 运行控制循环
+    amp_controller.cfg.control.action_clip_min = action_clip_min_vec;
+    amp_controller.cfg.control.action_clip_max = action_clip_max_vec;
+
     run_real(real_cfg, amp_controller);
     
     ros::waitForShutdown();

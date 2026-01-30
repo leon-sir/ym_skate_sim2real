@@ -34,8 +34,8 @@ public:
             double projected_gravity = 1.0;
             double velocity_command_scale = 1.0;
             double joint_pos_scale = 1.0;
-            double joint_vel_scale = 1.0;
-            double actions_ = 1.0;
+            // double joint_vel_scale = 1.0;
+            double actions_ = 0.5;
 
             double velocity_scale = 0.05;
             
@@ -55,6 +55,10 @@ public:
             // 添加LSTM配置参数
             int lstm_num_layers = 1;
             int lstm_hidden_size = 256;
+
+            // [新增] 动作限幅配置 (每个关节单独配置)
+            std::vector<double> action_clip_min;
+            std::vector<double> action_clip_max;
         };
 
         struct JointParams

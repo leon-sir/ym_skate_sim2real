@@ -3,8 +3,22 @@
 #include <mutex>
 #include <cmath>
 #include <ctime>
+#include <chrono>
+#include <iomanip>
 
 using namespace std;
+
+// [新增] 获取带毫秒的时间戳字符串
+std::string get_timestamp_str() {
+    auto now = std::chrono::system_clock::now();
+    auto in_time_t = std::chrono::system_clock::to_time_t(now);
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
+    
+    std::stringstream ss;
+    ss << std::put_time(std::localtime(&in_time_t), "[%Y-%m-%d %H:%M:%S") 
+       << "." << std::setfill('0') << std::setw(3) << ms.count() << "]";
+    return ss.str();
+}
 
 // 添加全局互斥锁用于ONNX推理
 static std::mutex onnx_mutex;
@@ -281,15 +295,15 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
     call_count++;
     
     // 写入log文件而不是终端
-    if (obs_log_file_.is_open() && call_count <= 3) {
-        obs_log_file_ << "\n=== ONNX Input Construction (Call #" << call_count << ") ===" << std::endl;
+    if (obs_log_file_.is_open()) {
+        obs_log_file_ << get_timestamp_str() << " " << "\n=== ONNX Input Construction (Call #" << call_count << ") ===" << std::endl;
     }
     
     for (size_t i = 0; i < base_linear_velocity.size(); ++i)
     {
         obs_[i] = base_linear_velocity[i] * cfg.control.lin_vel_scale;
-        if (obs_log_file_.is_open() && call_count <= 3) {
-            obs_log_file_ << "obs_[" << i << "] = base_linear_velocity[" << i << "] * lin_vel_scale = " 
+        if (obs_log_file_.is_open()) {
+            obs_log_file_ << get_timestamp_str() << " " << "obs_[" << i << "] = base_linear_velocity[" << i << "] * lin_vel_scale = " 
                       << base_linear_velocity[i] << " * " << cfg.control.lin_vel_scale << " = " << obs_[i] << std::endl;
         }
     } // 3
@@ -297,8 +311,8 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
     for (size_t i = 0; i < base_angular_velocity.size(); ++i)
     {
         obs_[3 + i] = base_angular_velocity[i] * cfg.control.anglar_vel_scale;
-        if (obs_log_file_.is_open() && call_count <= 3) {
-            obs_log_file_ << "obs_[" << (3 + i) << "] = base_angular_velocity[" << i << "] * anglar_vel_scale = " 
+        if (obs_log_file_.is_open()) {
+            obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (3 + i) << "] = base_angular_velocity[" << i << "] * anglar_vel_scale = " 
                       << base_angular_velocity[i] << " * " << cfg.control.anglar_vel_scale << " = " << obs_[3 + i] << std::endl;
         }
     } // 3
@@ -306,21 +320,21 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
     for (size_t i = 0; i < projected_gravity.size(); ++i)
     {
         obs_[6 + i] = projected_gravity[i];
-        if (obs_log_file_.is_open() && call_count <= 3) {
-            obs_log_file_ << "obs_[" << (6 + i) << "] = projected_gravity[" << i << "] = " << projected_gravity[i] << std::endl;
+        if (obs_log_file_.is_open()) {
+            obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (6 + i) << "] = projected_gravity[" << i << "] = " << projected_gravity[i] << std::endl;
         }
     } // 3
     
     for (size_t i = 0; i < velocity_commands.size(); ++i)
     {
         obs_[9 + i] = velocity_commands[i];
-        if (obs_log_file_.is_open() && call_count <= 3) {
-            obs_log_file_ << "obs_[" << (9 + i) << "] = velocity_commands[" << i << "] = " << velocity_commands[i] << std::endl;
+        if (obs_log_file_.is_open()) {
+            obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (9 + i) << "] = velocity_commands[" << i << "] = " << velocity_commands[i] << std::endl;
         }
     } // 3
     
-    if (obs_log_file_.is_open() && call_count <= 3) {
-        obs_log_file_ << "Joint positions (offset corrected):" << std::endl;
+    if (obs_log_file_.is_open()) {
+        obs_log_file_ << get_timestamp_str() << " " << "Joint positions (offset corrected):" << std::endl;
     }
     for (size_t i = 0; i < joint_pos.size(); ++i)
     {
@@ -330,50 +344,50 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
             return;
         }
         obs_[12 + i] = joint_pos[i] - cfg.joint_params_isaaclab[i].offset;
-        if (obs_log_file_.is_open() && call_count <= 3) {
-            obs_log_file_ << "obs_[" << (12 + i) << "] = joint_pos[" << i << "] - offset = " 
+        if (obs_log_file_.is_open()) {
+            obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (12 + i) << "] = joint_pos[" << i << "] - offset = " 
                       << joint_pos[i] << " - " << cfg.joint_params_isaaclab[i].offset << " = " << obs_[12 + i] << std::endl;
         }
     }
     
-    if (obs_log_file_.is_open() && call_count <= 3) {
-        obs_log_file_ << "Joint velocities (scaled):" << std::endl;
+    if (obs_log_file_.is_open()) {
+        obs_log_file_ << get_timestamp_str() << " " << "Joint velocities (scaled):" << std::endl;
     }
     for (size_t i = 0; i < joint_vel.size(); ++i)
     {
         obs_[25 + i] = joint_vel[i] * cfg.control.velocity_scale;
-        if (obs_log_file_.is_open() && call_count <= 3) {
-            obs_log_file_ << "obs_[" << (25 + i) << "] = joint_vel[" << i << "] * velocity_scale = " 
+        if (obs_log_file_.is_open()) {
+            obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (25 + i) << "] = joint_vel[" << i << "] * velocity_scale = " 
                       << joint_vel[i] << " * " << cfg.control.velocity_scale << " = " << obs_[25 + i] << std::endl;
         }
     };
     
-    if (obs_log_file_.is_open() && call_count <= 3) {
-        obs_log_file_ << "Previous actions:" << std::endl;
+    if (obs_log_file_.is_open()) {
+        obs_log_file_ << get_timestamp_str() << " " << "Previous actions:" << std::endl;
     }
     for (size_t i = 0; i < actions_.size(); ++i)
     {
         obs_[38 + i] = actions_[i];
-        if (obs_log_file_.is_open() && call_count <= 3) {
-            obs_log_file_ << "obs_[" << (38 + i) << "] = actions_[" << i << "] = " << actions_[i] << std::endl;
+        if (obs_log_file_.is_open()) {
+            obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (38 + i) << "] = actions_[" << i << "] = " << actions_[i] << std::endl;
         }
     };
     
-    if (obs_log_file_.is_open() && call_count <= 3) {
-        obs_log_file_ << "Phase observations (from PhaseGenerator):" << std::endl;
+    if (obs_log_file_.is_open()) {
+        obs_log_file_ << get_timestamp_str() << " " << "Phase observations (from PhaseGenerator):" << std::endl;
     }
     for (size_t i = 0; i < phase.size() && i < 6; ++i)
     {
         obs_[51 + i] = phase[i];
-        if (obs_log_file_.is_open() && call_count <= 3) {
-            obs_log_file_ << "obs_[" << (51 + i) << "] = phase[" << i << "] = " << phase[i] << std::endl;
+        if (obs_log_file_.is_open()) {
+            obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (51 + i) << "] = phase[" << i << "] = " << phase[i] << std::endl;
         }
     }
     
-    if (obs_log_file_.is_open() && call_count <= 3) {
-        obs_log_file_ << "Before clipping - obs_ summary:" << std::endl;
-        obs_log_file_ << "  obs_ size: " << obs_.size() << std::endl;
-        obs_log_file_ << "  obs_ range: [" << obs_.minCoeff() << ", " << obs_.maxCoeff() << "]" << std::endl;
+    if (obs_log_file_.is_open()) {
+        obs_log_file_ << get_timestamp_str() << " " << "Before clipping - obs_ summary:" << std::endl;
+        obs_log_file_ << get_timestamp_str() << " " << "  obs_ size: " << obs_.size() << std::endl;
+        obs_log_file_ << get_timestamp_str() << " " << "  obs_ range: [" << obs_.minCoeff() << ", " << obs_.maxCoeff() << "]" << std::endl;
     }
     
     // Clip observations
@@ -383,24 +397,19 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
         double original_value = obs_[i];
         obs_[i] = std::clamp(obs_[i], -cfg.control.clip_observations, cfg.control.clip_observations);
         if (original_value != obs_[i]) {
-            if (obs_log_file_.is_open() && call_count <= 3) {
-                obs_log_file_ << "Clipped obs_[" << i << "]: " << original_value << " -> " << obs_[i] << std::endl;
+            if (obs_log_file_.is_open()) {
+                obs_log_file_ << get_timestamp_str() << " " << "Clipped obs_[" << i << "]: " << original_value << " -> " << obs_[i] << std::endl;
             }
             clipped_count++;
         }
     }
     
-    if (obs_log_file_.is_open() && call_count <= 3) {
-        obs_log_file_ << "After clipping - obs_ summary:" << std::endl;
-        obs_log_file_ << "  obs_ range: [" << obs_.minCoeff() << ", " << obs_.maxCoeff() << "]" << std::endl;
-        obs_log_file_ << "  clipped values: " << clipped_count << std::endl;
-        obs_log_file_ << "=== End ONNX Input Construction ===" << std::endl;
+    if (obs_log_file_.is_open()) {
+        obs_log_file_ << get_timestamp_str() << " " << "After clipping - obs_ summary:" << std::endl;
+        obs_log_file_ << get_timestamp_str() << " " << "  obs_ range: [" << obs_.minCoeff() << ", " << obs_.maxCoeff() << "]" << std::endl;
+        obs_log_file_ << get_timestamp_str() << " " << "  clipped values: " << clipped_count << std::endl;
+        obs_log_file_ << get_timestamp_str() << " " << "=== End ONNX Input Construction ===" << std::endl;
         obs_log_file_.flush();  // 确保数据实时写入
-        
-        if (call_count == 3) {
-            obs_log_file_ << "\nNote: Detailed input debug will be disabled after this call to reduce output." << std::endl;
-            obs_log_file_.flush();
-        }
     }
 
     // === 2. 直接使用当前帧的 obs 作为策略输入 ===
@@ -589,17 +598,31 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
     // 处理输出并安全转换为 double
     float *output_data = out_tensor.GetTensorMutableData<float>();
     
-    // 添加关节动作限幅 (示例值，建议从配置中读取)
-    const double joint_min = -2;
-    const double joint_max = 2;
-
+    // [修改] 使用配置中的每关节限幅参数
     for (int i = 0; i < cfg.env.num_joints; ++i) {
         double raw_action = static_cast<double>(output_data[i]);
-        actions_[i] = std::clamp(raw_action, joint_min, joint_max);
-        if (std::abs(raw_action) > joint_max) {
-            std::cerr << "WARNING: Action[" << i << "] clamped from " 
-                      << raw_action << " to " << actions_[i] << std::endl;
+        
+        // 获取关节特定的限幅值
+        double current_min = -2.0; // 默认值
+        double current_max = 2.0;  // 默认值
+        
+        if (i < cfg.control.action_clip_min.size()) {
+            current_min = cfg.control.action_clip_min[i];
         }
+        
+        if (i < cfg.control.action_clip_max.size()) {
+            current_max = cfg.control.action_clip_max[i];
+        }
+        
+        actions_[i] = std::clamp(raw_action, current_min, current_max);
+        
+        // 可选：仅在限幅特别大时才警告，或者降低日志频率
+        /*
+        if (std::abs(raw_action) > std::max(std::abs(current_min), std::abs(current_max))) {
+            std::cerr << "WARNING: Action[" << i << "] clamped from " 
+                      << raw_action << " to [" << current_min << ", " << current_max << "]" << std::endl;
+        }
+        */
     }
 }
 
