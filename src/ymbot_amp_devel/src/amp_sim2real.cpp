@@ -45,7 +45,7 @@ struct realcfg
 {
     std::string mujoco_model_path = "";
     double sim_duration = 120.0;
-    double dt = 0.002;
+    double dt = 0.02;
     int decimation = 1;
     realcfg(const std::string &model_path) : mujoco_model_path(model_path) {}
 };
