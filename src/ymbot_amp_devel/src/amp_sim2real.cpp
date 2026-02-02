@@ -366,14 +366,14 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                         velocity_commands[2] = std::clamp(velocity_commands[2], min_ang_vel, max_ang_vel);
                         
                         // ROS_INFO_THROTTLE(1.0, "Auto Heading: error=%.3f, cmd=%.3f", heading_error, velocity_commands[2]);
-                        }
 
                         // [新增] 使用 PhaseGenerator 生成 phase 观测
                         // 注意: 因为我们在 decimation 之后调用，所以 dt 应该是 real_cfg.dt * decimation
                         // 否则相位更新速度会比实际慢 decimation 倍
                         double effective_dt = real_cfg.dt * real_cfg.decimation;
                         Eigen::Vector3d cmd_vel_vector(velocity_commands[0], velocity_commands[1], velocity_commands[2]);
-                        phase = phase_generator.generatePhase(base_linear_velocity, cmd_vel_vector, effective_dt);
+                        //phase = phase_generator.generatePhase(base_linear_velocity, cmd_vel_vector, effective_dt);
+                        phase << 1.0, 0.0, 0.0, 1.0, 0.0, 0.0;
 
                         // [修改] 调用 ONNX 推理，使用从 ROS 订阅到的数据
                         amp_controller.onnx_output(base_linear_velocity, base_angular_velocity, projected_gravity, velocity_commands, q_lab, dq_lab, action, phase);
@@ -819,8 +819,14 @@ int main(int argc, char *argv[])
     ROS_INFO("AMPController created successfully");
     
     // [新增] 读取 action_clip_min 和 action_clip_max 参数
-    std::vector<double> action_clip_min_vec = getParamVec(nh, "action_clip_min");
-    std::vector<double> action_clip_max_vec = getParamVec(nh, "action_clip_max");
+    std::string action_clip_min_str, action_clip_max_str;
+    std::vector<double> action_clip_min_vec, action_clip_max_vec;
+    if (nh.getParam("action_clip_min", action_clip_min_str)) {
+        action_clip_min_vec = parseParam(action_clip_min_str);
+    }
+    if (nh.getParam("action_clip_max", action_clip_max_str)) {
+        action_clip_max_vec = parseParam(action_clip_max_str);
+    }
     
     // 如果参数不存在，提供默认值 (可选，或者在控制器中处理空值)
     if (action_clip_min_vec.empty() || action_clip_max_vec.empty()) {
