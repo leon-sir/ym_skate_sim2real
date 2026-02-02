@@ -338,40 +338,11 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                             cmd_vel.linear.x,            // 前进方向补偿
                             cmd_vel.linear.y ,     // 侧向补偿
                             cmd_vel.angular.z ;     // Yaw补偿
-                            
-                        // [修改] 始终计算 Heading 偏置并叠加到指令中
-                        // 使用从 topic 订阅得到的全局 heading
-                        double current_heading;
+                        if(cmd_vel.angular.z != 0)
                         {
-                            std::lock_guard<std::mutex> lock(sensor_mutex);
-                            current_heading = g_current_heading;
+                            // velocity_commands[1]-=0;
+                            // velocity_commands[2]+=0;
                         }
-                        
-                        // heading_target 为 0
-                        double heading_target = 0.0;
-                        double heading_error = wrap_to_pi(heading_target - current_heading);
-                        
-                        // stiffness = 0.5
-                        double heading_control_stiffness = 0.5;
-                        
-                        // 计算 Heading 修正量 (作为已有的 yaw 指令的偏置)
-                        double heading_correction_z = heading_control_stiffness * heading_error;
-                        
-                        // 叠加偏置
-                        velocity_commands[2] += heading_correction_z;
-
-                        // 限制范围 (假设范围为 [-1.0, 1.0])
-                        double min_ang_vel = -1.0;
-                        double max_ang_vel = 1.0;
-                        velocity_commands[2] = std::clamp(velocity_commands[2], min_ang_vel, max_ang_vel);
-                        
-                        // ROS_INFO_THROTTLE(1.0, "Auto Heading: error=%.3f, cmd=%.3f", heading_error, velocity_commands[2]);
-
-                        // [新增] 使用 PhaseGenerator 生成 phase 观测
-                        // 注意: 因为我们在 decimation 之后调用，所以 dt 应该是 real_cfg.dt * decimation
-                        // 否则相位更新速度会比实际慢 decimation 倍
-                        double effective_dt = real_cfg.dt * real_cfg.decimation;
-                        Eigen::Vector3d cmd_vel_vector(velocity_commands[0], velocity_commands[1], velocity_commands[2]);
                         //phase = phase_generator.generatePhase(base_linear_velocity, cmd_vel_vector, effective_dt);
                         phase << 1.0, 0.0, 0.0, 1.0, 0.0, 0.0;
 
