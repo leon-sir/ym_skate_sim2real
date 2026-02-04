@@ -70,6 +70,19 @@
                                             "waist_yaw_joint"]'/>
 
 
+    <param name="action_clip_min" value="[-2.0, -2.0, -2.0,
+                                            -2.0, -2.0, 
+                                            -2.0, -2.0,
+                                             -2.0, -2.0,
+                                              -2.0, -2.0,
+                                               -2.0, -2.0]"/>
+    <param name="action_clip_max" value="[2.0, 2.0, 2.0,
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             2.0, 2.0,
+                                             2.0, 2.0]"/>
+
     <node pkg="ymbot_amp_devel" type="amp_sim2real" name="amp_sim2real" output="screen" />
 
 </launch>
