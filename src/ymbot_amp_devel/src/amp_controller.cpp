@@ -327,7 +327,7 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
     
     for (size_t i = 0; i < velocity_commands.size(); ++i)
     {
-        obs_[9 + i] = velocity_commands[i];
+        obs_[9 + i] = velocity_commands[i]* cfg.control.velocity_commands_scale;
         if (obs_log_file_.is_open()) {
             obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (9 + i) << "] = velocity_commands[" << i << "] = " << velocity_commands[i] << std::endl;
         }
