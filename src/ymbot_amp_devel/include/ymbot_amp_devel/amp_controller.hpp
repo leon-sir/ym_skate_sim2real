@@ -34,6 +34,7 @@ public:
             double projected_gravity = 1.0;
             double velocity_command_scale = 1.0;
             double joint_pos_scale = 1.0;
+            double velocity_commands_scale=1.0;
             // double joint_vel_scale = 1.0;
             double actions_ = 0.5;
 

@@ -459,7 +459,7 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                             size_t lab_idx = amp_controller.cfg.mjc2lab[i];
                             sendDataJoint[i].pos_des_ = target_q_mjc[i];
                             sendDataJoint[i].vel_des_ = target_dq_mjc[i];
-                            sendDataJoint[i].kp_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kp * 0.5;
+                            sendDataJoint[i].kp_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kp * 1.0;
                             sendDataJoint[i].kd_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kd;
                             sendDataJoint[i].ff_ = 0.0;
                         }

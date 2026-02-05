@@ -3,7 +3,7 @@
     <include file="$(find  ymbot_amp_devel)/launch/joy_teleop.launch"/>
     <param name="model_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/mjcf/ymboy_22dof.xml" />
     <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/ymbot_e/onnx/policy_LAB_76.onnx" /> -->
-    <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy/2026-01-06_22-31-03/exported/policy_0201.onnx" />
+    <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy/2026-01-06_22-31-03/exported/policy_02032247.onnx" />
 
     <!-- isaaclab 关节参数 -->
     <param name="num_joints" value="13" />
@@ -23,12 +23,20 @@
                                     "right_ankle_roll_joint"]'/>
 
 
-    <param name="kps" value="[150, 150, 20, 
+    <!-- <param name="kps" value="[150, 150, 20, 
                               100,  100,  
                               100,  100, 
                               150, 150, 
                               20,  20,  
+                              20,  20]"/> -->
+
+    <param name="kps" value="[75, 75, 10, 
+                              50,  50,  
+                              50,  50, 
+                              75, 75, 
+                              20,  20,  
                               20,  20]"/>
+
 
     <param name="kds" value="[15, 15, 5, 
                               10, 10,  
@@ -68,6 +76,19 @@
                                             "right_ankle_pitch_joint",
                                             "right_ankle_roll_joint",
                                             "waist_yaw_joint"]'/>
+
+    <param name="action_clip_min" value="[-2.0, -2.0, -2.0,
+                                            -2.0, -2.0, 
+                                            -2.0, -2.0,
+                                             -2.0, -2.0,
+                                              -4.0, -4.0,
+                                               -4.0, -4.0]"/>
+    <param name="action_clip_max" value="[2.0, 2.0, 2.0,
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             4.0, 4.0,
+                                             4.0, 4.0]"/>
 
 
     <node pkg="ymbot_amp_devel" type="amp_sim2real" name="amp_sim2real" output="screen" />

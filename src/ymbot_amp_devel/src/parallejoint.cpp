@@ -121,10 +121,16 @@ Eigen::Matrix2d ParalleJoint::Jac(double pitch, double roll, double theta1, doub
 
     // Eigen::Matrix2d Jc = Jtheta.inverse() * Jx * G;
     Eigen::Matrix2d Jc = Jtheta.ldlt().solve(Jx * G);
+
+    // std::cout << "Jc matrix:\n" << Jc << std::endl;
+
     double lambda = 1e-4; // 阻尼系数
     // JcInv = (Jc.transpose() * Jc + lambda * Eigen::Matrix2d::Identity()).inverse() * Jc.transpose();
     Eigen::Matrix2d damped = Jc.transpose() * Jc + lambda * Eigen::Matrix2d::Identity();
     JcInv = damped.ldlt().solve(Jc.transpose());
+
+    // std::cout << "JcInv matrix:\n" << JcInv << std::endl;
+
 
     // double lambda = 1e-4; // 阻尼系数
     // JcInv = J_tem.inverse() * Jtheta;
