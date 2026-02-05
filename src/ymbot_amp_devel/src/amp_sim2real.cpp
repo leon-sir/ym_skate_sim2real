@@ -343,8 +343,17 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                             // velocity_commands[1]-=0;
                             // velocity_commands[2]+=0;
                         }
-                        //phase = phase_generator.generatePhase(base_linear_velocity, cmd_vel_vector, effective_dt);
-                        phase << 1.0, 0.0, 0.0, 1.0, 0.0, 0.0;
+                        // 根据 cmd_vel.linear.x 的值选择使用默认phase还是生成的phase
+                        if (cmd_vel.linear.x < 0.2) {
+                            // 当 command.x < 0.2 时，使用默认phase
+                            phase << 1.0, 0.0, 0.0, 1.0, 0.0, 0.0;
+                        } else {
+                            // 当 command.x >= 0.2 时，使用生成的phase
+                            Eigen::VectorXd cmd_vel_vector(3);
+                            cmd_vel_vector << cmd_vel.linear.x, cmd_vel.linear.y, cmd_vel.angular.z;
+                            double effective_dt = real_cfg.dt * real_cfg.decimation;
+                            phase = phase_generator.generatePhase(base_linear_velocity, cmd_vel_vector, effective_dt);
+                        }
 
                         // [修改] 调用 ONNX 推理，使用从 ROS 订阅到的数据
                         amp_controller.onnx_output(base_linear_velocity, base_angular_velocity, projected_gravity, velocity_commands, q_lab, dq_lab, action, phase);
