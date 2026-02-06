@@ -5,6 +5,36 @@
 #include <cmath>
 #include <algorithm>
 
+
+/**
+ * @brief 标准正态分布的累积分布函数(CDF)
+ * 对应 torch.distributions.normal.Normal(0, kappa).cdf
+ * @param x 输入值
+ * @param kappa 标准差参数
+ * @return CDF값
+ */
+inline double normal_cdf(double x, double kappa) {
+    return 0.5 * (1.0 + std::erf(x / (kappa * std::sqrt(2.0))));
+}
+
+/**
+ * @brief 周期性窗口函数
+ * 对应Python中的periodic_window函数
+ * @param phi 相位값
+ * @param a 窗口起始位置
+ * @param b 窗口结束位置  
+ * @param kappa 平滑参数
+ * @return 窗口函数값
+ */
+inline double periodic_window(double phi, double a, double b, double kappa) {
+    auto cdf = [kappa](double x) { return normal_cdf(x, kappa); };
+    
+    return cdf(phi - a) * (1.0 - cdf(phi - b)) +
+           cdf(phi - a - 1.0) * (1.0 - cdf(phi - b - 1.0)) +
+           cdf(phi - a + 1.0) * (1.0 - cdf(phi - b + 1.0));
+}
+
+
 /**
  * @brief 生成6维phase观测的工具类
  * 6维phase包括: [left_stance, left_skate, left_flight, right_stance, right_skate, right_flight]
@@ -21,15 +51,15 @@ public:
         : base_frequency_(base_frequency), base_duty1_(base_duty1), 
           current_gait_index_(0.0), duty1_left_(base_duty1), duty1_right_(base_duty1) {
         // 设置参数范围
-        min_duty_ = 0.4;
+        min_duty_ = 0.5;
         max_duty_ = 0.95;
         min_frequency_ = 0.5;
         max_frequency_ = 1.0;
-        max_tracking_error_ = 0.75;
+        max_tracking_error_ = 1;
         max_ang_cmd_ = 1.0;
         max_duty_diff_ = 0.3;
-        duty_ramp_tau_ = 0.02;  // 0.02
-        freq_ramp_tau_ = 0.02;  // 0.02
+        duty_ramp_tau_ = 0.15;  // 0.02
+        freq_ramp_tau_ = 0.15;  // 0.02
         step_dt_ = 0.02;  // 控制周期，默认20ms
         
         alpha_d_ = 1.0 - std::exp(-step_dt_ / duty_ramp_tau_);
@@ -82,12 +112,9 @@ public:
         // 第一相：stance phase，从0到duty1
         // 第二相：skate phase，从duty1到duty2
         // 第三相：flight phase，从duty2到1.0
-        double left_duty2 = duty2_left;
-        double right_duty2 = duty2_right;
-
         // 限制duty2不能超过1，防止占空比总和超过1
-        left_duty2 = std::min(left_duty2, 1.0);
-        right_duty2 = std::min(right_duty2, 1.0);
+        double left_duty2 = std::min(duty2_left, 1.0);
+        double right_duty2 = std::min(duty2_right, 1.0);
 
         // 更新基础频率
         base_frequency_ = (1.0 - alpha_f_) * base_frequency_ + alpha_f_ * desired_freq;
@@ -104,45 +131,20 @@ public:
         Eigen::VectorXd phase_obs(6);
         
         const double kappa_gait_probs = 0.02;
-        auto smoothing_cdf_start = [kappa_gait_probs](double x) {
-            return 0.5 * (1.0 + std::erf(x / (kappa_gait_probs * std::sqrt(2.0))));
-        };
 
-        // 左腿三个相位的权重
-        double f_left = left_phase;
-        double d1_left = duty1_left_;
-        double d2_left = left_duty2;
-        
-        // phase 1: stance (0 到 d1)
-        phase_obs(0) = smoothing_cdf_start(f_left) * (1.0 - smoothing_cdf_start(f_left - d1_left))
-                     + smoothing_cdf_start(f_left - 1.0) * (1.0 - smoothing_cdf_start(f_left - d1_left - 1.0));
-        
-        // phase 2: skate (d1 到 d2)
-        phase_obs(1) = smoothing_cdf_start(f_left - d1_left) * (1.0 - smoothing_cdf_start(f_left - d2_left))
-                     + smoothing_cdf_start(f_left - d1_left - 1.0) * (1.0 - smoothing_cdf_start(f_left - d2_left - 1.0));
-        
-        // phase 3: flight (d2 到 1.0)
-        phase_obs(2) = smoothing_cdf_start(f_left - d2_left) * (1.0 - smoothing_cdf_start(f_left - 1.0))
-                     + smoothing_cdf_start(f_left - d2_left - 1.0) * (1.0 - smoothing_cdf_start(f_left - 2.0));
+        if (x_tracking_error < 0 || cmd(0) <= 0) {
+            phase_obs << 1.0, 0.0, 0.0, 1.0, 0.0, 0.0;
+            return phase_obs;
+        }
 
-        // 右腿三个相位的权重
-        double f_right = right_phase;
-        double d1_right = duty1_right_;
-        double d2_right = right_duty2;
-        
-        // phase 1: stance (0 到 d1)
-        phase_obs(3) = smoothing_cdf_start(f_right) * (1.0 - smoothing_cdf_start(f_right - d1_right))
-                     + smoothing_cdf_start(f_right - 1.0) * (1.0 - smoothing_cdf_start(f_right - d1_right - 1.0));
-        
-        // phase 2: skate (d1 到 d2)
-        phase_obs(4) = smoothing_cdf_start(f_right - d1_right) * (1.0 - smoothing_cdf_start(f_right - d2_right))
-                     + smoothing_cdf_start(f_right - d1_right - 1.0) * (1.0 - smoothing_cdf_start(f_right - d2_right - 1.0));
-        
-        // phase 3: flight (d2 到 1.0)
-        phase_obs(5) = smoothing_cdf_start(f_right - d2_right) * (1.0 - smoothing_cdf_start(f_right - 1.0))
-                     + smoothing_cdf_start(f_right - d2_right - 1.0) * (1.0 - smoothing_cdf_start(f_right - 2.0));
+        // 直接计算并赋值到phase观测向量
+        phase_obs(0) = periodic_window(left_phase, 0.0, duty1_left_, kappa_gait_probs);    // left stance
+        phase_obs(1) = periodic_window(left_phase, duty1_left_, left_duty2, kappa_gait_probs);  // left skate
+        phase_obs(2) = periodic_window(left_phase, left_duty2, 1.0, kappa_gait_probs);   // left flight
+        phase_obs(3) = periodic_window(right_phase, 0.0, duty1_right_, kappa_gait_probs);   // right stance
+        phase_obs(4) = periodic_window(right_phase, duty1_right_, right_duty2, kappa_gait_probs); // right skate
+        phase_obs(5) = periodic_window(right_phase, right_duty2, 1.0, kappa_gait_probs);  // right flight
 
-        // 注意：不进行归一化！训练代码中没有归一化，CDF 公式在某些相位下和不等于 1.0 是正常的
         // 这是 CDF 平滑方法的数学特性，保持与训练环境完全一致
 
         return phase_obs;
