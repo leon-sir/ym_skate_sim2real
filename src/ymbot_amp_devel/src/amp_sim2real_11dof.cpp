@@ -525,7 +525,7 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
 
                     for (int i = 0; i < JOINT_MOTOR_NUMBER; ++i)
                     {
-                        if (i < 13)
+                        if (i < 11)
                         {
                             sendDataJoint[i].pos_des_ = target_q_pd[i];
                             sendDataJoint[i].vel_des_ = 0.0;
@@ -539,7 +539,15 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                                          i, sendDataJoint[i].pos_des_, sendDataJoint[i].kp_, sendDataJoint[i].kd_);
                             }
                         }
-                        else // i == 13, 腰部关节
+                        else if (i==11 || i==12) // ankle_roll_joint
+                        {
+                            sendDataJoint[i].pos_des_ = 0.0;
+                            sendDataJoint[i].vel_des_ = 0.0;
+                            sendDataJoint[i].kp_ = 250;
+                            sendDataJoint[i].kd_ = 5;
+                            sendDataJoint[i].ff_ = 0.0;
+                        }
+                        else if (i==13) // i == 13, 腰部关节
                         {
                             sendDataJoint[i].pos_des_ = 0.0;
                             sendDataJoint[i].vel_des_ = 0.0;

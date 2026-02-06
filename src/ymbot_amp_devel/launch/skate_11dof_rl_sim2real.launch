@@ -1,0 +1,99 @@
+<launch>
+
+    <include file="$(find  ymbot_amp_devel)/launch/joy_teleop.launch"/>
+    <param name="model_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/mjcf/ymboy_22dof.xml" />
+    <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/ymbot_e/onnx/policy_LAB_76.onnx" /> -->
+    <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy_11dof/2026-02-05_22-23-08/exported/policy.onnx" />
+
+    <!-- isaaclab 关节参数 -->
+    <param name="num_joints" value="13" />
+   
+    <param name="joint_names" value='["left_hip_pitch_joint", 
+                                    "right_hip_pitch_joint", 
+                                    "waist_yaw_joint", 
+                                    "left_hip_roll_joint", 
+                                    "right_hip_roll_joint", 
+                                    "left_hip_yaw_joint", 
+                                    "right_hip_yaw_joint", 
+                                    "left_knee_joint", 
+                                    "right_knee_joint", 
+                                    "left_ankle_pitch_joint", 
+                                    "right_ankle_pitch_joint", 
+                                    ]'/>
+
+
+    <!-- <param name="kps" value="[150, 150, 20, 
+                              100,  100,  
+                              100,  100, 
+                              150, 150, 
+                              20,  20,  
+                              20,  20]"/> -->
+
+    <param name="kps" value="[75, 75, 10, 
+                              50,  50,  
+                              50,  50, 
+                              75, 75, 
+                              20,  20]"/>
+
+
+    <param name="kds" value="[15, 15, 5, 
+                              10, 10,  
+                              10, 10, 
+                              15, 15, 
+                              2, 2]"/>
+
+    <param name="offsets" value="[-0.1, -0.1,   0, 
+                                   0.0,   0.0,  
+                                   0.0,   0.0,    
+                                   0.3,  0.3,  
+                                  -0.2, -0.2]"/>
+
+    <param name="tau_limits" value="[200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 
+                                   200]"/>
+
+    <param name="directions" value="[1, -1, -1,
+                                    -1, -1, 
+                                    -1, -1,
+                                    -1, 1,
+                                    1, 1]"/>
+
+    <!-- 定义 mujoco 关节名称 -->
+    <param name="joint_names_mujoco" value='["left_hip_pitch_joint",
+                                            "left_hip_roll_joint",
+                                            "left_hip_yaw_joint",
+                                            "left_knee_joint",
+                                            "left_ankle_pitch_joint",
+                                            "right_hip_pitch_joint",
+                                            "right_hip_roll_joint",
+                                            "right_hip_yaw_joint",
+                                            "right_knee_joint",
+                                            "right_ankle_pitch_joint",
+                                            "waist_yaw_joint"]'/>
+
+    <param name="action_clip_min" value="[-2.0, -2.0, -2.0,
+                                            -2.0, -2.0, 
+                                            -2.0, -2.0,
+                                             -2.0, -2.0,
+                                              -4.0, -4.0]"/>
+    <param name="action_clip_max" value="[2.0, 2.0, 2.0,
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             4.0, 4.0]"/>
+
+
+    <param name="action_clip_min" value="[-2.0, -2.0, -2.0,
+                                            -2.0, -2.0, 
+                                            -2.0, -2.0,
+                                             -2.0, -2.0,
+                                              -2.0, -2.0]"/>
+    <param name="action_clip_max" value="[2.0, 2.0, 2.0,
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             2.0, 2.0]"/>
+
+    <node pkg="ymbot_amp_devel" type="amp_sim2real_11dof" name="amp_sim2real" output="screen" />
+
+</launch>
+
+    

@@ -123,6 +123,15 @@ target_link_libraries(amp_sim2real motor soem cpp-readline
   glfw  
   amp_controller
 )
+
+# 添加新的11DOF版本可执行文件
+add_executable(amp_sim2real_11dof src/amp_sim2real_11dof.cpp)
+target_link_libraries(amp_sim2real_11dof motor soem cpp-readline
+  ${catkin_LIBRARIES} -pthread
+  glfw  
+  amp_controller
+)
+
 ##--------------------------------------------------------eu_motor
 # 添加动态库
 add_executable(eumotor_interface_amp 
