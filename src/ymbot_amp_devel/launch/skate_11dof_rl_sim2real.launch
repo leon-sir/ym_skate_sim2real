@@ -6,7 +6,7 @@
     <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy_11dof/2026-02-05_22-23-08/exported/policy.onnx" />
 
     <!-- isaaclab 关节参数 -->
-    <param name="num_joints" value="13" />
+    <param name="num_joints" value="11" />
    
     <param name="joint_names" value='["left_hip_pitch_joint", 
                                     "right_hip_pitch_joint", 
@@ -82,7 +82,7 @@
                                              4.0, 4.0]"/>
 
 
-    <param name="action_clip_min" value="[-2.0, -2.0, -2.0,
+    <!-- <param name="action_clip_min" value="[-2.0, -2.0, -2.0,
                                             -2.0, -2.0, 
                                             -2.0, -2.0,
                                              -2.0, -2.0,
@@ -90,7 +90,8 @@
     <param name="action_clip_max" value="[2.0, 2.0, 2.0,
                                              2.0, 2.0, 
                                              2.0, 2.0, 
-                                             2.0, 2.0]"/>
+                                             2.0, 2.0, 
+                                             2.0, 2.0]"/> -->
 
     <node pkg="ymbot_amp_devel" type="amp_sim2real_11dof" name="amp_sim2real" output="screen" />
 

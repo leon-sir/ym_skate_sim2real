@@ -354,8 +354,8 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
         obs_log_file_ << get_timestamp_str() << " " << "Joint velocities (scaled):" << std::endl;
     }
     for (size_t i = 0; i < joint_vel.size(); ++i)
-    {
-        obs_[25 + i] = joint_vel[i] * cfg.control.velocity_scale;
+    {cfg.env.num_joints
+        obs_[cfg.env.num_joints + 12 + i] = joint_vel[i] * cfg.control.velocity_scale;
         if (obs_log_file_.is_open()) {
             obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (25 + i) << "] = joint_vel[" << i << "] * velocity_scale = " 
                       << joint_vel[i] << " * " << cfg.control.velocity_scale << " = " << obs_[25 + i] << std::endl;
@@ -367,7 +367,7 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
     }
     for (size_t i = 0; i < actions_.size(); ++i)
     {
-        obs_[38 + i] = actions_[i];
+        obs_[cfg.env.num_joints * 2 + 12 + i] = actions_[i];
         if (obs_log_file_.is_open()) {
             obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (38 + i) << "] = actions_[" << i << "] = " << actions_[i] << std::endl;
         }
@@ -378,7 +378,7 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
     }
     for (size_t i = 0; i < phase.size() && i < 6; ++i)
     {
-        obs_[51 + i] = phase[i];
+        obs_[cfg.env.num_joints * 3 + 12 + i] = phase[i];
         if (obs_log_file_.is_open()) {
             obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (51 + i) << "] = phase[" << i << "] = " << phase[i] << std::endl;
         }

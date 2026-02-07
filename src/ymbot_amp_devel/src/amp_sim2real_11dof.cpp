@@ -201,8 +201,8 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                     //  -0.0125, -0.0833, -0.4380, -0.2151, -0.1, 0.0,
                     // -0.0065, 0.0617, 0.5289, 0.2141, -0.1, 0.0,
                     -0.0065, 0.0833, 0.5, 0.2141, -0.1, 0.0,
-                    -0.0065, -0.0833, -0.5, 0.2141, -0.1, 0.0,
-        0.0;
+                    -0.0065, -0.0833, -0.5, 0.2141, -0.1, 0.0, 
+                    0.0;
 
     // 上肢固定位置（10个关节）
     double arm_fixed_pos[JOINT_ARM_NUMBER];
@@ -472,7 +472,15 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                             sendDataJoint[i].kd_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kd;
                             sendDataJoint[i].ff_ = 0.0;
                         }
-                        if (i == 13)
+                        else if (i==11 || i==12) // ankle_roll_joint
+                        {
+                            sendDataJoint[i].pos_des_ = 0.0;
+                            sendDataJoint[i].vel_des_ = 0.0;
+                            sendDataJoint[i].kp_ = 180;
+                            sendDataJoint[i].kd_ = 5;
+                            sendDataJoint[i].ff_ = 0.0;
+                        }
+                        else if (i == 13)
                         {
                             sendDataJoint[i].pos_des_ = 0.0;
                             sendDataJoint[i].vel_des_ = 0.0;
@@ -543,7 +551,7 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                         {
                             sendDataJoint[i].pos_des_ = 0.0;
                             sendDataJoint[i].vel_des_ = 0.0;
-                            sendDataJoint[i].kp_ = 250;
+                            sendDataJoint[i].kp_ = 180;
                             sendDataJoint[i].kd_ = 5;
                             sendDataJoint[i].ff_ = 0.0;
                         }
