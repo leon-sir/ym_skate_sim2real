@@ -354,7 +354,7 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
         obs_log_file_ << get_timestamp_str() << " " << "Joint velocities (scaled):" << std::endl;
     }
     for (size_t i = 0; i < joint_vel.size(); ++i)
-    {cfg.env.num_joints
+    {
         obs_[cfg.env.num_joints + 12 + i] = joint_vel[i] * cfg.control.velocity_scale;
         if (obs_log_file_.is_open()) {
             obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (25 + i) << "] = joint_vel[" << i << "] * velocity_scale = " 
@@ -371,7 +371,7 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
         if (obs_log_file_.is_open()) {
             obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (38 + i) << "] = actions_[" << i << "] = " << actions_[i] << std::endl;
         }
-    };
+    }
     
     if (obs_log_file_.is_open()) {
         obs_log_file_ << get_timestamp_str() << " " << "Phase observations (from PhaseGenerator):" << std::endl;

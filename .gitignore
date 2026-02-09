@@ -4,3 +4,4 @@ devel/
 *.zip
 *.rar
 *.7z
+src/**/*.csv
