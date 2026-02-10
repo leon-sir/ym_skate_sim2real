@@ -51,10 +51,10 @@ public:
         : base_frequency_(base_frequency), base_duty1_(base_duty1), 
           current_gait_index_(0.0), duty1_left_(base_duty1), duty1_right_(base_duty1) {
         // 设置参数范围
-        min_duty_ = 0.5;
+        min_duty_ = 0.55;
         max_duty_ = 0.95;
-        min_frequency_ = 0.5;
-        max_frequency_ = 1.0;
+        min_frequency_ = 0.4;
+        max_frequency_ = 0.8;
         max_tracking_error_ = 1;
         max_ang_cmd_ = 1.0;
         max_duty_diff_ = 0.3;

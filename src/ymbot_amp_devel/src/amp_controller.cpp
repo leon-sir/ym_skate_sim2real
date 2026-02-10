@@ -360,8 +360,8 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
             obs_log_file_ << get_timestamp_str() << " " << "obs_[" << (25 + i) << "] = joint_vel[" << i << "] * velocity_scale = " 
                       << joint_vel[i] << " * " << cfg.control.velocity_scale << " = " << obs_[25 + i] << std::endl;
         }
-    };
-    
+    }
+
     if (obs_log_file_.is_open()) {
         obs_log_file_ << get_timestamp_str() << " " << "Previous actions:" << std::endl;
     }

@@ -142,10 +142,19 @@ std::tuple<Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, E
 {
     // 1. 读取下半身电机数据
     shm_motor_down.readJointDatafromMotor(recJ);
-    for (int i = 0; i < JOINT_MOTOR_NUMBER - 1; ++i)
+    for (int i = 0; i < JOINT_MOTOR_NUMBER - 3; ++i)
     {
-        q[i] = recJ[i].pos_;
-        dq[i] = recJ[i].vel_;
+        if(i < 5)
+        {
+            q[i] = recJ[i].pos_;
+            dq[i] = recJ[i].vel_;
+        }
+        if(i > 4 && i < 11)
+        {
+            q[i] = recJ[i+1].pos_;
+            dq[i] = recJ[i+1].vel_;
+        }
+
     }
 
     // 2. 读取上半身电机数据
@@ -200,8 +209,8 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                      // -0.0065, 0.0617, 0.5289, 0.2141, 0.0960, -0.2703,
                     //  -0.0125, -0.0833, -0.4380, -0.2151, -0.1, 0.0,
                     // -0.0065, 0.0617, 0.5289, 0.2141, -0.1, 0.0,
-                    -0.0065, 0.0833, 0.5, 0.2141, -0.1, 0.0,
-                    -0.0065, -0.0833, -0.5, 0.2141, -0.1, 0.0, 
+                    -0.0065, 0.0833, 0.5, 0.2141, -0.1, 
+                    -0.0065, -0.0833, -0.5, 0.2141, -0.1, 
                     0.0;
 
     // 上肢固定位置（10个关节）
@@ -286,7 +295,7 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
             Eigen::VectorXd pd_target_test(amp_controller.cfg.env.num_joints);
             pd_target_test << -0.1, -0.1, 0.0, 0.3, 0.3, 0.0,
                 0.1, 0.1, 0.3, 0.3,
-                0.20, 0.20, 0.0;
+                0.20;
             
             if (first_pos)
             {
@@ -463,7 +472,8 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                     // 下半身：发送目标位置到电机
                     for (int i = 0; i < JOINT_MOTOR_NUMBER; ++i)
                     {
-                        if (i < 11)
+                        
+                        if(i < 5) // 左腿5个关节
                         {
                             size_t lab_idx = amp_controller.cfg.mjc2lab[i];
                             sendDataJoint[i].pos_des_ = target_q_mjc[i];
@@ -472,12 +482,33 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                             sendDataJoint[i].kd_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kd;
                             sendDataJoint[i].ff_ = 0.0;
                         }
-                        else if (i==11 || i==12) // ankle_roll_joint
+
+                        if (i > 5 && i < 11) // 右腿5个关节
+                        {
+                            size_t lab_idx = amp_controller.cfg.mjc2lab[i-1];
+                            sendDataJoint[i].pos_des_ = target_q_mjc[i-1];
+                            sendDataJoint[i].vel_des_ = target_dq_mjc[i-1];
+                            sendDataJoint[i].kp_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kp * 1.0;
+                            sendDataJoint[i].kd_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kd;
+                            sendDataJoint[i].ff_ = 0.0;
+                        }
+
+                        if (i == 12) // 右腿5个关节
+                        {
+                            size_t lab_idx = amp_controller.cfg.mjc2lab[i-2];
+                            sendDataJoint[i].pos_des_ = target_q_mjc[i-2];
+                            sendDataJoint[i].vel_des_ = target_dq_mjc[i-2];
+                            sendDataJoint[i].kp_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kp * 1.0;
+                            sendDataJoint[i].kd_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kd;
+                            sendDataJoint[i].ff_ = 0.0;
+                        }
+
+                        else if (i==11 || i==5 ) // ankle_roll_joint
                         {
                             sendDataJoint[i].pos_des_ = 0.0;
                             sendDataJoint[i].vel_des_ = 0.0;
-                            sendDataJoint[i].kp_ = 180;
-                            sendDataJoint[i].kd_ = 5;
+                            sendDataJoint[i].kp_ = 100;
+                            sendDataJoint[i].kd_ = 20;
                             sendDataJoint[i].ff_ = 0.0;
                         }
                         else if (i == 13)
@@ -501,11 +532,11 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                     count_pd = std::min(count_pd, pd_count_time);
                     
                     // 修正：为JOINT_MOTOR_NUMBER个关节分配空间，而不是只为13个
-                    Eigen::VectorXd kp(JOINT_MOTOR_NUMBER);
-                    kp.setConstant(200); 
+                    // Eigen::VectorXd kp(11);
+                    // kp.setConstant(200); 
 
-                    Eigen::VectorXd kd(JOINT_MOTOR_NUMBER);
-                    kd.setConstant(5);  // 增加阻尼以提高稳定性
+                    // Eigen::VectorXd kd(11);
+                    // kd.setConstant(5);  // 增加阻尼以提高稳定性
 
                     for (int i = 0; i < amp_controller.cfg.env.num_joints; i++)
                     {
@@ -533,12 +564,20 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
 
                     for (int i = 0; i < JOINT_MOTOR_NUMBER; ++i)
                     {
-                        if (i < 11)
+                        if(i<5)
                         {
                             sendDataJoint[i].pos_des_ = target_q_pd[i];
                             sendDataJoint[i].vel_des_ = 0.0;
-                            sendDataJoint[i].kp_ = kp[i];
-                            sendDataJoint[i].kd_ = kd[i];
+                            sendDataJoint[i].kp_ = 200;
+                            sendDataJoint[i].kd_ = 5;
+                            sendDataJoint[i].ff_ = 0.0;
+                        }
+                        if (i>5 && i<11)
+                        {
+                            sendDataJoint[i].pos_des_ = target_q_pd[i-1];
+                            sendDataJoint[i].vel_des_ = 0.0;
+                            sendDataJoint[i].kp_ = 200;
+                            sendDataJoint[i].kd_ = 5;
                             sendDataJoint[i].ff_ = 0.0;
                             
                             // 添加调试信息（每秒输出一次）
@@ -547,7 +586,18 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                                          i, sendDataJoint[i].pos_des_, sendDataJoint[i].kp_, sendDataJoint[i].kd_);
                             }
                         }
-                        else if (i==11 || i==12) // ankle_roll_joint
+
+                        if (i == 12)
+                        {
+                            sendDataJoint[i].pos_des_ = target_q_pd[i-2];
+                            sendDataJoint[i].vel_des_ = 0.0;
+                            sendDataJoint[i].kp_ = 200;
+                            sendDataJoint[i].kd_ = 5;
+                            sendDataJoint[i].ff_ = 0.0;
+                            
+                        }
+
+                        else if (i==11 || i==5) // ankle_roll_joint
                         {
                             sendDataJoint[i].pos_des_ = 0.0;
                             sendDataJoint[i].vel_des_ = 0.0;
@@ -559,8 +609,8 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                         {
                             sendDataJoint[i].pos_des_ = 0.0;
                             sendDataJoint[i].vel_des_ = 0.0;
-                            sendDataJoint[i].kp_ = kp[i];
-                            sendDataJoint[i].kd_ = kd[i];
+                            sendDataJoint[i].kp_ = 200;
+                            sendDataJoint[i].kd_ = 5;
                             sendDataJoint[i].ff_ = 0.0;
                             
                             // 为腰部关节添加单独的调试信息
@@ -570,17 +620,18 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                             }
                         }
                     }
+                    // ROS_INFO("3333333333333333333333333333333333");
                     shm_motor_down.writeJointDatatoMotor(sendDataJoint);
-                    
+                    // ROS_INFO("11111111111111111111111111111111");
                     // 添加PD控制状态总结（每秒输出一次），确认所有14个关节都在PD控制下
-                    if (count_pd_time % 100 == 0) {
-                        ROS_INFO("=== PD Control Summary ===");
-                        ROS_INFO("All 14 joints are under PD control.");
-                        ROS_INFO("Joints 0-12 (Legs): kp=%.1f, kd=%.1f", kp[0], kd[0]);
-                        ROS_INFO("Joint 13 (Waist): kp=%.1f, kd=%.1f", kp[13], kd[13]);
-                        ROS_INFO("Transition progress: %.2f / %.2f s", count_pd * real_cfg.dt, pd_total_time);
-                        ROS_INFO("========================");
-                    }
+                    // if (count_pd_time % 100 == 0) {
+                    //     ROS_INFO("=== PD Control Summary ===");
+                    //     ROS_INFO("All 14 joints are under PD control.");
+                    //     // ROS_INFO("Joints 0-12 (Legs): kp=%.1f, kd=%.1f", kp[0], kd[0]);
+                    //     // ROS_INFO("Joint 13 (Waist): kp=%.1f, kd=%.1f", kp[13], kd[13]);
+                    //     ROS_INFO("Transition progress: %.2f / %.2f s", count_pd * real_cfg.dt, pd_total_time);
+                    //     ROS_INFO("========================");
+                    // }
                     
                     // 上半身控制：使用固定位置
                     for (int i = 0; i < JOINT_ARM_NUMBER; i++)
