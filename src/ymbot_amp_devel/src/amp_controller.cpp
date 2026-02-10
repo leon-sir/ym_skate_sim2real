@@ -603,8 +603,8 @@ void AMPController::onnx_output(const Eigen::VectorXd& base_linear_velocity,
         double raw_action = static_cast<double>(output_data[i]);
         
         // 获取关节特定的限幅值
-        double current_min = -2.0; // 默认值
-        double current_max = 2.0;  // 默认值
+        double current_min = -100.0; // 默认值
+        double current_max = 100.0;  // 默认值
         
         if (i < cfg.control.action_clip_min.size()) {
             current_min = cfg.control.action_clip_min[i];

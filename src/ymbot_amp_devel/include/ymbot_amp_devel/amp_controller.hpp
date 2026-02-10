@@ -49,7 +49,7 @@ public:
             double clip_joint_pos = 100.0;
             double clip_joint_vel = 100.0;
             double clip_observations = 100.0;
-            double clip_actions = 100.0;
+            double clip_actions = 2.0;
 
             int observation_length = 10;
 
@@ -60,6 +60,10 @@ public:
             // [新增] 动作限幅配置 (每个关节单独配置)
             std::vector<double> action_clip_min;
             std::vector<double> action_clip_max;
+
+            // [新增] 目标位置限幅配置 (每个关节单独配置)
+            std::vector<double> target_clip_min;
+            std::vector<double> target_clip_max;
         };
 
         struct JointParams

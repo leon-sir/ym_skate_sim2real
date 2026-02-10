@@ -420,8 +420,21 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                             }
                             target_q[i] = amp_controller.actions_[i] * amp_controller.cfg.control.actions_;
                             target_q[i] += amp_controller.cfg.joint_params_isaaclab[i].offset;
-                            target_q[i] = std::clamp(target_q[i], -amp_controller.cfg.control.clip_actions,
-                                                     amp_controller.cfg.control.clip_actions);
+                            // target_q[i] = std::clamp(target_q[i], -amp_controller.cfg.control.clip_actions,
+                            //                          amp_controller.cfg.control.clip_actions);
+                            
+                            // [新增] 应用目标位置限幅
+                            double current_target_min = -amp_controller.cfg.control.clip_actions;
+                            double current_target_max = amp_controller.cfg.control.clip_actions;
+                            
+                            if (i < amp_controller.cfg.control.target_clip_min.size()) {
+                                current_target_min = amp_controller.cfg.control.target_clip_min[i];
+                            }
+                            if (i < amp_controller.cfg.control.target_clip_max.size()) {
+                                current_target_max = amp_controller.cfg.control.target_clip_max[i];
+                            }
+                            
+                            target_q[i] = std::clamp(target_q[i], current_target_min, current_target_max);
                         }
 
                         // 重新排序lab到电机中的关节顺序和方向
@@ -801,11 +814,23 @@ int main(int argc, char *argv[])
     // [新增] 读取 action_clip_min 和 action_clip_max 参数
     std::string action_clip_min_str, action_clip_max_str;
     std::vector<double> action_clip_min_vec, action_clip_max_vec;
+    
+    // [新增] 读取 target_clip_min 和 target_clip_max 参数
+    std::string target_clip_min_str, target_clip_max_str;
+    std::vector<double> target_clip_min_vec, target_clip_max_vec;
+
     if (nh.getParam("action_clip_min", action_clip_min_str)) {
         action_clip_min_vec = parseParam(action_clip_min_str);
     }
     if (nh.getParam("action_clip_max", action_clip_max_str)) {
         action_clip_max_vec = parseParam(action_clip_max_str);
+    }
+    
+    if (nh.getParam("target_clip_min", target_clip_min_str)) {
+        target_clip_min_vec = parseParam(target_clip_min_str);
+    }
+    if (nh.getParam("target_clip_max", target_clip_max_str)) {
+        target_clip_max_vec = parseParam(target_clip_max_str);
     }
     
     // 如果参数不存在，提供默认值 (可选，或者在控制器中处理空值)
@@ -814,10 +839,18 @@ int main(int argc, char *argv[])
     } else {
         ROS_INFO("Action clip parameters loaded. Size: min=%lu, max=%lu", action_clip_min_vec.size(), action_clip_max_vec.size());
     }
+
+    if (target_clip_min_vec.empty() || target_clip_max_vec.empty()) {
+        ROS_WARN("Target clip parameters not found or empty. Using default clipping.");
+    } else {
+        ROS_INFO("Target clip parameters loaded. Size: min=%lu, max=%lu", target_clip_min_vec.size(), target_clip_max_vec.size());
+    }
     
     // 3. 运行控制循环
     amp_controller.cfg.control.action_clip_min = action_clip_min_vec;
     amp_controller.cfg.control.action_clip_max = action_clip_max_vec;
+    amp_controller.cfg.control.target_clip_min = target_clip_min_vec;
+    amp_controller.cfg.control.target_clip_max = target_clip_max_vec;
 
     run_real(real_cfg, amp_controller);
     
