@@ -5,3 +5,5 @@ devel/
 *.rar
 *.7z
 src/**/*.csv
+dataMotor.txt
+obs_log.txt
