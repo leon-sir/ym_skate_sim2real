@@ -149,16 +149,16 @@ std::tuple<Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, E
     }
 
     // 2. 读取上半身电机数据
-    // shm_arm_.readJointDatafromMotorArm(recJ_arm);
-    // for (int i = 0; i < JOINT_ARM_NUMBER; ++i)
-    // {
-    //     q_arm[i] = recJ_arm[i].pos_;
-    //     dq_arm[i] = recJ_arm[i].vel_;
-    // }
+    shm_arm_.readJointDatafromMotorArm(recJ_arm);
+    for (int i = 0; i < JOINT_ARM_NUMBER; ++i)
+    {
+        q_arm[i] = recJ_arm[i].pos_;
+        dq_arm[i] = recJ_arm[i].vel_;
+    }
 
     // 合并关节数据（仅用于记录，不传给RL）
-    q_combined << q;
-    dq_combined << dq;
+    q_combined << q, q_arm;
+    dq_combined << dq, dq_arm;
 
     // 3. 获取IMU四元数 (保留原始数据备用)
     Eigen::VectorXd quat(4);

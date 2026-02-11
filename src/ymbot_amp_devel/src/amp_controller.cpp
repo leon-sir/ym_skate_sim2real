@@ -89,7 +89,7 @@ AMPController::AMPController(const std::string &onnx_path,
 
     // 打开log文件用于记录obs数据
     std::string log_filename = "/home/pc/ymbot_e_13dof_skate/obs_log.txt";
-    obs_log_file_.open(log_filename, std::ios::out | std::ios::app);
+    obs_log_file_.open(log_filename, std::ios::out);
     if (obs_log_file_.is_open()) {
         std::cerr << "Observation log file opened: " << log_filename << std::endl;
         // 写入文件头

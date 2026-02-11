@@ -4,7 +4,14 @@
     <param name="model_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/mjcf/ymboy_22dof.xml" />
     <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/ymbot_e/onnx/policy_LAB_76.onnx" /> -->
     <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy/2026-01-06_22-31-03/exported/policy_02032247.onnx" /> -->
-    <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy/2026-02-05_15-52-16/exported/policy.onnx" />
+    <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy_13dof/2026-02-10_09-37-19/exported/policy.onnx" />
+
+    <!-- 
+    src/ymbot_amp_devel/robots/skating_ym_e/policy_13dof/2026-02-05_10-12-05/exported/policy.onnx
+    src/ymbot_amp_devel/robots/skating_ym_e/policy_13dof/2026-02-05_15-52-16/exported/policy.onnx
+    src/ymbot_amp_devel/robots/skating_ym_e/policy_13dof/2026-02-09_17-29-24/exported/policy.onnx
+    src/ymbot_amp_devel/robots/skating_ym_e/policy_13dof/2026-02-10_09-37-19/exported/policy.onnx 
+    -->
 
     <!-- isaaclab 关节参数 -->
     <param name="num_joints" value="13" />
@@ -23,28 +30,28 @@
                                     "left_ankle_roll_joint", 
                                     "right_ankle_roll_joint"]'/>
 
-
-    <!-- <param name="kps" value="[150, 150, 20, 
+<!-- 
+    <param name="kps" value="[150, 150, 20, 
                               100,  100,  
                               100,  100, 
                               150, 150, 
-                              20,  20,  
-                              20,  20]"/> -->
+                              40,  40,  
+                              40,  40]"/> -->
 
-    <param name="kps" value="[75, 75, 10, 
-                              50,  50,  
-                              50,  50, 
-                              75, 75, 
-                              20,  20,  
-                              20,  20]"/>
+    <param name="kps" value="[105, 105, 14, 
+                              60,  60,  
+                              70,  70, 
+                              105, 105, 
+                              28,  28,  
+                              28,  28]"/>
 
 
     <param name="kds" value="[15, 15, 5, 
                               10, 10,  
                               10, 10, 
                               15, 15, 
-                              2, 2, 
-                              2, 2]"/>
+                              5, 5, 
+                              5, 5]"/>
 
     <param name="offsets" value="[-0.1, -0.1,   0, 
                                    0.0,   0.0,  
@@ -78,7 +85,7 @@
                                             "right_ankle_roll_joint",
                                             "waist_yaw_joint"]'/>
 
-    <param name="action_clip_min" value="[-2.0, -2.0, -2.0,
+    <!-- <param name="action_clip_min" value="[-2.0, -2.0, -2.0,
                                             -2.0, -2.0, 
                                             -2.0, -2.0,
                                              -2.0, -2.0,
@@ -89,7 +96,7 @@
                                              2.0, 2.0, 
                                              2.0, 2.0, 
                                              4.0, 4.0,
-                                             4.0, 4.0]"/>
+                                             4.0, 4.0]"/> -->
 
 
     <param name="target_clip_min" value="[-2.0, -2.0, -2.0,
