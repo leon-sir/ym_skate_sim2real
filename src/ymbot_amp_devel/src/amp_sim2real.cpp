@@ -338,10 +338,10 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                             cmd_vel.linear.x,            // 前进方向补偿
                             cmd_vel.linear.y ,     // 侧向补偿
                             cmd_vel.angular.z ;     // Yaw补偿
-                        if(cmd_vel.angular.z != 0)
+                        if(cmd_vel.linear.x > 0)
                         {
                             // velocity_commands[1]-=0;
-                            // velocity_commands[2]+=0;
+                            // velocity_commands[2]+= 0.02;
                         }
                         // 根据 cmd_vel.linear.x 的值选择使用默认phase还是生成的phase
                         if (cmd_vel.linear.x < 0.2) {

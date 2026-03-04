@@ -13,7 +13,7 @@ teleop:
         scale: 2.0 #1.8
       - axis: 0
         target: linear.y
-        scale: 0.4 #0.9
+        scale: 0.0 #0.9
  
  
 
