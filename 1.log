@@ -17,3 +17,9 @@ python src/scripts/visualize_obs_phase.py
 
 left_hip_pitch -0.3 向前     left_roll 0.3 向内 （X）         left_hip_yaw 0.5 向右转  （X）  left_knee_pitch 0.5 向前（X）    left_ankle_pitch 0.3 向后   left_ankle_roll 0.3 向外
 right_hip_pitch -0.3 向后  (X)  right_roll 0.3 向外 （X） right_hip_yaw 0.5 向右转  （X） right_knee_pitch 0.5 向后	right_ankle_pitch 0.3 向后   right_ankle_roll 0.3 向内   waist 向右 （X）
+
+
+# 发送4个肩部关节的目标位置（弧度）
+rostopic pub /shoulder_joint_commands std_msgs/Float64MultiArray "data: [0.5, 0.2, -0.5, -0.2]"
+
+rostopic pub /shoulder_joint_commands std_msgs/Float64MultiArray "data: [0.35, 0.0, -0.35, 0.0]" -r 10  ##-r 10 表示以10Hz的频率持续发送消息

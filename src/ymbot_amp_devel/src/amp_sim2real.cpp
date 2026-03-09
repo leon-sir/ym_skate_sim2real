@@ -58,6 +58,17 @@ bool standingModeFlag = false;
 int errorState{0};
 geometry_msgs::Twist cmd_vel;
 
+// --------------------------------------------------------------------------------
+// [新增] 全局变量用于存储肩部关节的目标位置
+// --------------------------------------------------------------------------------
+std::mutex shoulder_mutex;
+double left_shoulder_pitch_target = 0.35;   // 默认值
+double left_shoulder_roll_target = 0.0;     // 默认值  
+double right_shoulder_pitch_target = -0.35; // 默认值
+double right_shoulder_roll_target = 0.0;    // 默认值
+bool shoulder_targets_received = false;      // 标志位，表示是否收到了新的目标位置
+// --------------------------------------------------------------------------------
+
 int count_lowlevel = 0;
 YEIMUData *data_imu = nullptr;
 SharedMemory shm_motor_down(false);
@@ -134,9 +145,79 @@ void projectedOmegaCallback(const geometry_msgs::Vector3Stamped::ConstPtr &msg)
     std::lock_guard<std::mutex> lock(sensor_mutex);
     g_base_ang_vel << msg->vector.x, msg->vector.y, msg->vector.z;
 }
+
+// --------------------------------------------------------------------------------
+// [新增] 肩部关节控制回调函数
+// --------------------------------------------------------------------------------
+void shoulderJointCallback(const std_msgs::Float64MultiArray::ConstPtr& msg)
+{
+    if (msg->data.size() >= 4) {
+        std::lock_guard<std::mutex> lock(shoulder_mutex);
+        left_shoulder_pitch_target = msg->data[0];   // 左肩 pitch
+        left_shoulder_roll_target = msg->data[1];    // 左肩 roll  
+        right_shoulder_pitch_target = msg->data[2];  // 右肩 pitch
+        right_shoulder_roll_target = msg->data[3];   // 右肩 roll
+        shoulder_targets_received = true;
+        
+        ROS_INFO("Received shoulder joint targets: L_pitch=%.3f, L_roll=%.3f, R_pitch=%.3f, R_roll=%.3f", 
+                 left_shoulder_pitch_target, left_shoulder_roll_target, 
+                 right_shoulder_pitch_target, right_shoulder_roll_target);
+    } else {
+        ROS_WARN("Shoulder joint command requires at least 4 values, received %zu", msg->data.size());
+    }
+}
 // --------------------------------------------------------------------------------
 
-// [修改] 获取观测数据函数
+// [修改] 获取观测数据函数 动捕获得
+// 返回值顺序: (关节位置, 关节速度, 四元数, 线速度, 角速度, 重力投影)
+// std::tuple<Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd> get_observation()
+// {
+//     // 1. 读取下半身电机数据
+//     shm_motor_down.readJointDatafromMotor(recJ);
+//     for (int i = 0; i < JOINT_MOTOR_NUMBER - 1; ++i)
+//     {
+//         q[i] = recJ[i].pos_;
+//         dq[i] = recJ[i].vel_;
+//     }
+
+//     // 2. 读取上半身电机数据
+//     shm_arm_.readJointDatafromMotorArm(recJ_arm);
+//     for (int i = 0; i < JOINT_ARM_NUMBER; ++i)
+//     {
+//         q_arm[i] = recJ_arm[i].pos_;
+//         dq_arm[i] = recJ_arm[i].vel_;
+//     }
+
+//     // 合并关节数据（仅用于记录，不传给RL）
+//     q_combined << q, q_arm;
+//     dq_combined << dq, dq_arm;
+
+//     // 3. 获取IMU四元数 (保留原始数据备用)
+//     Eigen::VectorXd quat(4);
+//     if (data_imu) {
+//         quat << data_imu->quat_float[0], data_imu->quat_float[1], data_imu->quat_float[2], data_imu->quat_float[3];
+//     } else {
+//         quat.setZero();
+//     }
+
+//     // 4. [修改核心] 从 ROS 订阅的全局变量中读取处理好的数据
+//     Eigen::VectorXd current_lin_vel(3);
+//     Eigen::VectorXd current_ang_vel(3);
+//     Eigen::VectorXd current_proj_grav(3);
+
+//     {
+//         std::lock_guard<std::mutex> lock(sensor_mutex);
+//         current_lin_vel = g_base_lin_vel;     // 来自 /projected_velocity
+//         current_ang_vel = g_base_ang_vel;     // 来自 /projected_omega
+//         current_proj_grav = g_projected_gravity; // 来自 /projected_gravity
+//     }
+
+//     // 只返回下肢13个关节的数据给RL，上肢单独控制
+//     return std::make_tuple(q, dq, quat, current_lin_vel, current_ang_vel, current_proj_grav);
+// }
+
+
+// [修改] 获取观测数据函数 imu-->waist_yaw_link 的四元数乘法计算重力投影
 // 返回值顺序: (关节位置, 关节速度, 四元数, 线速度, 角速度, 重力投影)
 std::tuple<Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd> get_observation()
 {
@@ -160,24 +241,51 @@ std::tuple<Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, E
     q_combined << q, q_arm;
     dq_combined << dq, dq_arm;
 
-    // 3. 获取IMU四元数 (保留原始数据备用)
+    // 3. [核心修改] 获取IMU四元数，并实时计算目标关节的重力投影
     Eigen::VectorXd quat(4);
+    Eigen::VectorXd current_proj_grav(3);
+
     if (data_imu) {
+        // 保存原始的四元数备用 (格式：w, x, y, z)
         quat << data_imu->quat_float[0], data_imu->quat_float[1], data_imu->quat_float[2], data_imu->quat_float[3];
+
+        // 步骤一：构造 IMU 原始四元数 (注意 Eigen::Quaterniond 构造函数顺序也是 w, x, y, z)
+        Eigen::Quaterniond q_imu(data_imu->quat_float[0], data_imu->quat_float[1], 
+                                 data_imu->quat_float[2], data_imu->quat_float[3]);
+        q_imu.normalize();
+
+        // 步骤二：读取第13个电机（索引12）的实时角度，构造局部四元数
+        double theta = q[12]; 
+        Eigen::Quaterniond q_yaw(cos(theta / 2.0), 0.0, 0.0, sin(theta / 2.0));
+
+        // 步骤三：四元数乘法，获得 waist_yaw_link 在世界系下的姿态
+        Eigen::Quaterniond q_target = q_imu * q_yaw;
+        q_target.normalize();
+
+        // 步骤四：计算重力投影
+        // 世界坐标系中的重力方向通常为向下
+        Eigen::Vector3d g_world(0.0, 0.0, -1.0);
+        
+        // 用 q_target 的逆运算，将世界系的重力向量转换到局部坐标系下
+        Eigen::Vector3d g_projected = q_target.inverse() * g_world;
+
+        // 赋值给将要输出的变量
+        current_proj_grav << g_projected.x(), g_projected.y(), g_projected.z();
     } else {
-        quat.setZero();
+        // 如果没有 IMU 数据，给个默认站立姿态的投影
+        quat << 1.0, 0.0, 0.0, 0.0;
+        current_proj_grav << 0.0, 0.0, -1.0;
     }
 
-    // 4. [修改核心] 从 ROS 订阅的全局变量中读取处理好的数据
+    // 4. 从 ROS 订阅的全局变量中读取其余处理好的数据
     Eigen::VectorXd current_lin_vel(3);
     Eigen::VectorXd current_ang_vel(3);
-    Eigen::VectorXd current_proj_grav(3);
 
     {
         std::lock_guard<std::mutex> lock(sensor_mutex);
         current_lin_vel = g_base_lin_vel;     // 来自 /projected_velocity
         current_ang_vel = g_base_ang_vel;     // 来自 /projected_omega
-        current_proj_grav = g_projected_gravity; // 来自 /projected_gravity
+        // 这里的 g_projected_gravity 已经被弃用，不再从话题读取
     }
 
     // 只返回下肢13个关节的数据给RL，上肢单独控制
@@ -250,6 +358,14 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
     auto next_time_point_motor = std::chrono::steady_clock::now() + cycle_duration;
     auto loop_start = std::chrono::high_resolution_clock::now();
 
+    // --------------------------------------------------------------------------------
+    // [新增] 创建肩部关节控制的ROS订阅器
+    // --------------------------------------------------------------------------------
+    ros::NodeHandle nh;
+    ros::Subscriber shoulder_sub = nh.subscribe<std_msgs::Float64MultiArray>("shoulder_joint_commands", 10, shoulderJointCallback);
+    ROS_INFO("Subscribed to shoulder_joint_commands topic for shoulder joint control");
+    // --------------------------------------------------------------------------------
+
     while (ros::ok())
     {
         // [新增] 必须调用 spinOnce 以确保回调函数能更新数据
@@ -303,7 +419,17 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                              pd_target_q[i]);
                 }
                 ROS_INFO("===============================");
+
+
+
+                // [新增] 打印进入 PD 站立前的重力投影
+                ROS_INFO("=== Initial Observation Before PD Standing ===");
+                ROS_INFO("projected_gravity: [%.4f, %.4f, %.4f]", 
+                         projected_gravity[0], projected_gravity[1], projected_gravity[2]);
+                ROS_INFO("============================================");
+
                 first_pos = false;
+
             }
 
             // 重排序并调整方向
@@ -455,10 +581,22 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                         }
                         ROS_INFO("============================================");
 
-                        // 上半身控制：使用固定位置
-                        for (int i = 0; i < JOINT_ARM_NUMBER; i++)
+                        // 上半身控制：使用动态肩部位置 + 固定其他位置
                         {
-                            pos_des_arm_[i] = arm_fixed_pos[i];
+                            std::lock_guard<std::mutex> lock(shoulder_mutex);
+                            // 左臂5个关节
+                            pos_des_arm_[0] = left_shoulder_pitch_target;  // shoulder_pitch (可变)
+                            pos_des_arm_[1] = left_shoulder_roll_target;   // shoulder_roll (可变)
+                            pos_des_arm_[2] = 0.0;                        // shoulder_yaw (固定)
+                            pos_des_arm_[3] = -0.70;                      // elbow (固定)
+                            pos_des_arm_[4] = 0.0;                        // wrist (固定)
+                            
+                            // 右臂5个关节  
+                            pos_des_arm_[5] = right_shoulder_pitch_target; // shoulder_pitch (可变)
+                            pos_des_arm_[6] = right_shoulder_roll_target;  // shoulder_roll (可变)
+                            pos_des_arm_[7] = 0.0;                        // shoulder_yaw (固定)
+                            pos_des_arm_[8] = 0.70;                       // elbow (固定)
+                            pos_des_arm_[9] = 0.0;                        // wrist (固定)
                         }
                         shm_arm_.writeJointDatatoMotorArm(pos_des_arm_);
 
@@ -573,16 +711,30 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                     if (count_pd_time % 100 == 0) {
                         ROS_INFO("=== PD Control Summary ===");
                         ROS_INFO("All 14 joints are under PD control.");
-                        ROS_INFO("Joints 0-12 (Legs): kp=%.1f, kd=%.1f", kp[0], kd[0]);
+                        ROS_INFO("Joints 0-12 (Legs): kp=%.1f, kd=%.1 f", kp[0], kd[0]);
                         ROS_INFO("Joint 13 (Waist): kp=%.1f, kd=%.1f", kp[13], kd[13]);
                         ROS_INFO("Transition progress: %.2f / %.2f s", count_pd * real_cfg.dt, pd_total_time);
+                        ROS_INFO("projected_gravity: [%.4f, %.4f, %.4f]", 
+                                 projected_gravity[0], projected_gravity[1], projected_gravity[2]);
                         ROS_INFO("========================");
                     }
                     
-                    // 上半身控制：使用固定位置
-                    for (int i = 0; i < JOINT_ARM_NUMBER; i++)
+                    // 上半身控制：使用动态肩部位置 + 固定其他位置
                     {
-                        pos_des_arm_[i] = arm_fixed_pos[i];
+                        std::lock_guard<std::mutex> lock(shoulder_mutex);
+                        // 左臂5个关节
+                        pos_des_arm_[0] = left_shoulder_pitch_target;  // shoulder_pitch (可变)
+                        pos_des_arm_[1] = left_shoulder_roll_target;   // shoulder_roll (可变)
+                        pos_des_arm_[2] = 0.0;                        // shoulder_yaw (固定)
+                        pos_des_arm_[3] = -0.70;                      // elbow (固定)
+                        pos_des_arm_[4] = 0.0;                        // wrist (固定)
+                        
+                        // 右臂5个关节  
+                        pos_des_arm_[5] = right_shoulder_pitch_target; // shoulder_pitch (可变)
+                        pos_des_arm_[6] = right_shoulder_roll_target;  // shoulder_roll (可变)
+                        pos_des_arm_[7] = 0.0;                        // shoulder_yaw (固定)
+                        pos_des_arm_[8] = 0.70;                       // elbow (固定)
+                        pos_des_arm_[9] = 0.0;                        // wrist (固定)
                     }
                     shm_arm_.writeJointDatatoMotorArm(pos_des_arm_);
                     count_pd_time++;
