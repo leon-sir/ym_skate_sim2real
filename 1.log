@@ -6,6 +6,8 @@ rm /dev/shm/joint_shared_memory
 
 # 13 dof
 roslaunch /home/pc/ymbot_e_13dof_skate/src/ymbot_amp_devel/launch/skate_amp_rl_sim2real.launch
+roslaunch /home/pc/ymbot_e_13dof_skate/src/ymbot_amp_devel/launch/skate_amp_rl_sim2real_step.launch
+
 
 # 11 dof
 roslaunch /home/pc/ymbot_e_13dof_skate/src/ymbot_amp_devel/launch/skate_11dof_rl_sim2real.launch
