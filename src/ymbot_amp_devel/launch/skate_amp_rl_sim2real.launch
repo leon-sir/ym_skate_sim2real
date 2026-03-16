@@ -5,7 +5,7 @@
     <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/ymbot_e/onnx/policy_LAB_76.onnx" /> -->
     <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy/2026-01-06_22-31-03/exported/policy_02032247.onnx" /> -->
     <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy_13dof/2026-02-24_09-03-36/exported/policy.onnx" />
-
+    <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy_13dof/2026-03-02_23-53-16/exported/policy.onnx" /> -->
     <!-- 
     src/ymbot_amp_devel/robots/skating_ym_e/policy_13dof/2026-02-05_10-12-05/exported/policy.onnx
     src/ymbot_amp_devel/robots/skating_ym_e/policy_13dof/2026-02-05_15-52-16/exported/policy.onnx
@@ -30,13 +30,6 @@
                                     "left_ankle_roll_joint", 
                                     "right_ankle_roll_joint"]'/>
 
-<!-- 
-    <param name="kps" value="[150, 150, 20, 
-                              100,  100,  
-                              100,  100, 
-                              150, 150, 
-                              40,  40,  
-                              40,  40]"/> -->
 
     <param name="kps" value="[150, 150, 20, 
                               60,  60,  
@@ -44,6 +37,13 @@
                               150, 150, 
                               40,  40,  
                               40,  40]"/>
+
+    <!-- <param name="kps" value="[150, 150, 20, 
+                              60,  60,  
+                              100,  100, 
+                              200, 200, 
+                              200,  200,  
+                              200,  200]"/> -->
 
 
     <param name="kds" value="[15, 15, 5, 

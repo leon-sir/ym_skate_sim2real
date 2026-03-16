@@ -613,20 +613,13 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
 
                     // 下半身：发送目标位置到电机
                     for (int i = 0; i < JOINT_MOTOR_NUMBER; ++i)
-                    {   
-                        Eigen::VectorXd target_test(13);
-                        target_test << -0.000962904, 0.00982838, 0.171602, 0.0799468, -0.0595216, -0.176381,
-                            -0.0826642, -0.0302406, -0.055692, 0.331825, -0.0550322, 0.137518,
-                            0.0552071;
-
+                    {
                         if (i < 13)
-                        {   
-                            
+                        {
                             size_t lab_idx = amp_controller.cfg.mjc2lab[i];
                             sendDataJoint[i].pos_des_ = target_q_mjc[i];
-                            // sendDataJoint[i].pos_des_ = target_test[i];
                             sendDataJoint[i].vel_des_ = target_dq_mjc[i];
-                            sendDataJoint[i].kp_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kp * 1;
+                            sendDataJoint[i].kp_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kp * 1.0;
                             sendDataJoint[i].kd_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kd;
                             sendDataJoint[i].ff_ = 0.0;
                         }
@@ -785,7 +778,13 @@ void EmergencyStopCallback(const std_msgs::Float32::ConstPtr &msg)
 
 void CmdvelCallback(const geometry_msgs::Twist::ConstPtr &msg)
 {
-    cmd_vel = *msg;
+    if (msg->linear.x < 0.1) {
+        cmd_vel.linear.x = 0.0;
+        cmd_vel.linear.y = 0.0;
+        cmd_vel.angular.z = 0.0;
+    } else {
+        cmd_vel = *msg;
+    }
 }
 
 void setWalkCallback(const std_msgs::Float32::ConstPtr &msg)
