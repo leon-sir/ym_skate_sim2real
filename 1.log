@@ -10,6 +10,7 @@ rm /dev/shm/joint_shared_memory
 # 13 dof
 roslaunch /home/pc/ymbot_e_13dof_skate/src/ymbot_amp_devel/launch/skate_amp_rl_sim2real.launch
 roslaunch /home/pc/ymbot_e_13dof_skate/src/ymbot_amp_devel/launch/skate_amp_rl_sim2real_step.launch
+roslaunch /home/pc/ymbot_e_13dof_skate/src/ymbot_amp_devel/launch/skate_amp_rl_sim2real_imu_gra_vel.launch
 
 
 # 11 dof
@@ -31,4 +32,4 @@ rostopic pub /shoulder_joint_commands std_msgs/Float64MultiArray "data: [0.35, 0
 
 ##
 jstest /dev/input/js0
-
+    

@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+
+<launch>
+    <arg name="joy_dev" default="/dev/input/js0"/>
+    <!-- 基础摇杆按钮/步控配置（不含 Float64MultiArray 相关项） -->
+    <arg name="teleop_config" default="/home/pc/ymbot_e_13dof_skate/src/ymbot_amp_devel/config/joy_bluetooth.yaml"/>
+
+    <!-- Joy 驱动节点 -->
+    <node pkg="joy" type="joy_node" name="joy_node" respawn="true" respawn_delay="5">
+        <param name="dev"               value="$(arg joy_dev)"/>
+        <param name="deadzone"          value="1e-3"/>
+        <param name="autorepeat_rate"   value="5"/>
+        <param name="coalesce_interval" value="0.01"/>
+        <param name="retry_bind_timeout" value="5.0"/>
+    </node>
+
+    <!-- 加载基础按钮控制配置 -->
+    <rosparam file="$(arg teleop_config)" command="load"/>
+    <node pkg="joy_teleop" type="joy_teleop.py" name="joy_teleop"/>
+
+    <!-- 步长速度控制节点（axis 6 控制前进速度）-->
+    <node pkg="ymbot_amp_devel" type="step_vel_teleop.py" name="step_vel_teleop" output="screen"/>
+
+    <!-- 手臂摇杆步长控制节点 -->
+    <!-- 控制映射（按 L1 死区键时生效）:
+         D-Pad 上下 (axis 7): 左肩 pitch  +/-
+         D-Pad 左右 (axis 6): 左肩 roll   +/-
+         右摇杆 上下 (axis 3): 右肩 pitch +/-
+         右摇杆 左右 (axis 2): 右肩 roll  +/-
+         按钮 1 (Circle/B): 重置到默认位置                  -->
+    <node pkg="ymbot_amp_devel" type="arm_joy_teleop.py" name="arm_joy_teleop" output="screen">
+        <param name="deadman_button"  value="4"/>    <!-- L1 -->
+        <param name="reset_button"    value="1"/>    <!-- Circle/B -->
+        <param name="l_pitch_axis"    value="7"/>    <!-- D-Pad 上下 -->
+        <param name="l_roll_axis"     value="6"/>    <!-- D-Pad 左右 (注意与step_vel共享axis6，可按需调整) -->
+        <param name="r_pitch_axis"    value="3"/>    <!-- 右摇杆 上下 -->
+        <param name="r_roll_axis"     value="2"/>    <!-- 右摇杆 左右 -->
+        <param name="step_size"       value="0.05"/> <!-- 每步 0.05 rad (~2.9°) -->
+        <param name="publish_rate"    value="20.0"/> <!-- 发布频率 Hz -->
+        <!-- 默认关节位置 -->
+        <param name="default_l_pitch" value="0.35"/>
+        <param name="default_l_roll"  value="0.0"/>
+        <param name="default_r_pitch" value="-0.35"/>
+        <param name="default_r_roll"  value="0.0"/>
+        <!-- 关节限位 (rad) -->
+        <param name="l_pitch_min" value="-1.5"/>
+        <param name="l_pitch_max" value="1.5"/>
+        <param name="l_roll_min"  value="-1.0"/>
+        <param name="l_roll_max"  value="1.0"/>
+        <param name="r_pitch_min" value="-1.5"/>
+        <param name="r_pitch_max" value="1.5"/>
+        <param name="r_roll_min"  value="-1.0"/>
+        <param name="r_roll_max"  value="1.0"/>
+    </node>
+
+</launch>

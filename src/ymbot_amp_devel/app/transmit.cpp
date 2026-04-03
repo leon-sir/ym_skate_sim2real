@@ -308,6 +308,7 @@ int EtherCAT_Init(char *ifname)
 
 static int wkc_err_count = 0;
 static int wkc_err_iteration_count = 0;
+static bool motor_packet_missing_last[14] = {false};
 
 EtherCAT_Msg Rx_Message[3];
 EtherCAT_Msg Tx_Message[3];
@@ -372,6 +373,7 @@ void Revert_State(YKSMotorData *motor_data)
 void EtherCAT_Get_State()
 {
   wkc = ec_receive_processdata(EC_TIMEOUTRET);
+  bool motor_packet_received[14] = {false};
 
   for (int slave = 0; slave < ec_slavecount; ++slave)
   {
@@ -382,6 +384,30 @@ void EtherCAT_Get_State()
       // printf("Rx_Message[slave]: %d\n",Rx_Message[slave].can_ide);
     }
     RV_can_data_repack(&Rx_Message[slave], comm_ack, slave);
+    int expected_motors = 0;
+    int base_idx = 0;
+    if (slave == 0)
+    {
+      expected_motors = 6;
+      base_idx = 0;
+    }
+    else if (slave == 1)
+    {
+      expected_motors = 6;
+      base_idx = 6;
+    }
+    else if (slave == 2)
+    {
+      expected_motors = 2;
+      base_idx = 12;
+    }
+    for (int ch = 0; ch < expected_motors; ++ch)
+    {
+      if (Rx_Message[slave].motor[ch].dlc != 0)
+      {
+        motor_packet_received[base_idx + ch] = true;
+      }
+    }
     if (slave == 0)
     {
       for (int motor_index = 0; motor_index < 6; ++motor_index)
@@ -483,6 +509,16 @@ void EtherCAT_Get_State()
         rv_motor_msg[setzero].current_actual_float = 0.0;
       }
     }
+  }
+
+  for (int motor_idx = 0; motor_idx < 14; ++motor_idx)
+  {
+    bool missing_now = !motor_packet_received[motor_idx];
+    if (missing_now && !motor_packet_missing_last[motor_idx])
+    {
+      printf("\x1b[31m[Motor Current Packet Loss] motor %d current feedback packet dropped.\x1b[0m\n", motor_idx + 1);
+    }
+    motor_packet_missing_last[motor_idx] = missing_now;
   }
 
   //  check for dropped packet

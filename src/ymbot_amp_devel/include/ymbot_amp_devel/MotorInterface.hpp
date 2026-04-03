@@ -101,13 +101,26 @@ namespace MotorInterface
 
         // ----------------- system protect ------------------
         // 关节限位保护
-        const double maxJointPos[JOINT_MOTOR_NUM] = {1.6, 0.8, 1.5, 1.5, 0.74, 1.5,
-                                                     1.6, 0.8, 1.5, 1.5, 0.74, 1.5,
-                                                     2, 0.83};
+        // const double maxJointPos[JOINT_MOTOR_NUM] = {1.6, 0.8, 1.5, 1.5, 0.74, 1.5,
+        //                                              1.6, 1.57, 1.5, 1.5, 0.74, 1.5,
+        //                                              2, 0.83};
 
-        const double minJointPos[JOINT_MOTOR_NUM] = {-1.6, -0.9, -1.5, -1.45, -0.74, -1.5,
-                                                     -1.6, -0.9, -1.5, -1.45, -0.74, -1.5,
-                                                     -1.65, -1.3};
+        // const double minJointPos[JOINT_MOTOR_NUM] = {-1.6, -1.57, -1.5, -1.45, -0.74, -1.5,
+        //                                              -1.6, -0.7, -1.5, -1.45, -0.74, -1.5,
+        //                                              -1.65, -1.3};
+
+        const double maxJointPos[JOINT_MOTOR_NUM] = {3.6, 3.8, 3.5, 3.5, 3.74, 3.5,
+                                                     3.6, 3.57, 3.5, 3.5, 3.74, 3.5,
+                                                     2, 3.83};
+
+        const double minJointPos[JOINT_MOTOR_NUM] = {-3.6, -3.57, -3.5, -3.45, -3.74, -3.5,
+                                                     -3.6, -3.7, -3.5, -3.45, -3.74, -3.5,
+                                                     -3.65, -3.3};
+
+
+
+
+
         const double maxJointVel[JOINT_MOTOR_NUM] = {15, 15, 14, 15, 12, 12,
                                                      15, 15, 14, 15, 12, 12,
                                                      15, 15};

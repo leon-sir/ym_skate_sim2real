@@ -223,4 +223,140 @@ private:
     }
 };
 
+class FootIndicesGenerator {
+public:
+    /**
+     * @brief 构造函数
+     * @param base_frequency 基础频率
+     * @param base_angle 基础角度
+     */
+    FootIndicesGenerator(double base_frequency = 0.65, double base_angle = 0.0) 
+        : base_frequency_(base_frequency), base_angle_(base_angle),
+          current_gait_index_(0.0), current_angle_(base_angle) {
+        // 设置参数范围
+        min_angle_ = 0.0;
+        max_angle_ = 0.524;  // 30 度约等于 0.524 弧度
+        // max_angle_ = 0.4363;
+        min_frequency_ = 0.35;
+        max_frequency_ = 0.75;
+        max_tracking_error_ = 1.0;
+        freq_ramp_tau_ = 0.15;
+        angle_ramp_tau_ = 0.15;
+        step_dt_ = 0.02;  // 控制周期，默认 20ms
+        
+        alpha_f_ = 1.0 - std::exp(-step_dt_ / freq_ramp_tau_);
+        alpha_ang_ = 1.0 - std::exp(-step_dt_ / angle_ramp_tau_);
+        
+        // 初始化相位偏移
+        phase_offset_[0] = 0.5;  // 左腿相位偏移
+        phase_offset_[1] = 0.0;  // 右腿相位偏移
+    }
+
+    /**
+     * @brief 根据当前状态生成 6 维 foot indices phase 观测
+     * @param base_lin_vel 机器人基座线速度
+     * @param cmd 速度命令 [vx, vy, wz]
+     * @param dt 时间步长
+     * @return 6 维 foot indices phase 观测向量 [左腿 phase0,phase1,phase2, 右腿 phase0,phase1,phase2]
+     */
+    Eigen::Matrix<double, 6, 1> generateFootIndicesPhase(const Eigen::Vector3d& base_lin_vel, 
+                                                         const Eigen::Vector3d& cmd,
+                                                         double dt = 0.02) {
+        // 更新时间步长
+        step_dt_ = dt;
+        alpha_f_ = 1.0 - std::exp(-step_dt_ / freq_ramp_tau_);
+        alpha_ang_ = 1.0 - std::exp(-step_dt_ / angle_ramp_tau_);
+
+        // 计算 x 方向的线速度跟踪误差
+        double x_tracking_error = cmd(0) - base_lin_vel(0);
+
+        // 根据跟踪误差映射到期望的角度和频率
+        auto [desired_angle, desired_freq] = mapVxTrackingErrorToGait(x_tracking_error);
+
+        // 更新角度和频率
+        current_angle_ = (1.0 - alpha_ang_) * current_angle_ + alpha_ang_ * desired_angle;
+        base_frequency_ = (1.0 - alpha_f_) * base_frequency_ + alpha_f_ * desired_freq;
+
+        // 更新步态索引
+        current_gait_index_ = std::fmod(current_gait_index_ + base_frequency_ * step_dt_, 1.0);
+
+        // 计算左右腿相位（考虑相位偏移）
+        double left_phase = std::fmod(phase_offset_[0] + current_gait_index_, 1.0);
+        double right_phase = std::fmod(phase_offset_[1] + current_gait_index_, 1.0);
+
+        // 生成 6 维 foot indices phase 观测: [左腿 phase0,phase1,phase2, 右腿 phase0,phase1,phase2]
+        // 对应 Python 中的 self.foot_indices_phase[self.num_envs, 2, 3]
+        Eigen::Matrix<double, 6, 1> foot_indices_phase;
+        
+        // 左腿 (索引 0-2)
+        foot_indices_phase(0) = current_angle_ * std::sin(left_phase * 2.0 * M_PI);
+        foot_indices_phase(1) = 0;  // +1/3 相位
+        foot_indices_phase(2) = 0;  // +2/3 相位
+        
+        // 右腿 (索引 3-5)
+        foot_indices_phase(3) = current_angle_ * std::sin(right_phase * 2.0 * M_PI);
+        foot_indices_phase(4) = 0;  // +1/3 相位
+        foot_indices_phase(5) = 0;  // +2/3 相位
+
+        return foot_indices_phase;
+    }
+
+    /**
+     * @brief 重置 foot indices phase 生成器
+     */
+    void reset() {
+        current_gait_index_ = 0.0;
+        current_angle_ = base_angle_;
+    }
+
+    // Getter and Setter 方法
+    double getBaseFrequency() const { return base_frequency_; }
+    void setBaseFrequency(double frequency) { base_frequency_ = frequency; }
+
+    double getBaseAngle() const { return base_angle_; }
+    void setBaseAngle(double angle) { base_angle_ = angle; }
+
+    double getCurrentGaitIndex() const { return current_gait_index_; }
+    void setCurrentGaitIndex(double index) { current_gait_index_ = index; }
+    
+    double getCurrentAngle() const { return current_angle_; }
+
+private:
+    // 参数
+    double base_frequency_;
+    double base_angle_;
+    double current_gait_index_;
+    double current_angle_;
+
+    // 参数范围
+    double min_angle_;
+    double max_angle_;
+    double min_frequency_;
+    double max_frequency_;
+    double max_tracking_error_;
+    double freq_ramp_tau_;
+    double angle_ramp_tau_;
+    double step_dt_;
+    double alpha_f_;
+    double alpha_ang_;
+    double phase_offset_[2];
+
+    /**
+     * @brief 根据线速度跟踪误差映射到角度和频率
+     * @param x_tracking_error 线速度跟踪误差
+     * @return std::pair<angle, frequency> 角度和频率
+     */
+    std::pair<double, double> mapVxTrackingErrorToGait(double x_tracking_error) {
+        double norm = std::clamp(x_tracking_error / max_tracking_error_, 0.0, 1.0);
+
+        // 角度：误差小时接近最小值，误差大时接近最大值
+        double angle = min_angle_ + norm * (max_angle_ - min_angle_);
+
+        // 频率：误差小时接近最小值，误差大时接近最大값
+        double freq = min_frequency_ + norm * (max_frequency_ - min_frequency_);
+
+        return {angle, freq};
+    }
+};
+
 #endif // PHASE_GENERATOR_HPP

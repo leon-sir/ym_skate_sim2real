@@ -134,7 +134,7 @@
                                              2.0, 2.0,
                                              2.0, 2.0]"/> -->
 
-    <node pkg="ymbot_amp_devel" type="amp_sim2real" name="amp_sim2real" output="screen" />
+    <node pkg="ymbot_amp_devel" type="amp_sim2real_imu_grv_vel" name="amp_sim2real" output="screen" />
 
 </launch>
 

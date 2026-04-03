@@ -132,6 +132,14 @@ target_link_libraries(amp_sim2real_11dof motor soem cpp-readline
   amp_controller
 )
 
+# 添加imu_gravity and  imu_velocity可执行文件
+add_executable(amp_sim2real_imu_grv_vel src/amp_sim2real_imu_grv_vel.cpp)
+target_link_libraries(amp_sim2real_imu_grv_vel motor soem cpp-readline
+  ${catkin_LIBRARIES} -pthread
+  glfw  
+  amp_controller
+)
+
 ##--------------------------------------------------------eu_motor
 # 添加动态库
 add_executable(eumotor_interface_amp 

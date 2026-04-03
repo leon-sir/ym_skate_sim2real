@@ -345,14 +345,16 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                     //  -0.0125, -0.0833, -0.4380, -0.2151, -0.1, 0.0,
                     // -0.0065, 0.0617, 0.5289, 0.2141, -0.1, 0.0,
         // stroke
-                    -0.0065, 0.0833, 0.5, 0.2141, -0.1, 0.0,
-                    -0.0065, -0.0833, -0.5, 0.2141, -0.1, 0.0,
-        0.0;
+        //             -0.0065, 0.0833, 0.5, 0.2141, -0.1, 0.0,
+        //             -0.0065, -0.0833, -0.5, 0.2141, -0.1, 0.0,
+        // 0.0;
         // swiss
-
-                    // 0.0281, 0.2704, -0.0369, 0.4326, -0.2992, -0.0,
-                    // -0.0584, -0.1939, 0.0264, 0.4236, -0.2544, -0.0,
-                    // 0.0263;
+        //             0.0221, 0.4799, -0.0615, 0.1780, -0.1884, 0.3399,
+        //             -0.0483, -0.3811, 0.0349, 0.2461, -0.1652, -0.3396,
+        // -0.0512;
+                    0.0281, 0.2704, -0.0369, 0.4326, -0.2992, -0.0,
+                    -0.0584, -0.1939, 0.0264, 0.4236, -0.2544, -0.0,
+                    0.0263;
 
     // 上肢固定位置（10个关节）
     double arm_fixed_pos[JOINT_ARM_NUMBER];
@@ -523,16 +525,16 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                         // 根据 cmd_vel.linear.x 的值选择使用默认phase还是生成的phase
                         if (cmd_vel.linear.x < 0.2) {
                             // 当 command.x < 0.2 时，使用默认phase
-                            phase << 1.0, 0.0, 0.0, 1.0, 0.0, 0.0;
-                            // phase << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0;
+                            // phase << 1.0, 0.0, 0.0, 1.0, 0.0, 0.0;
+                            phase << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0;
 
                         } else {
                             // 当 command.x >= 0.2 时，使用生成的phase
                             Eigen::VectorXd cmd_vel_vector(3);
                             cmd_vel_vector << cmd_vel.linear.x, cmd_vel.linear.y, cmd_vel.angular.z;
                             double effective_dt = real_cfg.dt * real_cfg.decimation;
-                            phase = phase_generator.generatePhase(base_linear_velocity, cmd_vel_vector, effective_dt);
-                            // phase = foot_indices_generator.generateFootIndicesPhase(base_linear_velocity, cmd_vel_vector, effective_dt);
+                            // phase = phase_generator.generatePhase(base_linear_velocity, cmd_vel_vector, effective_dt);
+                            phase = foot_indices_generator.generateFootIndicesPhase(base_linear_velocity, cmd_vel_vector, effective_dt);
                         }
 
                         // [修改] 调用 ONNX 推理，使用从 ROS 订阅到的数据
@@ -680,7 +682,7 @@ void run_real(const realcfg &real_cfg, AMPController &amp_controller)
                             sendDataJoint[i].pos_des_ = target_q_mjc[i];
                             // sendDataJoint[i].pos_des_ = target_test[i];
                             sendDataJoint[i].vel_des_ = target_dq_mjc[i];
-                            sendDataJoint[i].kp_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kp * 1;
+                            sendDataJoint[i].kp_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kp * 1.0;
                             sendDataJoint[i].kd_ = amp_controller.cfg.joint_params_isaaclab[lab_idx].kd;
                             sendDataJoint[i].ff_ = 0.0;
                         }

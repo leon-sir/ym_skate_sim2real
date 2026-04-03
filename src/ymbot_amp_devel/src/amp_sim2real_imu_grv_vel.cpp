@@ -233,7 +233,11 @@ std::tuple<Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, E
 // [方法2] 获取观测数据函数 - IMU四元数计算重力投影
 // imu-->waist_yaw_link 的四元数乘法计算重力投影
 // 返回值顺序: (关节位置, 关节速度, 四元数, 线速度, 角速度, 重力投影)
-std::tuple<Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd> get_observation_imu_calc(long long shared_timestamp)
+// [方法2] 获取观测数据函数 - 直接使用IMU四元数计算重力投影，直接使用IMU角速度
+// 不再进行 imu --> waist_yaw_link 的额外四元数转换
+// 返回值顺序: (关节位置, 关节速度, 四元数, 线速度, 角速度, 重力投影)
+std::tuple<Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd>
+get_observation_imu_calc(long long shared_timestamp)
 {
     // 1. 读取下半身电机数据
     shm_motor_down.readJointDatafromMotor(recJ);
@@ -255,77 +259,83 @@ std::tuple<Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, E
     q_combined << q, q_arm;
     dq_combined << dq, dq_arm;
 
-    // 3. [核心修改] 获取IMU四元数，并实时计算目标关节的重力投影
+    // 3. 输出变量
     Eigen::VectorXd quat(4);
     Eigen::VectorXd current_proj_grav(3);
-
-    if (data_imu) {
-        // 保存原始的四元数备用 (格式：w, x, y, z)
-        quat << data_imu->quat_float[0], data_imu->quat_float[1], data_imu->quat_float[2], data_imu->quat_float[3];
-
-        // 步骤一：构造 IMU 原始四元数 (注意 Eigen::Quaterniond 构造函数顺序也是 w, x, y, z)
-        Eigen::Quaterniond q_imu(data_imu->quat_float[0], data_imu->quat_float[1], 
-                                 data_imu->quat_float[2], data_imu->quat_float[3]);
-        q_imu.normalize();
-
-        // 步骤二：读取第13个电机（索引12）的实时角度，构造局部四元数
-        double theta = q[12]; 
-        Eigen::Quaterniond q_yaw(cos(theta / 2.0), 0.0, 0.0, sin(theta / 2.0));
-
-        // 步骤三：四元数乘法，获得 waist_yaw_link 在世界系下的姿态
-        Eigen::Quaterniond q_target = q_imu * q_yaw;
-        q_target.normalize();
-
-        // 步骤四：计算重力投影
-        // 世界坐标系中的重力方向通常为向下
-        Eigen::Vector3d g_world(0.0, 0.0, -1.0);
-        
-        // 用 q_target 的逆运算，将世界系的重力向量转换到局部坐标系下
-        Eigen::Vector3d g_projected = q_target.inverse() * g_world;
-
-        // 赋值给将要输出的变量
-        current_proj_grav << g_projected.x(), g_projected.y(), g_projected.z();
-
-        // [新增] 调试信息：打印IMU四元数和计算的重力投影
-        ROS_INFO_THROTTLE(1.0, "IMU Data Valid - Quat: [%.4f, %.4f, %.4f, %.4f], Theta: %.4f, Projected Gravity: [%.4f, %.4f, %.4f]", 
-                         quat[0], quat[1], quat[2], quat[3], theta, current_proj_grav[0], current_proj_grav[1], current_proj_grav[2]);
-    } else {
-        // 如果没有 IMU 数据，给个默认站立姿态的投影
-        quat << 1.0, 0.0, 0.0, 0.0;
-        current_proj_grav << 0.0, 0.0, -1.0;
-
-        // [新增] 警告信息：IMU数据无效
-        ROS_WARN_THROTTLE(1.0, "IMU Data Invalid - Using default projected gravity [0.0, 0.0, -1.0]");
-    }
-
-    // [新增] 记录IMU计算方式的重力投影数据（带时间戳）
-    if (gravity_imu_log.is_open()) {
-        gravity_imu_log << shared_timestamp << "," 
-                       << current_proj_grav[0] << "," 
-                       << current_proj_grav[1] << "," 
-                       << current_proj_grav[2] << "\n";
-        gravity_imu_log.flush();  // 强制刷新缓冲区，确保数据实时写入
-    }
-
-    // 4. 从 ROS 订阅的全局变量中读取其余处理好的数据
     Eigen::VectorXd current_lin_vel(3);
     Eigen::VectorXd current_ang_vel(3);
 
+    // 4. 线速度保持原逻辑，不改
     {
         std::lock_guard<std::mutex> lock(sensor_mutex);
         current_lin_vel = g_base_lin_vel;     // 来自 /projected_velocity
-        current_ang_vel = g_base_ang_vel;     // 来自 /projected_omega
-        // 这里的 g_projected_gravity 已经被弃用，不再从话题读取
+    }
+
+    // 5. 直接使用 IMU 四元数计算重力投影；直接使用 IMU gyro 作为角速度
+    if (data_imu) {
+        // 保存原始四元数 (w, x, y, z)
+        quat << data_imu->quat_float[0],
+                data_imu->quat_float[1],
+                data_imu->quat_float[2],
+                data_imu->quat_float[3];
+
+        // 构造 IMU 四元数
+        Eigen::Quaterniond q_imu(
+            data_imu->quat_float[0],
+            data_imu->quat_float[1],
+            data_imu->quat_float[2],
+            data_imu->quat_float[3]
+        );
+        q_imu.normalize();
+
+        // 世界坐标系中的重力方向
+        Eigen::Vector3d g_world(0.0, 0.0, -1.0);
+
+        // 直接投影到 IMU 当前局部坐标系
+        Eigen::Vector3d g_projected = q_imu.inverse() * g_world;
+        current_proj_grav << g_projected.x(), g_projected.y(), g_projected.z();
+
+        // 直接使用 IMU 原始角速度
+        current_ang_vel << data_imu->gyro_float[0],
+                           data_imu->gyro_float[1],
+                           data_imu->gyro_float[2];
+
+        ROS_INFO_THROTTLE(
+            1.0,
+            "IMU RL Obs - Quat: [%.4f, %.4f, %.4f, %.4f], Gyro: [%.4f, %.4f, %.4f], Projected Gravity: [%.4f, %.4f, %.4f]",
+            quat[0], quat[1], quat[2], quat[3],
+            current_ang_vel[0], current_ang_vel[1], current_ang_vel[2],
+            current_proj_grav[0], current_proj_grav[1], current_proj_grav[2]
+        );
+    } else {
+        // IMU无效时使用默认值
+        quat << 1.0, 0.0, 0.0, 0.0;
+        current_proj_grav << 0.0, 0.0, -1.0;
+        current_ang_vel.setZero();
+
+        ROS_WARN_THROTTLE(
+            1.0,
+            "IMU Data Invalid - Using default gravity and zero angular velocity"
+        );
+    }
+
+    // 6. 记录IMU计算方式的重力投影数据（带时间戳）
+    if (gravity_imu_log.is_open()) {
+        gravity_imu_log << shared_timestamp << ","
+                        << current_proj_grav[0] << ","
+                        << current_proj_grav[1] << ","
+                        << current_proj_grav[2] << "\n";
+        gravity_imu_log.flush();
     }
 
     // 只返回下肢13个关节的数据给RL，上肢单独控制
     return std::make_tuple(q, dq, quat, current_lin_vel, current_ang_vel, current_proj_grav);
 }
-
 // [新增] 统一的观测获取接口 - 默认使用动捕方式
 std::tuple<Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd> get_observation(long long shared_timestamp)
 {
-    return get_observation_mocap(shared_timestamp);
+    // return get_observation_mocap(shared_timestamp);
+    return get_observation_imu_calc(shared_timestamp);
 }
 
 void run_real(const realcfg &real_cfg, AMPController &amp_controller)

@@ -1,0 +1,25 @@
+axis_mappings:
+  - axis: 0
+    scale: 1.0
+    target: data
+    index: 0
+  - axis: 1
+    scale: 1.0
+    target: data
+    index: 1
+  - axis: 2
+    scale: 1.0
+    target: data
+    index: 2
+  - axis: 3
+    scale: 1.0
+    target: data
+    index: 3
+  - axis: 4
+    scale: 1.0
+    target: data
+    index: 4
+  - axis: 5
+    scale: 1.0
+    target: data
+    index: 5
