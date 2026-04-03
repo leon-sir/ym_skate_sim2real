@@ -1,0 +1,169 @@
+<launch>
+
+    <!-- <include file="$(find  ymbot_amp_devel)/launch/joy_teleop.launch"/> -->
+    <include file="$(find  ymbot_amp_devel)/launch/joy_teleop.launch"/>
+
+    <arg name="use_direct_vrpn" default="true"/>
+    <arg name="vrpn_server" default="172.16.20.189"/>
+    <arg name="vrpn_port" default="3883"/>
+    <arg name="vrpn_rigid_body_name" default="Rigid"/>
+    <arg name="direct_vrpn_debug" default="false"/>
+    <arg name="direct_vrpn_dt" default="0.02"/>
+    <arg name="direct_vrpn_lpf_alpha_omega" default="0.15"/>
+    <arg name="direct_vrpn_lpf_alpha_vel" default="0.2"/>
+
+    <group if="$(arg use_direct_vrpn)">
+        <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen">
+            <param name="server" value="$(arg vrpn_server)" />
+            <param name="port" value="$(arg vrpn_port)" />
+            <param name="update_frequency" value="100.0" />
+            <param name="frame_id" value="world" />
+            <param name="use_server_time" value="false" />
+            <param name="broadcast_tf" value="true" />
+            <param name="refresh_tracker_frequency" value="1.0" />
+        </node>
+    </group>
+
+
+    <param name="model_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/mjcf/ymboy_22dof.xml" />
+    <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/swizzle/2026-03-18_13-30-33/exported/policy.onnx" /> -->
+    <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy_13dof/2026-04-01_11-09-11/exported/policy.onnx" />
+    <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/ymbot_e/onnx/policy_LAB_76.onnx" /> -->
+    <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy/2026-01-06_22-31-03/exported/policy_02032247.onnx" /> -->
+    <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/swizzle/2026-03-18_13-30-33/exported/policy.onnx" /> -->
+    <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy_13dof/2026-03-17_14-35-13/exported/policy.onnx" /> -->
+    <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy_13dof/2026-03-02_23-53-16/exported/policy.onnx" /> -->
+
+    <!-- <param name="onnx_path" value="$(find ymbot_amp_devel)/robots/skating_ym_e/policy_13dof/2026-03-02_23-53-16/exported/policy.onnx" /> -->
+    <!-- 
+    src/ymbot_amp_devel/robots/skating_ym_e/policy_13dof/2026-02-05_10-12-05/exported/policy.onnx
+    src/ymbot_amp_devel/robots/skating_ym_e/policy_13dof/2026-02-05_15-52-16/exported/policy.onnx
+    src/ymbot_amp_devel/robots/skating_ym_e/policy_13dof/2026-02-09_17-29-24/exported/policy.onnx
+    src/ymbot_amp_devel/robots/skating_ym_e/policy_13dof/2026-02-10_09-37-19/exported/policy.onnx 
+    -->
+
+    <!-- isaaclab 关节参数 -->
+    <param name="num_joints" value="13" />
+   
+    <param name="joint_names" value='["left_hip_pitch_joint", 
+                                    "right_hip_pitch_joint", 
+                                    "waist_yaw_joint", 
+                                    "left_hip_roll_joint", 
+                                    "right_hip_roll_joint", 
+                                    "left_hip_yaw_joint", 
+                                    "right_hip_yaw_joint", 
+                                    "left_knee_joint", 
+                                    "right_knee_joint", 
+                                    "left_ankle_pitch_joint", 
+                                    "right_ankle_pitch_joint", 
+                                    "left_ankle_roll_joint", 
+                                    "right_ankle_roll_joint"]'/>
+
+
+    <param name="kps" value="[150, 150, 20, 
+                              60,  60,  
+                              100,  100, 
+                              150, 150, 
+                              100,  100,  
+                              100,  100]"/>
+
+    <!-- <param name="kps" value="[150, 150, 20, 
+                              60,  60,  
+                              100,  100, 
+                              200, 200, 
+                              200,  200,  
+                              200,  200]"/> -->
+
+
+    <param name="kds" value="[15, 15, 5, 
+                              10, 10,  
+                              10, 10, 
+                              15, 15, 
+                              5, 5, 
+                              5, 5]"/>
+
+    <param name="offsets" value="[-0.1, -0.1,   0, 
+                                   0.0,   0.0,  
+                                   0.0,   0.0,    
+                                   0.3,  0.3,  
+                                  -0.2, -0.2, 
+                                   0.0,   0.0]"/>
+
+    <param name="tau_limits" value="[200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 
+                                   200, 200, 200]"/>
+
+    <param name="directions" value="[1, -1, -1,
+                                    -1, -1, 
+                                    -1, -1,
+                                    -1, 1,
+                                    1, 1, 
+                                    1, 1]"/>
+
+    <!-- 定义 mujoco 关节名称 -->
+    <param name="joint_names_mujoco" value='["left_hip_pitch_joint",
+                                            "left_hip_roll_joint",
+                                            "left_hip_yaw_joint",
+                                            "left_knee_joint",
+                                            "left_ankle_pitch_joint",
+                                            "left_ankle_roll_joint",
+                                            "right_hip_pitch_joint",
+                                            "right_hip_roll_joint",
+                                            "right_hip_yaw_joint",
+                                            "right_knee_joint",
+                                            "right_ankle_pitch_joint",
+                                            "right_ankle_roll_joint",
+                                            "waist_yaw_joint"]'/>
+
+    <!-- <param name="action_clip_min" value="[-2.0, -2.0, -2.0,
+                                            -2.0, -2.0, 
+                                            -2.0, -2.0,
+                                             -2.0, -2.0,
+                                              -4.0, -4.0,
+                                               -4.0, -4.0]"/>
+    <param name="action_clip_max" value="[2.0, 2.0, 2.0,
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             4.0, 4.0,
+                                             4.0, 4.0]"/> -->
+
+
+    <param name="target_clip_min" value="[-2.0, -2.0, -2.0,
+                                            -2.0, -2.0, 
+                                            -2.0, -2.0,
+                                             -2.0, -2.0,
+                                              -4.0, -4.0,
+                                               -4.0, -4.0]"/>
+    <param name="target_clip_max" value="[2.0, 2.0, 2.0,
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             4.0, 4.0,
+                                             4.0, 4.0]"/>
+
+    <param name="use_direct_vrpn" value="$(arg use_direct_vrpn)" />
+    <param name="vrpn_topic" value="/vrpn_client_node/$(arg vrpn_rigid_body_name)/pose" />
+    <param name="direct_vrpn_debug" value="$(arg direct_vrpn_debug)" />
+    <param name="direct_vrpn_dt" value="$(arg direct_vrpn_dt)" />
+    <param name="direct_vrpn_lpf_alpha_omega" value="$(arg direct_vrpn_lpf_alpha_omega)" />
+    <param name="direct_vrpn_lpf_alpha_vel" value="$(arg direct_vrpn_lpf_alpha_vel)" />
+
+
+    <!-- <param name="action_clip_min" value="[-2.0, -2.0, -2.0,
+                                            -2.0, -2.0, 
+                                            -2.0, -2.0,
+                                             -2.0, -2.0,
+                                              -2.0, -2.0,
+                                               -2.0, -2.0]"/> -->
+    <!-- <param name="action_clip_max" value="[2.0, 2.0, 2.0,
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             2.0, 2.0, 
+                                             2.0, 2.0,
+                                             2.0, 2.0]"/> -->
+
+    <node pkg="ymbot_amp_devel" type="amp_sim2real_inner_gra" name="amp_sim2real_inner_gra" output="screen" />
+
+</launch>
+
+    

@@ -93,6 +93,14 @@ target_link_libraries(amp_controller
   ${catkin_LIBRARIES}
   onnxruntime
 )
+
+add_library(direct_vrpn_processor
+  src/direct_vrpn_processor.cpp
+)
+
+target_link_libraries(direct_vrpn_processor
+  ${catkin_LIBRARIES}
+)
 # --------------------------------------------------------amp
 # executable
 add_executable(amp_sim2sim src/amp_sim2sim.cpp )
@@ -122,6 +130,14 @@ target_link_libraries(amp_sim2real motor soem cpp-readline
   ${catkin_LIBRARIES} -pthread
   glfw  
   amp_controller
+)
+
+add_executable(amp_sim2real_inner_gra src/amp_sim2real_inner_gra.cpp)
+target_link_libraries(amp_sim2real_inner_gra motor soem cpp-readline
+  ${catkin_LIBRARIES} -pthread
+  glfw
+  amp_controller
+  direct_vrpn_processor
 )
 
 # 添加新的11DOF版本可执行文件
@@ -168,4 +184,3 @@ target_link_libraries(encos_motor_interface
     yaml-cpp            # YAML 解析库
     motor
 )
-
